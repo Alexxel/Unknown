@@ -1,0 +1,304 @@
+package MainGame;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Unit
+{
+	List<Item> Items;
+	int Health;
+	int MaxHealth;
+	int BaseAttack;
+	int BaseDefense;
+	int Moral;
+	int Speed;
+	int PictureLocation;
+	int Level;
+	int SavedLevels;
+	int Experience;
+	String Name;
+	
+	
+	
+	Unit()
+	{
+		Health = 0;
+		MaxHealth = 0;
+		Moral = 0;
+		Speed = 0;
+		PictureLocation = 0;
+		BaseAttack = 0;
+		BaseDefense = 0;
+		Level = 0;
+		SavedLevels = 0;
+		Experience = 0;
+		Items = new ArrayList<Item>(7);
+		Name = "";
+		for(int i = 0;i < 7;i++)
+		{
+		Items.add(new Item());
+		}
+		
+	}
+	Unit(int health,int maxHealth,int moral,int speed,int attack,int Defense,int level,int pictureLoc,String name)
+	{
+		Health = health;
+		MaxHealth = maxHealth;
+		Moral = moral;
+		Speed = speed;
+		PictureLocation = pictureLoc;
+		BaseAttack = attack;
+		BaseDefense = Defense;
+		Level = level;
+		SavedLevels = 0;
+		Experience = 0;
+		Items = new ArrayList<Item>();
+		Name = name;
+		for(int i = 0;i < 7;i++)
+		{
+		Items.add(new Item());
+		}
+	}
+	//Unit name Methods
+	public String getUnitName()
+	{
+		return Name;
+	}
+	public void setUnitName(String name)
+	{
+		Name = name;
+	}
+	
+	//Unit health
+	public int getHealth()
+	{
+		return Health;
+	}
+	public void setHealth(int health)
+	{
+		Health = health;
+	}
+	public void changeHealth(int health)
+	{
+		Health = Health + health;
+	}
+	public int getMaxHealth()
+	{
+		return MaxHealth;
+	}
+	public void setMaxHealth(int health)
+	{
+		MaxHealth = health;
+	}
+	
+	//Unit Moral
+	public int getMoral()
+	{
+		return Moral;
+	}
+	public void setMoral(int moral)
+	{
+		Moral = moral;
+	}
+	public void changeMoral(int moral)
+	{
+		Moral = Moral + moral;
+	}
+	//Unit Level
+	public int getLevel()
+	{
+		return Level;
+	}
+	public void setLevel(int level)
+	{
+		Level = level;
+	}
+	public void changeLevel(int level)
+	{
+		Level = Level + level;
+	}
+	public void checkLevel()
+	{
+		int needExp = 0;
+		needExp = (Level + 1) * 100;
+		if(Experience >= needExp)
+		{
+			Experience = Experience - needExp;
+			Level++;
+			SavedLevels++;
+		}
+	}
+	//Unit SavedLevel
+	public int getSavedLevels()
+	{
+		return SavedLevels;
+	}
+	public void setSavedLevels(int Slevel)
+	{
+		SavedLevels = Slevel;
+	}
+	public void changeSavedLevel(int Slevel)
+	{
+		SavedLevels = SavedLevels + Slevel;
+	}
+	//Unit Experience
+	public int getExperience()
+	{
+		return Experience;
+	}
+	public void setExperience(int Exp)
+	{
+		Experience = Exp;
+	}
+	public void changeExperience(int Exp)
+	{
+		Experience = Experience + Exp;
+	}
+	public int needExperience()
+	{
+		return (Level + 1) * 100;
+	}
+	
+	//Unit Speed
+	public int getSpeed()
+	{
+		return Speed;
+	}
+	public void setSpeed(int speed)
+	{
+		Speed = speed;
+	}
+	public void changeSpeed(int speed)
+	{
+		Speed = Speed + speed;
+	}
+	public int getItemSpeedChange()
+	{
+		int itemSpeed = 0;
+		double itemSpeedChange = 0.0;
+		double totalItemChange = 0;
+		for(int i = 0; i < Items.size(); i++)
+		{
+			itemSpeed = itemSpeed + Items.get(i).getSpeedChange();
+			System.out.println("Speed change is " +Items.get(i).getSpeedChange());
+		}
+		
+		for(int i = 0; i < Items.size(); i++)
+		{
+			itemSpeedChange = itemSpeedChange + Items.get(i).getSpeedPercentChange();
+			System.out.println("Speed percent change is " +Items.get(i).getSpeedPercentChange());
+		}
+		totalItemChange = Speed + itemSpeed +(itemSpeedChange * (Speed + itemSpeed));
+		System.out.println("Total changed Speed is " + totalItemChange);
+		
+		return (int)totalItemChange;
+	}
+	
+	//Unit Attack
+	public int getBaseAttack()
+	{
+		return BaseAttack;
+	}
+	public void setBaseAttack(int attack)
+	{
+		BaseAttack = attack;
+	}
+	public void changeBaseAttack(int attack)
+	{
+		BaseAttack = BaseAttack + attack;
+	}
+	public int getItemAttackChange()
+	{
+		int itemAttack = 0;
+		double itemAttackChange = 0.0;
+		double totalItemChange = 0;
+		for(int i = 0; i < Items.size(); i++)
+		{
+			itemAttack = itemAttack + Items.get(i).getAttackChange();
+			System.out.println("Attack change is " +Items.get(i).getAttackChange());
+		}
+		
+		for(int i = 0; i < Items.size(); i++)
+		{
+			itemAttackChange = itemAttackChange + Items.get(i).getAttackPercentChange();
+			System.out.println("Attack percent change is " +Items.get(i).getAttackPercentChange());
+		}
+		totalItemChange = BaseAttack + itemAttack +(itemAttackChange * (BaseAttack + itemAttack));
+		System.out.println("Total changed attack is " + totalItemChange);
+		
+		return (int)totalItemChange;
+	}
+	//Unit Defense
+		public int getBaseDefense()
+		{
+			return BaseDefense;
+		}
+		public void setBaseDefense(int Defense)
+		{
+			BaseDefense = Defense;
+		}
+		public void changeBaseDefense(int Defense)
+		{
+			BaseDefense = BaseDefense + Defense;
+		}
+		public int getItemDefenseChange()
+		{
+			int itemDefense = 0;
+			double itemDefenseChange = 0;
+			double totalItemChange = 0;
+			for(int i = 0; i < Items.size(); i++)
+			{
+				itemDefense = itemDefense + Items.get(i).getDefenseChange();
+				System.out.println("Defense change is " +Items.get(i).getDefenseChange());
+			}
+			
+			for(int i = 0; i < Items.size(); i++)
+			{
+				itemDefenseChange = itemDefenseChange + Items.get(i).getDefensePercentChange();
+				System.out.println("Defense percent change is " +Items.get(i).getDefensePercentChange());
+			}
+			totalItemChange = BaseDefense + itemDefense +(itemDefenseChange * (BaseDefense + itemDefense));
+			System.out.println("Total changed Defense is " + totalItemChange);
+			
+			return (int)totalItemChange;
+		}
+	//Item methods
+	public Item addItem(Item I)
+	{
+		
+		if(I.getLocation() == (Items.get(I.getLocation()).getLocation()))
+		{
+			Item tempItem = Items.get(I.getLocation());
+			remove(Items.get(I.getLocation()).getLocation());
+			Items.add(I);
+			return tempItem;
+		}
+		Items.remove(I.getLocation());
+		Items.add(I);
+		return null;
+	}
+	
+	public void remove(int postion)
+	{
+		Items.remove(postion);
+	}
+	public String getItemName(int postion)
+	{
+		return Items.get(postion).getName();
+	}
+	public void setItemName(int postion,String n)
+	{
+		Items.get(postion).setName(n);
+	}
+	//Picture Methods
+	/*public int getItemPictureLocation(int postion)
+	{
+		return Items.get(postion).getPictureLocation();
+	}*/
+	public int getUnitPictureLocation()
+	{
+		return PictureLocation;
+	}
+	
+	
+}
