@@ -515,8 +515,8 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 				 yEnd = 1024;
 			 }
 			 
-			 System.out.println("Drawing x " +xStart +" to"+ xEnd + " And y " + yStart + " " + yEnd);
-			 System.out.println(playerXLocation + " " + playerYLocation);
+			 //System.out.println("Drawing x " +xStart +" to"+ xEnd + " And y " + yStart + " " + yEnd);
+			 //System.out.println(playerXLocation + " " + playerYLocation);
 			 //Draw in map elements inside player View
 			 for(int i = 0; i < map.getSize();i++)
 			 {
