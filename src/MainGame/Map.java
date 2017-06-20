@@ -38,20 +38,20 @@ public class Map extends TimerTask
 				mapBackground[x][y] = new MapBackground();
 			}
 		}
-		createMapBackground();
+		//createMapBackground();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run(){
 				
 				//System.out.println("Running map timer task");
 				update();
-				findXandYMiniMapLocation(xStart,yStart);
+				//findXandYMiniMapLocation(xStart,yStart);
 				//findXandYMiniMapLocationOld(xStartOld,yStartOld);
 				
 				
 			}
 		
-		},200,200);
+		},1000,1000);
 	}
 	
 	public Group getGroup(int p)

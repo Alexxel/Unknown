@@ -1,5 +1,7 @@
 package MainGame;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.sound.sampled.AudioInputStream;
@@ -49,6 +51,8 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	
 	
 	
+	List<MapInfo> oldMapInfo;
+	
 	boolean showTopBar;
 	boolean showSettingsWindow;
 	boolean showMapWindow;
@@ -79,11 +83,21 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	int oldPlayerYLocation;
 	int xPlayerMiniMap;
 	int yPlayerMiniMap;
+	int xStart;
+	int yStart;
+	int xEnd;
+	int yEnd;
+	int redrawXStart;
+	int redrawYStart;
+	int redrawXEnd;
+	int redrawYEnd;
 	String PlayerName;
 	String GroupName;
 	String newName;
 	String oldName;
 	Group Group;
+	
+	BufferedImage tempImage;
 	
 	Image MainPictures;
 	JPanel mapWindow;
@@ -125,7 +139,8 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	}
 	GameRunner(int gD, String pN, String gN)
 	{
-		
+			
+		oldMapInfo = new ArrayList<MapInfo>();
 			
 			
 			Sounds = new Sounds();
@@ -146,7 +161,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		groupOne = false;
 		nameChange = false;
 		repaintLevelAdd = false;
-		repaintMap = false;
+		repaintMap = true;
 		paintMap = true;
 		WidthOfGame = 0;
 		HeightOfGame = 0;
@@ -166,6 +181,14 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		oldPlayerYLocation = playerYLocation;
 		xPlayerMiniMap = 0;
 		yPlayerMiniMap = 0;
+		xStart = 50;
+		yStart = 50;
+		xEnd = 100;
+		yEnd = 100;
+		redrawXStart = 50;
+		redrawYStart = 50;
+		redrawXEnd = 100;
+		redrawYEnd = 100;
 		newName = "";
 		oldName = "";
 		Group = new Group(3);
@@ -175,6 +198,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		MainPictures.add("Images/SettingsWindowBackground.jpg");
 		MainPictures.add("Images/TopBarWindow.jpg");
 		MainPictures.add("Images/PlayerMapIcon.jpg");
+		MainPictures.add("Images/GameMap.jpg");
 		System.out.println("gD,pN,gN gameRunner Const");
 		setPreferredSize(new Dimension(WidthOfGame, HeightOfGame));
 		addKeyListener(this);
@@ -257,11 +281,13 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		tempGroup.setImage("Images/enemyMapIcon.jpg");
 		
 		tempInventory = new Inventory();
-		map.add(new MapInfo(tempGroup,tempInventory,800,200,800,200,5,10));
-		map.add(new MapInfo(tempGroup,tempInventory,900,650,900,650,5,10));
+		map.add(new MapInfo(tempGroup,tempInventory,800,200,800,200,1,10));
+		map.add(new MapInfo(tempGroup,tempInventory,900,650,900,650,1,10));
 		
 		map.setMoveDown(0, true);
 		map.setMoveUp(1, true);
+		
+		tempImage = null;
 		
 		pack();
 		repaint();
@@ -359,7 +385,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		 {
 			 oldPlayerYLocation = playerYLocation;
 			 playerYLocation--;
-			 paintMap = true;
+			 repaintMap = true;
 			 for(int i = 0;i < map.getSize();i++)
 			 {
 				 map.setRedraw(i,true);
@@ -370,7 +396,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		 {
 			 oldPlayerXLocation = playerXLocation;
 			 playerXLocation--;
-			 paintMap = true;
+			 repaintMap = true;
 			 for(int i = 0;i < map.getSize();i++)
 			 {
 				 map.setRedraw(i,true);
@@ -381,7 +407,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		 {
 			 oldPlayerXLocation = playerXLocation;
 			 playerXLocation++;
-			 paintMap = true;
+			 repaintMap = true;
 			 for(int i = 0;i < map.getSize();i++)
 			 {
 				 map.setRedraw(i,true);
@@ -392,18 +418,14 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		 {
 			 oldPlayerYLocation = playerYLocation;
 			 playerYLocation++;
-			 paintMap = true;
+			 repaintMap = true;
 			 for(int i = 0;i < map.getSize();i++)
 			 {
 				 map.setRedraw(i,true);
 				 
 			 }
 		 }
-		 /*
-		 if(key == 77)
-		 {
-			 toggleMapWindow();
-		 }*/
+		 
 		
 	}
 	public void changeName()
@@ -424,310 +446,134 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	public void paint(Graphics g){
 		 Graphics2D g2 = (Graphics2D) g;
 		 
-		 
-		 //g.drawRect(10, 10, 240, 240);
-	        //filled Rectangle with rounded corners.    
-	     //g.fillRoundRect(50, 50, 100, 100, 80, 80);
 		 if(paintMap)
 		 {
+			 System.out.println("Drawing paintMap");
 			 paintMap = false;
-			 /*g2.setColor(new Color(100,100,100));
-			 g2.fill(new Rectangle2D.Double(710, 100 ,487,700));
-			 
-			 int x = 0;
-			 int y = 0;
-			 
-			 g2.setColor(new Color(100,100,100));
-			 oldPlayerXLocation = playerXLocation;
-			 oldPlayerYLocation = playerYLocation;
-			 
-			if(playerXLocation < 0)
-			{
-				playerXLocation = 0;
-			}
-			else if(playerXLocation > 1160)
-			{
-				playerXLocation = 1160;
-			}
 			
-			if(playerYLocation < 0)
-			{
-				playerYLocation = 0;
-			}
-			else if(playerYLocation > 970)
-			{
-				playerYLocation = 970;
-			}
-			
-			 x = playerXLocation - 243;
-			 y = playerYLocation - 350;
-			 if(x < 0)
-			 {
-				 x = 0;
-			 }
-			 else if(x > 713)
-			 {
-				 x = 713;
-			 }
 			 
-			 if(y < 0)
-			 {
-				 y = 0;
-			 }
-			 else if(y > 300)
-			 {
-				 y = 300;
-			 }
-			 
-			if(x == 0)
-			{
-				
-				xPlayerMiniMap = playerXLocation + 713;
-				
-			}
-			else if(x == 713)
-			{
-				xPlayerMiniMap = playerXLocation;
-
-				
-			}
-			else
-			{
-				xPlayerMiniMap = 957;
-			}
-			
-			if(y == 0)
-			{
-				yPlayerMiniMap = playerYLocation + 100;
-			}
-			else if(y == 300)
-			{
-				yPlayerMiniMap = playerYLocation - 200;
-			}
-			else
-			{
-				yPlayerMiniMap = 450;
-			}
-			
-			if((x == 0 || x == 713) || (y == 0 || y == 300))
-			{
-				g2.fill(new Rectangle2D.Double(xPlayerMiniMap,yPlayerMiniMap ,32,32));
-			}
-			 
-			 map.setXStart(x);
-			 map.setYStart(y);
-			 System.out.println(map.getXStart());
-			 System.out.println(map.getYStart());
-			 System.out.println(playerXLocation);
-			 System.out.println(xPlayerMiniMap);
-			 
-			 g2.drawImage(MainPictures.getImage(4), null, xPlayerMiniMap,yPlayerMiniMap);*/
-			 
-			 g2.setColor(new Color(100,100,100));
-			 g2.fillRect(0, 0, 1280, 1024);
-			 
-			 g2.setColor(new Color(255,0,0));
-			 for(int x = 0; x < 1280;x++)
-				{
-					for(int y = 0; y < 1024; y++ )
-					{
-						if(map.getMapBackground(x, y).getRoad()==true)
-						{
-							g2.setColor(new Color(255,255,0));
-							g2.fillRect(x,y,1,1);
-							System.out.println("Painting Roads");
-						}
-					if(map.getMapBackground(x, y).getHotSpot() == true)
-						{
-						if(map.getMapBackground(x,y).getTown() == true)
-						{
-							g2.setColor(new Color(0,255,0));
-							g2.fillRect(x,y,1,1);
-							g2.drawRect(x-40, y - 40, 80, 80);
-						}
-						else if(map.getMapBackground(x,y).getWater() == true)
-						{
-							g2.setColor(new Color(0,0,255));
-							g2.fillRect(x,y,1,1);
-							g2.drawRect(x-40, y-40, 80, 80);
-							g2.setColor(new Color(0,0,200));
-							/*g2.fillRect(x, y-(map.getMapBackground(x,y).getWaterSize()/2), 1, 1);
-							g2.fillRect(x, y+(map.getMapBackground(x,y).getWaterSize()/2), 1, 1);
-							g2.setColor(new Color(0,0,150));
-							g2.fillRect(x, y-(map.getMapBackground(x,y).getWaterSize()/2 - 1), 1, 2);
-							g2.fillRect(x, y+(map.getMapBackground(x,y).getWaterSize()/2 - 1), 1, 2);
-							g2.setColor(new Color(0,0,100));
-							g2.fillRect(x, y-(map.getMapBackground(x,y).getWaterSize()/2 - 3), 1,map.getMapBackground(x,y).getWaterSize()/2 - 6 );*/
-							
-							for(int x1 = - map.getMapBackground(x, y).waterXSize/2; x1 <  map.getMapBackground(x, y).waterXSize/2 ;x1++)
-							{
-								for(int y1 = -map.getMapBackground(x, y).waterYSize/2; y1 <  map.getMapBackground(x, y).waterYSize/2;y1++)
-								{
-									g2.setColor(map.getMapBackground(x, y).getColor(x1+map.getMapBackground(x, y).waterXSize/2,y1+map.getMapBackground(x, y).waterYSize/2));
-									g2.fillRect( x+x1,y+y1 , 1, 1);
-								}
-							}
-						}
-						else if(map.getMapBackground(x,y).getMountain() == true)
-						{
-							g2.setColor(new Color(0,255,255));
-							g2.fillRect(x,y,1,1);
-							g2.drawRect(x-40, y-40, 80, 80);
-						}
-						else
-						{
-							g2.setColor(new Color(255,0,0));
-							g2.fillRect(x,y,1,1);
-							g2.drawRect(x-40, y-40, 80, 80);
-						}
-						System.out.println("Painting hotspots");
-						
-							
-						
-					
-						
-						
-					}
-					}
-				}
-
-			 
-			 
-			 
-			 
+			 //g2.setColor(new Color(100,100,100));
+			 //g2.fillRect(0, 0, 1280, 1024);
+			 g2.drawImage(MainPictures.getImage(5), null,0,0);
+			  
 		 }
 		 if(repaintMap)
 		 {
-			 BufferedImage tempImage;
-			 int x = 0;
-			 int y = 0;
-			 for(int i = 0;i < map.getSize();i++)
+			 //tempImage = MainPictures.getImageClip(5, xStart, yStart, xEnd - xStart, yEnd - yStart);
+			 //g2.drawImage(tempImage,null,xStart,yStart);
+			
+			
+			 
+			 if(playerXLocation < 0)
 			 {
-				if(map.getRedraw(i) == true)
+				 playerXLocation = 0;
+			 }
+			 else if(playerXLocation > 1250)
+			 {
+				 playerXLocation = 1250;
+			 }
+			 
+			 if(playerYLocation < 30)
+			 {
+				 playerYLocation = 30;
+			 }
+			 else if(playerYLocation > 994)
+			 {
+				 playerYLocation = 994;
+			 }
+			 
+			 //Setting playerView for x and y
+			 if(playerXLocation < 1030 && playerXLocation > 250)
+			 {
+				 xStart = playerXLocation - 250;
+				 xEnd = playerXLocation + 250;
+			 }
+			 else if(playerXLocation <= 250)
+			 {
+				 xStart = 0;
+				 xEnd = playerXLocation + 250;
+			 }
+			 else
+			 {
+				 xStart = playerXLocation - 250;
+				 xEnd = 1280;
+			 }
+			 
+			 if(playerYLocation < 774 && playerYLocation > 250)
+			 {
+				 yStart = playerYLocation - 250;
+				 yEnd = playerYLocation + 250;
+			 }
+			 else if(playerYLocation <= 250)
+			 {
+				 yStart = 0;
+				 yEnd = playerYLocation + 250;
+			 }
+			 else
+			 {
+				 yStart = playerYLocation - 250;
+				 yEnd = 1024;
+			 }
+			 
+			 System.out.println("Drawing x " +xStart +" to"+ xEnd + " And y " + yStart + " " + yEnd);
+			 System.out.println(playerXLocation + " " + playerYLocation);
+			 //Draw in map elements inside player View
+			 for(int i = 0; i < map.getSize();i++)
+			 {
+				 if(map.getRedraw(1) == true)
 				 {
-				  x = 0;
-				  y = 0;
-				  g2.setColor(new Color(100,100,100));
-				  
-				  if((map.getXLocation(i) > map.getXStart() && map.getXLocation(i) < map.getXStart() + 487) && (map.getYLocation(i) > map.getYStart() && map.getYLocation(i) < map.getYStart() + 700))
-				  {
-					  x =  map.getXLocation(i);
-					  y = map.getYLocation(i);
-					  
-					  x = 713 + (map.getXLocation(i) - map.getXStart());
-					  y = 100 + (map.getYLocation(i) - map.getYStart());
-					  
-					  g2.drawImage(map.getGroup(i).getImage(), null,x,y);
-					  
-					  
-				  }
-					
-					 
-					
-				  
-				  
-				  
-				  
+					 oldMapInfo.add(map.getMapInfo(i));
 				 }
+			 }
+			 for(int i = 0; i < oldMapInfo.size();i++)
+			 {
+				
+				
+				 tempImage = MainPictures.getImageClip(5,oldMapInfo.get(i).getXMapLocation()-20,oldMapInfo.get(i).getYMapLocation()-20,40,40);
+				 g2.drawImage(tempImage,null,oldMapInfo.get(i).getXMapLocation()-20,oldMapInfo.get(i).getYMapLocation()-20);
+					 
+				 
+			 }
+			 oldMapInfo.removeAll(oldMapInfo);
+			
+			 for(int i = 0; i < map.getSize();i++)
+			 {
+				 if(map.getMapInfo(i).getXMapLocation() > xStart && map.getMapInfo(i).getXMapLocation() < xEnd )
+				 {
+					 if(map.getMapInfo(i).getYMapLocation() > yStart && map.getMapInfo(i).getYMapLocation() < yEnd)
+					 {
+						 if(map.getRedraw(i) == true)
+						 {
+						 g2.drawImage(map.getGroup(i).getImage(), null,map.getXLocation(i)-15,map.getYLocation(i)-15);
+						 map.setRedraw(i, false);
+						 }
+					 }
+				 }
+			 }
+			 //Draw player Icon
+			 
+			 if(oldPlayerXLocation != playerXLocation || playerYLocation != oldPlayerYLocation)
+			 {
+			 tempImage = MainPictures.getImageClip(5,oldPlayerXLocation-20,oldPlayerYLocation-20,40,40);
+			 g2.drawImage(tempImage, null, oldPlayerXLocation-20,oldPlayerYLocation-20);
+			 
+			 g2.drawImage(MainPictures.getImage(4), null, playerXLocation-15,playerYLocation-15);
+			 
+			 oldPlayerXLocation = playerXLocation;
+			 oldPlayerYLocation = playerYLocation;
 			 }
 			 
 			
-			 if((oldPlayerXLocation != playerXLocation) || (oldPlayerYLocation != playerYLocation))
-			 {
-				 x = 0;
-				 y = 0;
-				 
-				 g2.setColor(new Color(100,100,100));
-				 oldPlayerXLocation = playerXLocation;
-				 oldPlayerYLocation = playerYLocation;
-				 
-				if(playerXLocation < 0)
-				{
-					playerXLocation = 0;
-				}
-				else if(playerXLocation > 1160)
-				{
-					playerXLocation = 1160;
-				}
-				
-				if(playerYLocation < 0)
-				{
-					playerYLocation = 0;
-				}
-				else if(playerYLocation > 970)
-				{
-					playerYLocation = 970;
-				}
-				
-				 x = playerXLocation - 243;
-				 y = playerYLocation - 350;
-				 if(x < 0)
-				 {
-					 x = 0;
-				 }
-				 else if(x > 713)
-				 {
-					 x = 713;
-				 }
-				 
-				 if(y < 0)
-				 {
-					 y = 0;
-				 }
-				 else if(y > 300)
-				 {
-					 y = 300;
-				 }
-				 
-				if(x == 0)
-				{
-					
-					xPlayerMiniMap = playerXLocation + 713;
-					
-				}
-				else if(x == 713)
-				{
-					xPlayerMiniMap = playerXLocation;
-
-					
-				}
-				else
-				{
-					xPlayerMiniMap = 957;
-				}
-				
-				if(y == 0)
-				{
-					yPlayerMiniMap = playerYLocation + 100;
-				}
-				else if(y == 300)
-				{
-					yPlayerMiniMap = playerYLocation - 200;
-				}
-				else
-				{
-					yPlayerMiniMap = 450;
-				}
-				
-				if((x == 0 || x == 713) || (y == 0 || y == 300))
-				{
-					g2.fill(new Rectangle2D.Double(xPlayerMiniMap,yPlayerMiniMap ,32,32));
-				}
-				 
-				 map.setXStart(x);
-				 map.setYStart(y);
-				 System.out.println(map.getXStart());
-				 System.out.println(map.getYStart());
-				 System.out.println(playerXLocation);
-				 System.out.println(xPlayerMiniMap);
-				
-				 
-			 }
-			 g2.drawImage(MainPictures.getImage(4), null, xPlayerMiniMap,yPlayerMiniMap);
+			 
+		 }
+			 
+			 
+			 
+			 
 			
 	
 			 
-		 }
+		 
 		 
 		 if(nameChange)
 		 {
@@ -990,6 +836,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	        
 		main();
 	}
+
 	
 	
 	
