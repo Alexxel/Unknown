@@ -3,22 +3,13 @@ package MainGame;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.Timer;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
+
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.BevelBorder;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,8 +18,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -38,11 +28,11 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
 
 
 
-public class GameRunner extends JFrame implements KeyListener , MouseListener
+
+public class GameRunner implements KeyListener , MouseListener
 {
 	
 	
@@ -50,61 +40,30 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	private static final long serialVersionUID = 1L;
 	
 	
-	
-	List<MapInfo> oldMapInfo;
-	
-	boolean showTopBar;
-	boolean showSettingsWindow;
-	boolean showMapWindow;
 	boolean soundDone;
-	boolean repaintInventory;
-	boolean inventoryOne;
-	boolean repaintUnit;
-	boolean repaintGroup;
-	boolean groupOne;
-	boolean nameChange;
-	boolean repaintLevelAdd;
-	boolean repaintMap;
-	boolean paintMap;
+	boolean newInput;
+	
 	
 	int gameDifficulty;
-	int WidthOfGame;
-	int HeightOfGame;
-	int groupUnitSelected;
-	int attributesLeft;
-	int addDefense;
-	int addAttack;
-	int addSpeed;
-	int addMoral;
-	int addHealth;
-	int playerXLocation;
-	int playerYLocation;
-	int oldPlayerXLocation;
-	int oldPlayerYLocation;
-	int xPlayerMiniMap;
-	int yPlayerMiniMap;
-	int xStart;
-	int yStart;
-	int xEnd;
-	int yEnd;
-	int redrawXStart;
-	int redrawYStart;
-	int redrawXEnd;
-	int redrawYEnd;
+	
+	
+	
+	
+	
 	String PlayerName;
 	String GroupName;
 	String newName;
 	String oldName;
-	Group Group;
 	
-	BufferedImage tempImage;
 	
-	Image MainPictures;
-	JPanel mapWindow;
-	JPanel settingsWindow;
-	//JPanel topBarWindow;
 	
-	JTextField nameInput;
+	
+	Timer timer;
+	
+	
+	
+	
+	
 	
 	JButton settingsButton;
 	JButton mapButton;
@@ -119,13 +78,8 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	
 	Inventory inventory;
 	
-	Font groupUnitFont;
-	Font unitFont;
-	Font levelFont;
 	
-	Map map;
-	Group tempGroup;
-	Inventory tempInventory;
+	MainGameWindow gameWindow;
 	
 	
 	GameRunner()
@@ -133,14 +87,12 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		gameDifficulty = 0;
 		PlayerName = "";
 		GroupName = "";
-		Group = new Group();
-		MainPictures = new Image();
-		System.out.println("Default gameRunner Const");
+		
 	}
 	GameRunner(int gD, String pN, String gN)
 	{
 			
-		oldMapInfo = new ArrayList<MapInfo>();
+		
 			
 			
 			Sounds = new Sounds();
@@ -151,9 +103,444 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		inventory = new Inventory();
 		
 		soundDone = false;
-		showSettingsWindow = false;
-		showMapWindow = false;
-		showTopBar = false;
+		newInput  = false;
+		
+		
+		
+		
+		
+		
+		
+		gameDifficulty = gD;
+		PlayerName = pN;
+		GroupName = gN;
+		newName = "";
+		oldName = "";
+		
+	
+		
+	
+		
+       
+        
+		
+		gameWindow = new MainGameWindow(this,this);
+		
+		
+		timer = new Timer(50, new ActionListener(){
+			public void actionPerformed(ActionEvent evt)
+			{
+				newInput = false;
+				gameWindow.repaint();
+				
+			}
+		});
+		timer.start();
+		
+				
+			
+				
+	}
+	
+	
+	
+	public void keyPressed(KeyEvent e)
+	{
+		 int key = e.getKeyCode();
+	
+		 
+		 if(key == 27)
+		 {
+			 if(gameWindow.getNameChange() == true)
+			 {
+				 gameWindow.setNameChange(false);
+				 gameWindow.setRepaintUnit(true);
+				 newName = oldName;
+				 gameWindow.getGroup().setUnitName(gameWindow.getGroupUnitSelected(), newName);
+				 gameWindow.setNameInput(false);
+				 gameWindow.repaint();
+				 
+			 }
+			
+		 }
+		 
+		 else if(key == 10)
+		 {
+			 if(gameWindow.getNameChange() == true)
+			 {
+				 gameWindow.setNameChange(false);
+				 gameWindow.setRepaintUnit(true);
+				 newName = gameWindow.getNameInput();
+				 if(newName.length() > 10)
+				 {
+				
+					 gameWindow.setNameInput(false);
+					 gameWindow.repaint();
+				 }
+				 else
+				 {
+					 gameWindow.getGroup().setUnitName(gameWindow.getGroupUnitSelected(), newName);
+					 gameWindow.setNameInput(false);
+					 gameWindow.repaint();
+					 
+				 }
+				 
+			 }
+		 }
+		 else if(key == 38 &&  newInput == false)
+		 {
+			 gameWindow.setOldPlayerYLocation(gameWindow.getPlayerYLocation());
+			 gameWindow.setPlayerYLocation(gameWindow.getPlayerYLocation() - 1);
+			 gameWindow.setRepaintMap(true);
+			 newInput = true;
+			
+		 }
+		 else if(key == 37 &&  newInput == false)
+		 {
+			 gameWindow.setOldPlayerXLocation(gameWindow.getPlayerXLocation());
+			 gameWindow.setPlayerXLocation(gameWindow.getPlayerXLocation() - 1);
+			 gameWindow.setRepaintMap(true);
+			 newInput = true;
+			 
+		 }
+		 else if(key == 39 &&  newInput == false)
+		 {
+			 gameWindow.setOldPlayerXLocation(gameWindow.getPlayerXLocation());
+			 gameWindow.setPlayerXLocation(gameWindow.getPlayerXLocation() + 1);
+			 gameWindow.setRepaintMap(true);
+			 newInput = true;
+			 
+		 }
+		 else if(key == 40&&  newInput == false )
+		 {
+			 gameWindow.setOldPlayerYLocation(gameWindow.getPlayerYLocation());
+			 gameWindow.setPlayerYLocation(gameWindow.getPlayerYLocation() + 1);
+			 gameWindow.setRepaintMap(true);
+			 newInput = true;
+			 
+		 }
+		 
+		 }
+		
+	
+	
+	public void keyReleased(KeyEvent e)
+	{
+		System.out.println("keyReleased");
+		
+	}
+	public void keyTyped(KeyEvent e)
+	{
+		System.out.println("keyTyped");
+		
+	}
+	
+
+	
+	
+	
+	
+	public void main()
+	{
+		gameWindow.repaint();
+
+	}
+	
+	
+	
+	
+
+
+
+
+
+
+@Override
+public void mouseClicked(MouseEvent m) {
+	System.out.println("Got mouse click at " + m.getPoint() );
+	
+	
+	if((m.getPoint().getX() > 650 && m.getPoint().getX() < 680)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 830 ))
+	{
+		System.out.println("Got mouse click on inventory one");
+		gameWindow.setInventoryOne(true);
+		gameWindow.setRepaintInventory(true);
+		gameWindow.repaint();
+	}
+	else if((m.getPoint().getX() > 680 && m.getPoint().getX() < 710)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 830 ))
+	{
+		System.out.println("Got mouse click on inventory two");
+		gameWindow.setInventoryOne(false);
+		gameWindow.setRepaintInventory(true);
+		gameWindow.repaint();
+	}
+	else if((m.getPoint().getX() > 250 && m.getPoint().getX() < 275)  && (m.getPoint().getY() > 125 && m.getPoint().getY() < 150 ))
+	{
+		System.out.println("Got click on name change");
+		gameWindow.setNameChange(true);
+		oldName = gameWindow.getGroup().getUnitName(gameWindow.getGroupUnitSelected());
+		newName = "";
+		gameWindow.repaint();
+	}
+	else if((m.getPoint().getX() > 300 && m.getPoint().getX() < 500)  && (m.getPoint().getY() > 100 && m.getPoint().getY() < 800 ))
+	{
+		System.out.println("Selecting Unit");
+		int yPos = (int)(((m.getPoint().getY() - 100)/69) + 1);
+		System.out.println("Getting unit " + yPos);
+		if(gameWindow.getGroupOne() == true)
+		{
+			System.out.println("Inside group one");
+			gameWindow.setGroupUnitSelected(yPos);
+			System.out.println("Unit Selected is " + gameWindow.getGroupUnitSelected());
+			if(gameWindow.getGroupUnitSelected() > gameWindow.getGroup().getSize())
+			{
+				gameWindow.setGroupUnitSelected(gameWindow.getGroup().getSize());
+			}
+		}
+		else
+		{
+			System.out.println("Inside group two");
+			gameWindow.setGroupUnitSelected(yPos + 10);
+			System.out.println("Unit Selected is " + gameWindow.getGroupUnitSelected());
+			if(gameWindow.getGroupUnitSelected() > gameWindow.getGroup().getSize())
+			{
+				gameWindow.setGroupUnitSelected(gameWindow.getGroup().getSize());
+			}
+		}
+		gameWindow.setRepaintGroup(true);
+		gameWindow.setRepaintUnit(true);
+		gameWindow.setNameChange(false);
+		gameWindow.setNameInput(false);
+		gameWindow.setRepaintLevelAdd(false);
+		gameWindow.repaint();
+	}
+	else if((m.getPoint().getX() > 135 && m.getPoint().getX() < 165)  && (m.getPoint().getY() > 765 && m.getPoint().getY() < 795 ))
+	{
+		System.out.println("Got mouse click on level-up point spend");
+		if(gameWindow.getGroup().getUnitSavedLevels(gameWindow.getGroupUnitSelected()) > 0)
+		{
+		gameWindow.setRepaintUnit(true);
+		gameWindow.setRepaintLevelAdd(true);
+		gameWindow.setAttributesLeft(gameWindow.getGroup().getUnitSavedLevels(gameWindow.getGroupUnitSelected()) * 2);
+		gameWindow.setAddAttack(0);
+		gameWindow.setAddDefense(0);
+		gameWindow.setAddSpeed(0);
+		gameWindow.setAddMoral(0);
+		gameWindow.setAddHealth(0);
+		gameWindow.repaint();	
+		}
+	}
+	else if(gameWindow.getRepaintLevelAdd() == true)
+	{
+		System.out.println("Inside repaintLevelAdd Mouse click");
+		if((m.getPoint().getX() > 10 && m.getPoint().getX() < 90)  && (m.getPoint().getY() > 765 && m.getPoint().getY() < 795 ))
+		{
+			System.out.println("Stopping the level-up");
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintLevelAdd(false);
+			gameWindow.setAttributesLeft(0);
+			gameWindow.setAddAttack(0);
+			gameWindow.setAddDefense(0);
+			gameWindow.setAddSpeed(0);
+			gameWindow.setAddMoral(0);
+			gameWindow.setAddHealth(0);
+			gameWindow.repaint();	
+		}
+		else if(((m.getPoint().getX() > 215 && m.getPoint().getX() < 295)  && (m.getPoint().getY() > 765 && m.getPoint().getY() < 795 )) &&(gameWindow.getAttributesLeft() == 0))
+		{
+		System.out.println("Finishing the level-up");	
+		gameWindow.setRepaintUnit(true);
+		gameWindow.setRepaintLevelAdd(false);
+		gameWindow.setAttributesLeft(0);
+		gameWindow.getGroup().setUnitSavedLevels(gameWindow.getGroupUnitSelected(),0);
+		gameWindow.getGroup().setUnitAttack(gameWindow.getGroupUnitSelected(), (int) (gameWindow.getGroup().getUnitAttack(gameWindow.getGroupUnitSelected()) + (gameWindow.getAddAttack()*5)));
+		gameWindow.getGroup().setUnitDefense(gameWindow.getGroupUnitSelected(), (int) (gameWindow.getGroup().getUnitDefense(gameWindow.getGroupUnitSelected()) + (gameWindow.getAddDefense()*5)));
+		gameWindow.getGroup().setUnitSpeed(gameWindow.getGroupUnitSelected(), (int) (gameWindow.getGroup().getUnitSpeed(gameWindow.getGroupUnitSelected()) + (gameWindow.getAddSpeed()*5)));
+		gameWindow.getGroup().setUnitMoral(gameWindow.getGroupUnitSelected(), (int) (gameWindow.getGroup().getUnitMoral(gameWindow.getGroupUnitSelected()) + (gameWindow.getAddMoral()*5)));
+		gameWindow.getGroup().setUnitHealth(gameWindow.getGroupUnitSelected(), (int) (gameWindow.getGroup().getUnitHealth(gameWindow.getGroupUnitSelected()) + (gameWindow.getAddHealth()*5)));
+		gameWindow.setAddAttack(0);
+		gameWindow.setAddDefense(0);
+		gameWindow.setAddSpeed(0);
+		gameWindow.setAddMoral(0);
+		gameWindow.setAddHealth(0);
+		gameWindow.repaint();	
+		
+		}
+		else if(gameWindow.getAttributesLeft() > 0)
+		{
+			if((m.getPoint().getX() > 85 && m.getPoint().getX() < 105)  && (m.getPoint().getY() > 660 && m.getPoint().getY() < 680 ))
+			{
+				System.out.println("Click on attack add");
+				gameWindow.setAddAttack(gameWindow.getAddAttack() + 1);
+				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
+				gameWindow.setRepaintUnit(true);
+				gameWindow.repaint();
+			}
+			else if((m.getPoint().getX() > 85 && m.getPoint().getX() < 105)  && (m.getPoint().getY() > 610 && m.getPoint().getY() < 630 ))
+			{
+				gameWindow.setAddHealth(gameWindow.getAddHealth() + 1);
+				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
+				gameWindow.setRepaintUnit(true);
+				gameWindow.repaint();
+			}
+			else if((m.getPoint().getX() > 95 && m.getPoint().getX() < 115)  && (m.getPoint().getY() > 710 && m.getPoint().getY() < 730 ))
+			{
+				gameWindow.setAddDefense(gameWindow.getAddDefense() + 1);
+				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
+				gameWindow.setRepaintUnit(true);
+				gameWindow.repaint();
+			}
+			else if((m.getPoint().getX() > 230 && m.getPoint().getX() < 250)  && (m.getPoint().getY() > 610 && m.getPoint().getY() < 630 ))
+			{
+				gameWindow.setAddMoral(gameWindow.getAddMoral() + 1);
+				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
+				gameWindow.setRepaintUnit(true);
+				gameWindow.repaint();
+			}
+			else if((m.getPoint().getX() > 230 && m.getPoint().getX() < 250)  && (m.getPoint().getY() > 660 && m.getPoint().getY() < 680 ))
+			{
+				gameWindow.setAddSpeed(gameWindow.getAddSpeed() + 1);
+				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
+				gameWindow.setRepaintUnit(true);
+				gameWindow.repaint();
+			}
+		}
+	}
+	
+	else if((m.getPoint().getX() > 440 && m.getPoint().getX() < 469)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 830 ))
+		{
+		if(gameWindow.getGroup().getSize() > 10)
+		{
+			System.out.println("Got mouse click on group tab one");
+			gameWindow.setRepaintGroup(true);
+			gameWindow.setGroupOne(true);
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintLevelAdd(false);
+			gameWindow.repaint();
+		}
+		}
+		else if((m.getPoint().getX() > 470 && m.getPoint().getX() < 500)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 830 ))
+		{
+			if(gameWindow.getGroup().getSize() > 10)
+			{
+			System.out.println("Got mouse click on group tab two");
+			gameWindow.setRepaintGroup(true);
+			gameWindow.setGroupOne(false);
+			gameWindow.setGroupUnitSelected(11);
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintLevelAdd(false);
+			gameWindow.repaint();
+			}
+		}
+	
+	
+	
+
+	
+}
+@Override
+public void mouseEntered(MouseEvent e) {
+	// TODO Auto-generated method stub
+	
+}
+@Override
+public void mouseExited(MouseEvent e) {
+	// TODO Auto-generated method stub
+	
+}
+@Override
+public void mousePressed(MouseEvent e) {
+	// TODO Auto-generated method stub
+	
+}
+@Override
+public void mouseReleased(MouseEvent e) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+}
+
+
+
+class MainGameWindow extends JFrame
+{
+
+	private static final long serialVersionUID = 1L;
+	
+	int playerXLocation;
+	int playerYLocation;
+	int oldPlayerXLocation;
+	int oldPlayerYLocation;
+	int xStart;
+	int yStart;
+	int xEnd;
+	int yEnd;
+	//int redrawXStart;
+	//int redrawYStart;
+	//int redrawXEnd;
+	//int redrawYEnd;
+	int groupUnitSelected;
+	int attributesLeft;
+	int addDefense;
+	int addAttack;
+	int addSpeed;
+	int addMoral;
+	int addHealth;
+	
+	Font groupUnitFont;
+	Font unitFont;
+	Font levelFont;
+	
+	Image MainPictures;
+	List<MapInfo> oldMapInfo;
+	Map map;
+	Group Group;
+	Group tempGroup;
+	Inventory tempInventory;
+	
+	BufferedImage tempImage;
+	BufferedImage playerImage;
+	
+	JTextField nameInput;
+
+	
+	boolean repaintInventory;
+	boolean inventoryOne;
+	boolean repaintUnit;
+	boolean repaintGroup;
+	boolean groupOne;
+	boolean nameChange;
+	boolean repaintLevelAdd;
+	boolean repaintMap;
+	boolean paintMap;
+	
+	MainGameWindow(KeyListener key, MouseListener mouse)
+	{
+		playerXLocation = 938;
+		playerYLocation = 400;
+		oldPlayerXLocation = playerXLocation;
+		oldPlayerYLocation = playerYLocation;
+		xStart = 50;
+		yStart = 50;
+		xEnd = 100;
+		yEnd = 100;
+		//redrawXStart = 50;
+		//redrawYStart = 50;
+		//redrawXEnd = 100;
+		//redrawYEnd = 100;
+		groupUnitSelected = 1;
+		attributesLeft = 0;
+		addDefense = 0;
+		addAttack = 0;
+		addSpeed = 0;
+		addMoral = 0;
+		addHealth = 0;
+		
+		oldMapInfo = new ArrayList<MapInfo>();
+		
+		
 		repaintInventory = false;
 		inventoryOne = false;
 		repaintUnit = false;
@@ -163,35 +550,22 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		repaintLevelAdd = false;
 		repaintMap = true;
 		paintMap = true;
-		WidthOfGame = 0;
-		HeightOfGame = 0;
-		groupUnitSelected = 1;
-		attributesLeft = 0;
-		addDefense = 0;
-		addAttack = 0;
-		addSpeed = 0;
-		addMoral = 0;
-		addHealth = 0;
-		gameDifficulty = gD;
-		PlayerName = pN;
-		GroupName = gN;
-		playerXLocation = 938;
-		playerYLocation = 400;
-		oldPlayerXLocation = playerXLocation;
-		oldPlayerYLocation = playerYLocation;
-		xPlayerMiniMap = 0;
-		yPlayerMiniMap = 0;
-		xStart = 50;
-		yStart = 50;
-		xEnd = 100;
-		yEnd = 100;
-		redrawXStart = 50;
-		redrawYStart = 50;
-		redrawXEnd = 100;
-		redrawYEnd = 100;
-		newName = "";
-		oldName = "";
-		Group = new Group(3);
+		
+		
+		setPreferredSize(new Dimension(1200, 1000));
+		addKeyListener(key);
+		addMouseListener(mouse);
+		setFocusable(true);
+		setFocusTraversalKeysEnabled(false);
+		setTitle("Temp Game Name");
+		setResizable(false);
+		setSize(1000, 1000);
+		setMinimumSize(new Dimension(1280, 1024));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new GridBagLayout());
+		setLocationRelativeTo(null);
+		setVisible(true);
+		
 		MainPictures = new Image();
 		MainPictures.add("Images/MainMap.jpg");
 		MainPictures.add("Images/MainBackground.jpg");
@@ -199,57 +573,31 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		MainPictures.add("Images/TopBarWindow.jpg");
 		MainPictures.add("Images/PlayerMapIcon.jpg");
 		MainPictures.add("Images/GameMap.jpg");
-		System.out.println("gD,pN,gN gameRunner Const");
-		setPreferredSize(new Dimension(WidthOfGame, HeightOfGame));
-		addKeyListener(this);
-		addMouseListener(this);
-	    setFocusable(true);
-	    setFocusTraversalKeysEnabled(false);
-	    setTitle("Temp Game Name");
-	    setResizable(false);
-        setSize(1000, 1000);
-        setMinimumSize(new Dimension(1280, 1024));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridBagLayout());
-        setLocationRelativeTo(null);
-        setVisible(true);
-       
-        groupUnitFont = new Font("TimesRoman",Font.ITALIC,40);
+		
+		groupUnitFont = new Font("TimesRoman",Font.ITALIC,40);
         unitFont = new Font("TimesRoman",Font.BOLD,20);
         levelFont = new Font("TimesRoman",Font.ITALIC,25);
+        
+        playerImage = MainPictures.getImage(4);
+        
+        nameInput = new JTextField("");
+        
+        tempGroup = new Group();
+		tempGroup.setImage("Images/enemyMapIcon.jpg");
 		
-		layout  = new GridBagConstraints();
+		tempInventory = new Inventory();
+        map = new Map();
 		
-		nameInput = new JTextField("New Name");
-		nameInput.setSize(150, 45);
-		nameInput.setLocation(10, 75);
-		nameInput.setVisible(false);
-		nameInput.addKeyListener(this);
+		map.setXStart(710);
+		map.setYStart(100);
 		
+		map.add(new MapInfo(tempGroup,tempInventory,800,200,800,200,1,10));
+		map.add(new MapInfo(tempGroup,tempInventory,900,650,900,650,1,10));
+
+		map.setMoveDown(0, true);
+		map.setMoveUp(1, true);
 		
-        settingsButton = new JButton("Settings");
-        settingsButton.addActionListener(new ActionListener() {
-    	    public void actionPerformed(ActionEvent e)
-    	    {
-    	    	toggleSettingsWindow();
-    	    }
-    	});
-        layout.gridx = 6;
-        layout.gridy = 1;
-       // add(settingsButton,layout);
-		
-       
-		
-		
-		settingsWindow = new JPanel();
-		settingsWindow.setSize(800,400);
-		settingsWindow.add(new JLabel(new ImageIcon(MainPictures.getImage(2))));
-		settingsWindow.setVisible(false);
-		
-		keyboard = new Scanner(System.in);
-	
-		add(settingsWindow);
-		add(nameInput);
+		Group = new Group(3);
 		
 		Group.add(new Unit());
 		Group.add(new Unit(10,10, 10, 10, 10,10,20,1, "Test1"));
@@ -272,195 +620,248 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		Group.setUnitSavedLevels(5, 2);
 		Group.setUnitSavedLevels(4, 1);
 		
-		map = new Map();
-		
-		map.setXStart(710);
-		map.setYStart(100);
-		
-		tempGroup = new Group();
-		tempGroup.setImage("Images/enemyMapIcon.jpg");
-		
-		tempInventory = new Inventory();
-		map.add(new MapInfo(tempGroup,tempInventory,800,200,800,200,1,10));
-		map.add(new MapInfo(tempGroup,tempInventory,900,650,900,650,1,10));
-		
-		map.setMoveDown(0, true);
-		map.setMoveUp(1, true);
-		
-		tempImage = null;
-		
-		pack();
-		repaint();
-		main();
-		
 		
 	}
+	public int getAttributesLeft()
+	{
+		return attributesLeft;
+	}
+	public void setAttributesLeft(int a)
+	{
+		attributesLeft = a;
+	}
+	public int getAddDefense()
+	{
+		return addDefense;
+	}
+	public void setAddDefense(int d)
+	{
+		addDefense = d;
+	}
+	public int getAddAttack()
+	{
+		return addAttack;
+	}
+	public void setAddAttack(int a)
+	{
+		addAttack = a;
+	}
+	public int getAddSpeed()
+	{
+		return addSpeed;
+	}
+	public void setAddSpeed(int s)
+	{
+		addSpeed = s;
+	}
+	public int getAddHealth()
+	{
+		return addHealth;
+	}
+	public void setAddHealth(int h)
+	{
+		addHealth = h;
+	}
+	public int getAddMoral()
+	{
+		return addMoral;
+	}
+	public void setAddMoral(int m)
+	{
+		addMoral = m;
+	}
 	
-	public void toggleMapWindow()
+	public Group getGroup()
 	{
-		if(showMapWindow == false)
-	       {
-	    	   showMapWindow = true;
-	    	   mapWindow.setVisible(true);
-	    	
-	       }
-	       else
-	       {
-	    	   showMapWindow = false;
-	    	   mapWindow.setVisible(false);
-	       }
-	 }
-	public void toggleSettingsWindow()
+		return Group;
+	}
+	
+	public void setNameInput(boolean b)
 	{
-		if(showSettingsWindow == false)
-		 {
-			 settingsWindow.setVisible(true);
-			 showSettingsWindow = true;
-			 Sounds.playSound(0);
-		 }
-		 else
-		 {
-			 showSettingsWindow = false;
-			 settingsWindow.setVisible(false);
-			 
-		 }
-		
+		nameInput.setVisible(false);
+	}
+	public String getNameInput()
+	{
+		return nameInput.getText();
+	}
+	public Map getMap()
+	{
+		return map;
+	}
+	
+	public void setPlayerXLocation(int x)
+	{
+		playerXLocation = x;
+	}
+	public void setPlayerYLocation(int y)
+	{
+		playerYLocation = y;
+	}
+	public void setOldPlayerXLocation(int oX)
+	{
+		oldPlayerXLocation = oX;
+	}
+	public void setOldPlayerYLocation(int oY)
+	{
+		oldPlayerYLocation = oY;
+	}
+	public int getPlayerXLocation()
+	{
+		return playerXLocation;
+	}
+	public int getPlayerYLocation()
+	{
+		return playerYLocation;
+	}
+	public int getOldPlayerXLocation()
+	{
+		return oldPlayerXLocation;
+	}
+	public int getOldPlayerYLocation()
+	{
+		return oldPlayerYLocation;
+	}
+	
+	public int getXStart()
+	{
+		return xStart;
+	}
+	public int getYStart()
+	{
+		return yStart;
+	}
+	public int getXEnd()
+	{
+		return xEnd;
+	}
+	public int getYEnd()
+	{
+		return yEnd;
+	}
+	public void setXStart(int x)
+	{
+		xStart = x;
+	}
+	public void setYStart(int y)
+	{
+		yStart = y;
+	}
+	public void setXEnd(int x)
+	{
+		xEnd = x;
+	}
+	public void setYEnd(int y)
+	{
+		yEnd = y;
+	}
+	
+	public void setGroupUnitSelected(int p)
+	{
+		groupUnitSelected = p;
+	}
+	public int getGroupUnitSelected()
+	{
+		return groupUnitSelected;
 	}
 	
 	
-	public void keyPressed(KeyEvent e)
+	public void setRepaintInventory(boolean b)
 	{
-		 int key = e.getKeyCode();
-		 System.out.println("Key typed is " + key);
-		 
-		 if(key == 27)
-		 {
-			 if(nameChange = true)
-			 {
-				 nameChange = false;
-				 repaintUnit = true;
-				 newName = oldName;
-				 Group.setUnitName(groupUnitSelected, newName);
-				 nameInput.setVisible(false);
-				 repaint();
-				 
-			 }
-			 else if(showSettingsWindow == false)
-			 {
-			 settingsWindow.setVisible(true);
-			 showSettingsWindow = true;
-			 Sounds.playSound(0);
-			 }
-			 else
-			 {
-			showSettingsWindow = false;
-		    settingsWindow.setVisible(false);
-			 }
-		 }
-		 
-		 else if(key == 10)
-		 {
-			 if(nameChange)
-			 {
-				 nameChange = false;
-				 repaintUnit = true;
-				 newName = nameInput.getText();
-				 if(newName.length() > 10)
-				 {
-					 System.out.println("Name is too long");
-					 nameInput.setVisible(false);
-					 repaint();
-				 }
-				 else
-				 {
-					 Group.setUnitName(groupUnitSelected, newName);
-					 nameInput.setVisible(false);
-					 repaint();
-					 
-				 }
-				 
-			 }
-		 }
-		 else if(key == 38 )
-		 {
-			 oldPlayerYLocation = playerYLocation;
-			 playerYLocation--;
-			 repaintMap = true;
-			 for(int i = 0;i < map.getSize();i++)
-			 {
-				 map.setRedraw(i,true);
-				 
-			 }
-		 }
-		 else if(key == 37 )
-		 {
-			 oldPlayerXLocation = playerXLocation;
-			 playerXLocation--;
-			 repaintMap = true;
-			 for(int i = 0;i < map.getSize();i++)
-			 {
-				 map.setRedraw(i,true);
-				 
-			 }
-		 }
-		 else if(key == 39 )
-		 {
-			 oldPlayerXLocation = playerXLocation;
-			 playerXLocation++;
-			 repaintMap = true;
-			 for(int i = 0;i < map.getSize();i++)
-			 {
-				 map.setRedraw(i,true);
-				 
-			 }
-		 }
-		 else if(key == 40 )
-		 {
-			 oldPlayerYLocation = playerYLocation;
-			 playerYLocation++;
-			 repaintMap = true;
-			 for(int i = 0;i < map.getSize();i++)
-			 {
-				 map.setRedraw(i,true);
-				 
-			 }
-		 }
-		 
-		
+		repaintInventory = b;
 	}
+	public void setInventoryOne(boolean b)
+	{
+		inventoryOne = b;
+	}
+	public void setRepaintGroup(boolean b)
+	{
+		repaintGroup = b;
+	}
+	public void setRepaintUnit(boolean b)
+	{
+		repaintUnit = b;
+	}
+	public void setGroupOne(boolean b)
+	{
+		groupOne = b;
+	}
+	public void setNameChange(boolean b)
+	{
+		nameChange = b;
+	}
+	public void setRepaintLevelAdd(boolean b)
+	{
+		repaintLevelAdd = b;
+	}
+	public void setRepaintMap(boolean b)
+	{
+		repaintMap = b;
+	}
+	public void setPaintMap(boolean b)
+	{
+		paintMap = b;
+	}
+	public boolean getRepaintInventory()
+	{
+		return repaintInventory;
+	}
+	public boolean getInventoryOne()
+	{
+		return inventoryOne;
+	}
+	public boolean getRepaintGroup()
+	{
+		return repaintGroup;
+	}
+	public boolean getRepaintUnit()
+	{
+		return repaintUnit;
+	}
+	public boolean getGroupOne()
+	{
+		return groupOne;
+	}
+	public boolean getNameChange()
+	{
+		return nameChange;
+	}
+	public boolean getRepaintLevelAdd()
+	{
+		return repaintLevelAdd;
+	}
+	public boolean setRepaintMap()
+	{
+		return repaintMap;
+	}
+	public boolean getPaintMap()
+	{
+		return paintMap;
+	}
+	
+	
 	public void changeName()
 	{
-		nameInput.setText(Group.getUnitName(groupUnitSelected));
+		//nameInput.setText(Group.getUnitName(groupUnitSelected));
 		nameInput.setVisible(true);
 	}
-	public void keyReleased(KeyEvent e)
-	{
-		System.out.println("keyReleased");
-		
-	}
-	public void keyTyped(KeyEvent e)
-	{
-		System.out.println("keyTyped");
-		
-	}
+	
+	
 	public void paint(Graphics g){
 		 Graphics2D g2 = (Graphics2D) g;
+		
 		 
 		 if(paintMap)
 		 {
-			 System.out.println("Drawing paintMap");
+			
 			 paintMap = false;
 			
-			 
-			 //g2.setColor(new Color(100,100,100));
-			 //g2.fillRect(0, 0, 1280, 1024);
 			 g2.drawImage(MainPictures.getImage(5), null,0,0);
+			 g2.drawImage(playerImage, null, playerXLocation-15,playerYLocation-15);
 			  
 		 }
 		 if(repaintMap)
 		 {
-			 //tempImage = MainPictures.getImageClip(5, xStart, yStart, xEnd - xStart, yEnd - yStart);
-			 //g2.drawImage(tempImage,null,xStart,yStart);
+			 
 			
 			
 			 
@@ -515,8 +916,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 				 yEnd = 1024;
 			 }
 			 
-			 //System.out.println("Drawing x " +xStart +" to"+ xEnd + " And y " + yStart + " " + yEnd);
-			 //System.out.println(playerXLocation + " " + playerYLocation);
+			 
 			 //Draw in map elements inside player View
 			 for(int i = 0; i < map.getSize();i++)
 			 {
@@ -557,7 +957,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 			 tempImage = MainPictures.getImageClip(5,oldPlayerXLocation-20,oldPlayerYLocation-20,40,40);
 			 g2.drawImage(tempImage, null, oldPlayerXLocation-20,oldPlayerYLocation-20);
 			 
-			 g2.drawImage(MainPictures.getImage(4), null, playerXLocation-15,playerYLocation-15);
+			 g2.drawImage(playerImage, null, playerXLocation-15,playerYLocation-15);
 			 
 			 oldPlayerXLocation = playerXLocation;
 			 oldPlayerYLocation = playerYLocation;
@@ -578,22 +978,22 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 		 if(nameChange)
 		 {
 			 g2.setColor(new Color(150,50,50));
-    		 g2.fill(new Rectangle2D.Double(0, 110 ,280,45));
+			 g2.fill(new Rectangle2D.Double(0, 110 ,280,45));
 			 changeName();
-    		 
+   		 
 		 }
 		
 	     
 	     if(repaintInventory)
 	     {
-	    	 System.out.println("Print Inv");
+	    	 
 	    	
 	    	 repaintInventory = false;
 	    	 int xPos = 500;
 	    	 int yPos = 100;
 	    	 if(inventoryOne)
 	    	 {
-	    		 System.out.println("Print Inv 1");
+	    		
 	    		 //Inventory Page 1
 	    		 g2.setColor(new Color(165,42,42));
 	    		 for(int i = 0; i < 10; i++)
@@ -626,7 +1026,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	    	 else
 	    	 {
 	    		 //Inventory Page 2
-	    		 System.out.println("Print Inv 2 ");
+	    	
 	    		 g2.setColor(new Color(165,42,42));
 	    		 for(int i = 0; i < 10; i++)
 	    		 {
@@ -693,7 +1093,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	    	 	}
 	    	 else
 	    	 {
-	    		 System.out.println("Total group moral is " +Group.getTotalGroupMoral());
+	    		
 	    		 g2.drawString("Higher",220,650);
 	    	 }
 	    	 g2.drawString("Attack", 20, 675);
@@ -708,7 +1108,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	    	 g2.drawString("Experience", 170, 725);
 	    	 g2.drawString(Double.toString(Group.getUnitExperience(groupUnitSelected)) + " /", 170, 750);
 	    	 g2.drawString(Double.toString(Group.getUnitNeededExperience(groupUnitSelected)), 220, 750);
-	    	 System.out.println(repaintLevelAdd);
+	    
 	    	 if(repaintLevelAdd)
 	    	 {
 	    		 if(attributesLeft > 0)
@@ -764,8 +1164,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	    	 g2.draw(new Rectangle2D.Double(299, 99,201,701));
 	    	 int xPos = 300;
 	    	 int yPos = 100;
-	    	 System.out.println("OutsideGroup");
-	    	 System.out.println(Group.getSize());
+	    
 	    	 for(int i = 1; i < Group.getSize();i++)
 	    	 {
 	    		 Group.checkUnitLevel(i);
@@ -779,7 +1178,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	    	 {
 	    	 for(int i = 0; i < Group.getSize() - 1;i++)
 	    	 {
-	    		 System.out.println("InsideGrouptest");
+	    		
 	    		 g2.setColor(new Color(255,0,0));
 		    	 g2.fill(new Rectangle2D.Double(xPos, yPos,200,69));
 		    	 g2.setColor(new Color(0,255,0));
@@ -792,7 +1191,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	    	 {
 	    		 for(int i = 0; i < 10;i++)
 		    	 {
-		    		 System.out.println("InsideGroup");
+		    		
 		    		 g2.setColor(new Color(255,0,0));
 			    	 g2.fill(new Rectangle2D.Double(xPos, yPos,200,69));
 			    	 g2.setColor(new Color(0,255,0));
@@ -808,7 +1207,7 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	    		 
 	    		 for(int i = 11; i < Group.getSize();i++)
 		    	 {
-		    		 System.out.println("InsideGroup");
+		    		
 		    		 g2.setColor(new Color(255,0,0));
 			    	 g2.fill(new Rectangle2D.Double(xPos, yPos,200,69));
 			    	 g2.setColor(new Color(0,255,0));
@@ -834,232 +1233,8 @@ public class GameRunner extends JFrame implements KeyListener , MouseListener
 	     }
 	        
 	        
-		main();
 	}
 
 	
-	
-	
-	
-	public void main()
-	{
-		repaint();
-
-	}
-	
-	
-	
-	
-
-
-
-
-
-
-@Override
-public void mouseClicked(MouseEvent m) {
-	System.out.println("Got mouse click at " + m.getPoint() );
-	System.out.println("RepaintLevelAdd is " + repaintLevelAdd);
-	
-	if((m.getPoint().getX() > 650 && m.getPoint().getX() < 680)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 830 ))
-	{
-		System.out.println("Got mouse click on inventory one");
-		inventoryOne = true;
-		repaintInventory = true;
-		repaint();
-	}
-	else if((m.getPoint().getX() > 680 && m.getPoint().getX() < 710)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 830 ))
-	{
-		System.out.println("Got mouse click on inventory two");
-		inventoryOne = false;
-		repaintInventory = true;
-		repaint();
-	}
-	else if((m.getPoint().getX() > 250 && m.getPoint().getX() < 275)  && (m.getPoint().getY() > 125 && m.getPoint().getY() < 150 ))
-	{
-		System.out.println("Got click on name change");
-		nameChange = true;
-		oldName = Group.getUnitName(groupUnitSelected);
-		newName = "";
-		repaint();
-	}
-	else if((m.getPoint().getX() > 300 && m.getPoint().getX() < 500)  && (m.getPoint().getY() > 100 && m.getPoint().getY() < 800 ))
-	{
-		System.out.println("Selecting Unit");
-		int yPos = (int)(((m.getPoint().getY() - 100)/69) + 1);
-		System.out.println("Getting unit " + yPos);
-		if(groupOne)
-		{
-			System.out.println("Inside group one");
-			groupUnitSelected = yPos;
-			System.out.println("Unit Selected is " + groupUnitSelected);
-			if(groupUnitSelected > Group.getSize())
-			{
-				groupUnitSelected = Group.getSize();
-			}
-		}
-		else
-		{
-			System.out.println("Inside group two");
-			groupUnitSelected = (yPos + 10);
-			System.out.println("Unit Selected is " + groupUnitSelected);
-			if(groupUnitSelected > Group.getSize())
-			{
-				groupUnitSelected = Group.getSize();
-			}
-		}
-		repaintGroup = true;
-		repaintUnit = true;
-		nameChange = false;
-		nameInput.setVisible(false);
-		repaintLevelAdd = false;
-		repaint();
-	}
-	else if((m.getPoint().getX() > 135 && m.getPoint().getX() < 165)  && (m.getPoint().getY() > 765 && m.getPoint().getY() < 795 ))
-	{
-		System.out.println("Got mouse click on level-up point spend");
-		if(Group.getUnitSavedLevels(groupUnitSelected) > 0)
-		{
-		repaintUnit = true;
-		repaintLevelAdd = true;
-		attributesLeft = Group.getUnitSavedLevels(groupUnitSelected) * 2;
-		addAttack = 0;
-		addDefense = 0;
-		addSpeed = 0;
-		addMoral = 0;
-		addHealth = 0;
-		repaint();	
-		}
-	}
-	else if(repaintLevelAdd)
-	{
-		System.out.println("Inside repaintLevelAdd Mouse click");
-		if((m.getPoint().getX() > 10 && m.getPoint().getX() < 90)  && (m.getPoint().getY() > 765 && m.getPoint().getY() < 795 ))
-		{
-			System.out.println("Stopping the level-up");
-			repaintUnit = true;
-			repaintLevelAdd = false;
-			attributesLeft = 0;
-			addAttack = 0;
-			addDefense = 0;
-			addSpeed = 0;
-			addMoral = 0;
-			addHealth = 0;
-			repaint();	
-		}
-		else if(((m.getPoint().getX() > 215 && m.getPoint().getX() < 295)  && (m.getPoint().getY() > 765 && m.getPoint().getY() < 795 )) &&(attributesLeft == 0))
-		{
-		System.out.println("Finishing the level-up");	
-		repaintUnit = true;
-		repaintLevelAdd = false;
-		attributesLeft = 0;
-		Group.setUnitSavedLevels(groupUnitSelected,0);
-		Group.setUnitAttack(groupUnitSelected, (int) (Group.getUnitAttack(groupUnitSelected) + (addAttack*5)));
-		Group.setUnitDefense(groupUnitSelected, (int) (Group.getUnitDefense(groupUnitSelected) + (addDefense*5)));
-		Group.setUnitSpeed(groupUnitSelected, (int) (Group.getUnitSpeed(groupUnitSelected) + (addSpeed*5)));
-		Group.setUnitMoral(groupUnitSelected, (int) (Group.getUnitMoral(groupUnitSelected) + (addMoral*5)));
-		Group.setUnitHealth(groupUnitSelected, (int) (Group.getUnitHealth(groupUnitSelected) + (addHealth*5)));
-		addAttack = 0;
-		addDefense = 0;
-		addSpeed = 0;
-		addMoral = 0;
-		addHealth = 0;
-		repaint();	
-		
-		}
-		else if(attributesLeft > 0)
-		{
-			if((m.getPoint().getX() > 85 && m.getPoint().getX() < 105)  && (m.getPoint().getY() > 660 && m.getPoint().getY() < 680 ))
-			{
-				System.out.println("Click on attack add");
-				addAttack++;
-				attributesLeft--;
-				repaintUnit = true;
-				repaint();
-			}
-			else if((m.getPoint().getX() > 85 && m.getPoint().getX() < 105)  && (m.getPoint().getY() > 610 && m.getPoint().getY() < 630 ))
-			{
-				addHealth++;
-				repaintUnit = true;
-				attributesLeft--;
-				repaint();
-			}
-			else if((m.getPoint().getX() > 95 && m.getPoint().getX() < 115)  && (m.getPoint().getY() > 710 && m.getPoint().getY() < 730 ))
-			{
-				addDefense++;
-				attributesLeft--;
-				repaintUnit = true;
-				repaint();
-			}
-			else if((m.getPoint().getX() > 230 && m.getPoint().getX() < 250)  && (m.getPoint().getY() > 610 && m.getPoint().getY() < 630 ))
-			{
-				addMoral++;
-				attributesLeft--;
-				repaintUnit = true;
-				repaint();
-			}
-			else if((m.getPoint().getX() > 230 && m.getPoint().getX() < 250)  && (m.getPoint().getY() > 660 && m.getPoint().getY() < 680 ))
-			{
-				addSpeed++;
-				attributesLeft--;
-				repaintUnit = true;
-				repaint();
-			}
-		}
-	}
-	
-	else if((m.getPoint().getX() > 440 && m.getPoint().getX() < 469)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 830 ))
-		{
-		if(Group.getSize() > 10)
-		{
-			System.out.println("Got mouse click on group tab one");
-			repaintGroup = true;
-			groupOne = true;
-			repaintUnit = true;
-			repaintLevelAdd = false;
-			repaint();
-		}
-		}
-		else if((m.getPoint().getX() > 470 && m.getPoint().getX() < 500)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 830 ))
-		{
-			if(Group.getSize() > 10)
-			{
-			System.out.println("Got mouse click on group tab two");
-			repaintGroup = true;
-			groupOne = false;
-			groupUnitSelected = 11;
-			repaintUnit = true;
-			repaintLevelAdd = false;
-			repaint();	
-			}
-		}
-	
-	
-	
-
-	
-}
-@Override
-public void mouseEntered(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void mouseExited(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void mousePressed(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-public void mouseReleased(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-	
-
 }
 
