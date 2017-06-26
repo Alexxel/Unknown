@@ -29,6 +29,8 @@ public class MapInfo
 		walked = 0;
 		xMapLocation = 0;
 		yMapLocation = 0;
+		xMapLocationOld = 0;
+		yMapLocationOld = 0;
 		xMiniMapLocation = 0;
 		yMiniMapLocation = 0;
 		speed = 0;

@@ -18,7 +18,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -127,9 +127,10 @@ public class GameRunner implements KeyListener , MouseListener
 		gameWindow = new MainGameWindow(this,this);
 		
 		
-		timer = new Timer(50, new ActionListener(){
+		timer = new Timer(33, new ActionListener(){
 			public void actionPerformed(ActionEvent evt)
 			{
+				gameWindow.collisionDetection();
 				newInput = false;
 				gameWindow.repaint();
 				
@@ -158,7 +159,7 @@ public class GameRunner implements KeyListener , MouseListener
 				 newName = oldName;
 				 gameWindow.getGroup().setUnitName(gameWindow.getGroupUnitSelected(), newName);
 				 gameWindow.setNameInput(false);
-				 gameWindow.repaint();
+				 
 				 
 			 }
 			
@@ -175,13 +176,13 @@ public class GameRunner implements KeyListener , MouseListener
 				 {
 				
 					 gameWindow.setNameInput(false);
-					 gameWindow.repaint();
+					 
 				 }
 				 else
 				 {
 					 gameWindow.getGroup().setUnitName(gameWindow.getGroupUnitSelected(), newName);
 					 gameWindow.setNameInput(false);
-					 gameWindow.repaint();
+					 
 					 
 				 }
 				 
@@ -240,11 +241,7 @@ public class GameRunner implements KeyListener , MouseListener
 	
 	
 	
-	public void main()
-	{
-		gameWindow.repaint();
-
-	}
+	
 	
 	
 	
@@ -265,14 +262,14 @@ public void mouseClicked(MouseEvent m) {
 		System.out.println("Got mouse click on inventory one");
 		gameWindow.setInventoryOne(true);
 		gameWindow.setRepaintInventory(true);
-		gameWindow.repaint();
+		
 	}
 	else if((m.getPoint().getX() > 680 && m.getPoint().getX() < 710)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 830 ))
 	{
 		System.out.println("Got mouse click on inventory two");
 		gameWindow.setInventoryOne(false);
 		gameWindow.setRepaintInventory(true);
-		gameWindow.repaint();
+		
 	}
 	else if((m.getPoint().getX() > 250 && m.getPoint().getX() < 275)  && (m.getPoint().getY() > 125 && m.getPoint().getY() < 150 ))
 	{
@@ -280,7 +277,7 @@ public void mouseClicked(MouseEvent m) {
 		gameWindow.setNameChange(true);
 		oldName = gameWindow.getGroup().getUnitName(gameWindow.getGroupUnitSelected());
 		newName = "";
-		gameWindow.repaint();
+		
 	}
 	else if((m.getPoint().getX() > 300 && m.getPoint().getX() < 500)  && (m.getPoint().getY() > 100 && m.getPoint().getY() < 800 ))
 	{
@@ -312,7 +309,7 @@ public void mouseClicked(MouseEvent m) {
 		gameWindow.setNameChange(false);
 		gameWindow.setNameInput(false);
 		gameWindow.setRepaintLevelAdd(false);
-		gameWindow.repaint();
+		
 	}
 	else if((m.getPoint().getX() > 135 && m.getPoint().getX() < 165)  && (m.getPoint().getY() > 765 && m.getPoint().getY() < 795 ))
 	{
@@ -327,7 +324,7 @@ public void mouseClicked(MouseEvent m) {
 		gameWindow.setAddSpeed(0);
 		gameWindow.setAddMoral(0);
 		gameWindow.setAddHealth(0);
-		gameWindow.repaint();	
+		
 		}
 	}
 	else if(gameWindow.getRepaintLevelAdd() == true)
@@ -344,7 +341,7 @@ public void mouseClicked(MouseEvent m) {
 			gameWindow.setAddSpeed(0);
 			gameWindow.setAddMoral(0);
 			gameWindow.setAddHealth(0);
-			gameWindow.repaint();	
+			
 		}
 		else if(((m.getPoint().getX() > 215 && m.getPoint().getX() < 295)  && (m.getPoint().getY() > 765 && m.getPoint().getY() < 795 )) &&(gameWindow.getAttributesLeft() == 0))
 		{
@@ -363,7 +360,7 @@ public void mouseClicked(MouseEvent m) {
 		gameWindow.setAddSpeed(0);
 		gameWindow.setAddMoral(0);
 		gameWindow.setAddHealth(0);
-		gameWindow.repaint();	
+		
 		
 		}
 		else if(gameWindow.getAttributesLeft() > 0)
@@ -374,35 +371,35 @@ public void mouseClicked(MouseEvent m) {
 				gameWindow.setAddAttack(gameWindow.getAddAttack() + 1);
 				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
 				gameWindow.setRepaintUnit(true);
-				gameWindow.repaint();
+				
 			}
 			else if((m.getPoint().getX() > 85 && m.getPoint().getX() < 105)  && (m.getPoint().getY() > 610 && m.getPoint().getY() < 630 ))
 			{
 				gameWindow.setAddHealth(gameWindow.getAddHealth() + 1);
 				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
 				gameWindow.setRepaintUnit(true);
-				gameWindow.repaint();
+				
 			}
 			else if((m.getPoint().getX() > 95 && m.getPoint().getX() < 115)  && (m.getPoint().getY() > 710 && m.getPoint().getY() < 730 ))
 			{
 				gameWindow.setAddDefense(gameWindow.getAddDefense() + 1);
 				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
 				gameWindow.setRepaintUnit(true);
-				gameWindow.repaint();
+				
 			}
 			else if((m.getPoint().getX() > 230 && m.getPoint().getX() < 250)  && (m.getPoint().getY() > 610 && m.getPoint().getY() < 630 ))
 			{
 				gameWindow.setAddMoral(gameWindow.getAddMoral() + 1);
 				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
 				gameWindow.setRepaintUnit(true);
-				gameWindow.repaint();
+				
 			}
 			else if((m.getPoint().getX() > 230 && m.getPoint().getX() < 250)  && (m.getPoint().getY() > 660 && m.getPoint().getY() < 680 ))
 			{
 				gameWindow.setAddSpeed(gameWindow.getAddSpeed() + 1);
 				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
 				gameWindow.setRepaintUnit(true);
-				gameWindow.repaint();
+				
 			}
 		}
 	}
@@ -416,7 +413,8 @@ public void mouseClicked(MouseEvent m) {
 			gameWindow.setGroupOne(true);
 			gameWindow.setRepaintUnit(true);
 			gameWindow.setRepaintLevelAdd(false);
-			gameWindow.repaint();
+			
+			
 		}
 		}
 		else if((m.getPoint().getX() > 470 && m.getPoint().getX() < 500)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 830 ))
@@ -429,7 +427,7 @@ public void mouseClicked(MouseEvent m) {
 			gameWindow.setGroupUnitSelected(11);
 			gameWindow.setRepaintUnit(true);
 			gameWindow.setRepaintLevelAdd(false);
-			gameWindow.repaint();
+			
 			}
 		}
 	
@@ -468,6 +466,9 @@ class MainGameWindow extends JFrame
 {
 
 	private static final long serialVersionUID = 1L;
+	
+	Rectangle player;
+	Rectangle target;
 	
 	int playerXLocation;
 	int playerYLocation;
@@ -845,6 +846,21 @@ class MainGameWindow extends JFrame
 		nameInput.setVisible(true);
 	}
 	
+	public void collisionDetection()
+	{
+	player = new Rectangle(playerXLocation - 15, playerYLocation - 15,30,30);
+	for(int i = 0; i < map.getSize();i++)
+	{
+		target = new Rectangle(map.getMapInfo(i).getXMapLocation()-15,map.getMapInfo(i).getYMapLocation()-15,30,30);
+		
+		if(player.intersects(target))
+		{
+			System.out.println("Player intersects " + i  );
+		}
+	}
+		
+	}
+	
 	
 	public void paint(Graphics g){
 		 Graphics2D g2 = (Graphics2D) g;
@@ -916,40 +932,6 @@ class MainGameWindow extends JFrame
 				 yEnd = 1024;
 			 }
 			 
-			 
-			 //Draw in map elements inside player View
-			 for(int i = 0; i < map.getSize();i++)
-			 {
-				 if(map.getRedraw(1) == true)
-				 {
-					 oldMapInfo.add(map.getMapInfo(i));
-				 }
-			 }
-			 for(int i = 0; i < oldMapInfo.size();i++)
-			 {
-				
-				
-				 tempImage = MainPictures.getImageClip(5,oldMapInfo.get(i).getXMapLocation()-20,oldMapInfo.get(i).getYMapLocation()-20,40,40);
-				 g2.drawImage(tempImage,null,oldMapInfo.get(i).getXMapLocation()-20,oldMapInfo.get(i).getYMapLocation()-20);
-					 
-				 
-			 }
-			 oldMapInfo.removeAll(oldMapInfo);
-			
-			 for(int i = 0; i < map.getSize();i++)
-			 {
-				 if(map.getMapInfo(i).getXMapLocation() > xStart && map.getMapInfo(i).getXMapLocation() < xEnd )
-				 {
-					 if(map.getMapInfo(i).getYMapLocation() > yStart && map.getMapInfo(i).getYMapLocation() < yEnd)
-					 {
-						 if(map.getRedraw(i) == true)
-						 {
-						 g2.drawImage(map.getGroup(i).getImage(), null,map.getXLocation(i)-15,map.getYLocation(i)-15);
-						 map.setRedraw(i, false);
-						 }
-					 }
-				 }
-			 }
 			 //Draw player Icon
 			 
 			 if(oldPlayerXLocation != playerXLocation || playerYLocation != oldPlayerYLocation)
@@ -962,6 +944,36 @@ class MainGameWindow extends JFrame
 			 oldPlayerXLocation = playerXLocation;
 			 oldPlayerYLocation = playerYLocation;
 			 }
+			 
+			 //Draw in map elements inside player View
+			 
+				 
+			 
+			 
+			
+			 for(int i = 0; i < map.getSize();i++)
+			 {
+				 if(map.getMapInfo(i).getXMapLocation() > xStart && map.getMapInfo(i).getXMapLocation() < xEnd )
+				 {
+					 if(map.getMapInfo(i).getYMapLocation() > yStart && map.getMapInfo(i).getYMapLocation() < yEnd)
+					 {
+						 if(map.getRedraw(i) == true)
+						 {
+						 tempImage = MainPictures.getImageClip(5,map.getMapInfo(i).getXMapLocation()-20,map.getMapInfo(i).getYMapLocation()-20,40,40);
+						 g2.drawImage(tempImage,null,map.getMapInfo(i).getXMapLocation()-20,map.getMapInfo(i).getYMapLocation()-20);
+						 
+						 g2.drawImage(map.getGroup(i).getImage(), null,map.getXLocation(i)-15,map.getYLocation(i)-15);
+						 map.setRedraw(i, false);
+						 }
+					 }
+				 }
+				 if(map.getRedraw(i) == true)
+				 {
+					 tempImage = MainPictures.getImageClip(5,map.getMapInfo(i).getXMapLocation()-20,map.getMapInfo(i).getYMapLocation()-20,40,40);
+					 g2.drawImage(tempImage,null,map.getMapInfo(i).getXMapLocation()-20,map.getMapInfo(i).getYMapLocation()-20); 
+				 }
+			 }
+			
 			 
 			
 			 
