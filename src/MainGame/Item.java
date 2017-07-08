@@ -17,6 +17,7 @@ public class Item
 	double defensePercentChange;
 	double durability;
 	boolean broke;
+	boolean itemHere;
 	String name;
 	BufferedImage pictureLocation;
 	
@@ -34,6 +35,7 @@ public class Item
 		durability = 0;
 		broke = false;
 		name = "";
+		itemHere = false;
 		
 	}
 	
@@ -66,9 +68,13 @@ public class Item
 		durability = dur;
 		broke = false;
 		name = Name;
+		itemHere = true;
 		
 	}
-	
+	public boolean getItemHere()
+	{
+		return itemHere;
+	}
 	public void setDurability(int Durability)
 	{
 		durability = Durability;

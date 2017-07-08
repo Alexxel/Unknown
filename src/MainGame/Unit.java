@@ -34,7 +34,7 @@ public class Unit
 		Experience = 0;
 		Items = new ArrayList<Item>(7);
 		Name = "";
-		for(int i = 0;i < 7;i++)
+		for(int i = 0;i < 8;i++)
 		{
 		Items.add(new Item());
 		}
@@ -54,7 +54,7 @@ public class Unit
 		Experience = 0;
 		Items = new ArrayList<Item>();
 		Name = name;
-		for(int i = 0;i < 7;i++)
+		for(int i = 0;i < 8;i++)
 		{
 		Items.add(new Item());
 		}
@@ -265,16 +265,8 @@ public class Unit
 	//Item methods
 	public Item addItem(Item I)
 	{
-		
-		if(I.getLocation() == (Items.get(I.getLocation()).getLocation()))
-		{
-			Item tempItem = Items.get(I.getLocation());
-			remove(Items.get(I.getLocation()).getLocation());
-			Items.add(I);
-			return tempItem;
-		}
-		Items.remove(I.getLocation());
-		Items.add(I);
+	
+		Items.set(I.getLocation(),I);
 		return null;
 	}
 	
@@ -289,6 +281,10 @@ public class Unit
 	public void setItemName(int postion,String n)
 	{
 		Items.get(postion).setName(n);
+	}
+	public Item getItem(int postion)
+	{
+		return Items.get(postion);
 	}
 	//Picture Methods
 	/*public int getItemPictureLocation(int postion)

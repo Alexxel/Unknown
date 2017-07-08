@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class Group
 {
+	
 	List<Unit> Group;
 	BufferedImage Image;
 	
@@ -209,6 +210,10 @@ public class Group
 	{
 		return Group.get(unitLocation).getItemPictureLocation(itemLocation);
 	}*/
+	public Item getUnitItem(int unitLocation, int ItemLocation)
+	{
+		return Group.get(unitLocation).getItem(ItemLocation);
+	}
 	public int getUnitPicture(int unitLocation)
 	{
 		return Group.get(unitLocation).getUnitPictureLocation();

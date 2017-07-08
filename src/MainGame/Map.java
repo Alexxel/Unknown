@@ -19,6 +19,7 @@ public class Map extends TimerTask
 	List<Point> townList;
 	
 	MapBackground[][] mapBackground;
+	boolean active;
 	
 	
 	
@@ -31,6 +32,7 @@ public class Map extends TimerTask
 		xStart = 0;
 		yStart = 0;
 		mapBackground = new MapBackground[1280][1024];
+		active = true;
 		for(int x = 0; x < 1280;x++)
 		{
 			for(int y = 0; y < 1024; y++ )
@@ -43,17 +45,25 @@ public class Map extends TimerTask
 			@Override
 			public void run(){
 				
-				//System.out.println("Running map timer task");
+				if(active == true)
+				{
 				update();
-				//findXandYMiniMapLocation(xStart,yStart);
-				//findXandYMiniMapLocationOld(xStartOld,yStartOld);
+				}
+				
 				
 				
 			}
 		
-		},1000,1000);
+		},100,100);
 	}
-	
+	public void setActive(boolean a)
+	{
+		active = a;
+	}
+	public boolean getActive()
+	{
+		return active;
+	}
 	public Group getGroup(int p)
 	{
 		return mapInfo.get(p).getGroup();

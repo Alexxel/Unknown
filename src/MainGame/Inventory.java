@@ -1,27 +1,43 @@
 package MainGame;
 
-import java.util.List;
+
 
 public class Inventory
 {
-	List<Item> inventory;
+	Item[][] inventory;
+	Item itemOne;
+	Item itemTwo;
 	
 	Inventory()
 	{
-		
+		inventory = new Item[6][10];
+		itemOne = new Item();
+		itemTwo = new Item();
 	}
 	
-	public Item getItem(int number)
+	public Item getItem(int x,int y)
 	{
-		return inventory.get(number);
+		return inventory[x][y];
 	}
 	
-	public void addItem(Item item, int postion)
+	public void addItem(Item item, int x,int y)
 	{
-		inventory.add(postion, item);
+		inventory[x][y] = item;
 	}
-	public void removeItem(int postion)
+	public void removeItem(int x,int y)
 	{
-		inventory.remove(postion);
+		inventory[x][y] = new Item();
+	}
+	public void setItem(Item item, int x, int y)
+	{
+		inventory[x][y] = item;
+	}
+	public void itemSwap(int x1, int y1, int x2, int y2)
+	{
+	itemOne = inventory[x1][y1];
+	itemTwo = inventory[x2][y2];
+	
+	inventory[x1][y1] = itemTwo;
+	inventory[x2][y2] = itemOne;
 	}
 }

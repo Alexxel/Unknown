@@ -254,6 +254,8 @@ public class MapInfo
 	
 	public void setMove()
 	{
+		yMapLocationOld = yMapLocation;
+		xMapLocationOld = xMapLocation;
 		if(moveUp)
 		{
 			yMapLocation--;
