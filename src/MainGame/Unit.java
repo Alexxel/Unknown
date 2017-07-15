@@ -272,7 +272,7 @@ public class Unit
 	
 	public void remove(int postion)
 	{
-		Items.remove(postion);
+		Items.set(postion, new Item());
 	}
 	public String getItemName(int postion)
 	{

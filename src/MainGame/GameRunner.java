@@ -163,18 +163,6 @@ public class GameRunner implements KeyListener , MouseListener
 	
 	public void mouseDragEventHandler(Point click,Point release)
 	{
-		/*
-	    	 g2.fill(new Rectangle2D.Double(15, 225,70,70));
-	    	 if(Group.getUnitItem(groupUnitSelected,6).getItemHere() == true)
-	    	 {
-	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 6).getItemPicture(),null,18,228);
-	    	 }
-	    	 g2.fill(new Rectangle2D.Double(210, 225,70,70));
-	    	 if(Group.getUnitItem(groupUnitSelected,7).getItemHere() == true)
-	    	 {
-	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 7).getItemPicture(),null,213,228);
-	    	 }
-	    	 */
 		System.out.println("Starting mouse Drag Event with " + click + " " + release);
 		if((click.getX() > 700 && click.getX() < 1125) && (click.getY() > 130 && click.getY() < 830))
 		{
@@ -325,7 +313,110 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
+			
 		  }
+		}
+		else if(((release.getX() > 700 && release.getX() < 1125) && (release.getY() > 130 && release.getY() < 830)) && ((click.getX() > 10 && click.getX() < 300) && (click.getY() > 200 && click.getY() < 600)))
+		{
+			
+			int xR = 0;
+			int yR = 0;
+			
+			xR = (int) (release.getX() - 700)/70;
+			yR = (int) (release.getY() - 130)/70;
+			
+			if((click.getX() > 115 && click.getX() < 185) && (click.getY() > 200 && click.getY() < 280))
+			{
+				
+				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 1).getItemHere() == true)
+				{
+					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),1);
+					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 1);
+					
+				}
+				gameWindow.setRepaintUnit(true);
+				gameWindow.setRepaintInventory(true);
+			}
+			else if((click.getX() > 115 && click.getX() < 185) && (click.getY() > 300 && click.getY() < 380))
+			{
+				
+				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 2).getItemHere() == true)
+				{
+					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),2);
+					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 2);
+					
+				}
+				gameWindow.setRepaintUnit(true);
+				gameWindow.setRepaintInventory(true);
+			}
+			else if((click.getX() > 115 && click.getX() < 185) && (click.getY() > 400  && click.getY() < 480))
+			{
+				
+				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 3).getItemHere() == true)
+				{
+					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),3);
+					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 3);
+					
+				}
+				gameWindow.setRepaintUnit(true);
+				gameWindow.setRepaintInventory(true);
+			}
+			else if((click.getX() > 210 && click.getX() < 280) && (click.getY() > 350 && click.getY() < 425))
+			{
+				
+				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 4).getItemHere() == true)
+				{
+					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),4);
+					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 4);
+				}
+				gameWindow.setRepaintUnit(true);
+				gameWindow.setRepaintInventory(true);
+			}
+			else if((click.getX() > 15 && click.getX() < 90) && (click.getY() > 350 && click.getY() < 425))
+			{
+				
+				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 5).getItemHere() == true)
+				{
+					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),5);
+					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 5);
+				}
+				
+				gameWindow.setRepaintUnit(true);
+				gameWindow.setRepaintInventory(true);
+			}
+			else if((click.getX() > 210 && click.getX() < 280) && (click.getY() > 250 && click.getY() < 325))
+			{
+				
+				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 7).getItemHere() == true)
+				{
+					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),7);
+					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 7);
+					
+				}
+				
+				gameWindow.setRepaintUnit(true);
+				gameWindow.setRepaintInventory(true);
+			}
+			else if((click.getX() > 15 && click.getX() < 90) && (click.getY() > 250 && click.getY() < 325))
+			{
+				
+				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 6).getItemHere() == true)
+				{
+					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),6);
+					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 6);
+					
+				}
+				
+				gameWindow.setRepaintUnit(true);
+				gameWindow.setRepaintInventory(true);
+			}
 		}
 	}
 	

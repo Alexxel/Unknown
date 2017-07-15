@@ -234,6 +234,10 @@ public class Group
 	{
 		return Group.get(postion).addItem(I);
 	}
+	public void removeItem(int postion, int itemPostion)
+	{
+		Group.get(postion).remove(itemPostion);
+	}
 	public void setItemName(int unitPostion,int itemPostion,String n)
 	{
 		Group.get(unitPostion).setItemName(itemPostion, n);
