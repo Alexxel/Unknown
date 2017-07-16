@@ -180,16 +180,16 @@ public class Unit
 		for(int i = 0; i < Items.size(); i++)
 		{
 			itemSpeed = itemSpeed + Items.get(i).getSpeedChange();
-			System.out.println("Speed change is " +Items.get(i).getSpeedChange());
+		
 		}
 		
 		for(int i = 0; i < Items.size(); i++)
 		{
 			itemSpeedChange = itemSpeedChange + Items.get(i).getSpeedPercentChange();
-			System.out.println("Speed percent change is " +Items.get(i).getSpeedPercentChange());
+		
 		}
 		totalItemChange = Speed + itemSpeed +(itemSpeedChange * (Speed + itemSpeed));
-		System.out.println("Total changed Speed is " + totalItemChange);
+		
 		
 		return (int)totalItemChange;
 	}
@@ -215,16 +215,15 @@ public class Unit
 		for(int i = 0; i < Items.size(); i++)
 		{
 			itemAttack = itemAttack + Items.get(i).getAttackChange();
-			System.out.println("Attack change is " +Items.get(i).getAttackChange());
+			
 		}
 		
 		for(int i = 0; i < Items.size(); i++)
 		{
 			itemAttackChange = itemAttackChange + Items.get(i).getAttackPercentChange();
-			System.out.println("Attack percent change is " +Items.get(i).getAttackPercentChange());
+			
 		}
 		totalItemChange = BaseAttack + itemAttack +(itemAttackChange * (BaseAttack + itemAttack));
-		System.out.println("Total changed attack is " + totalItemChange);
 		
 		return (int)totalItemChange;
 	}
@@ -249,16 +248,16 @@ public class Unit
 			for(int i = 0; i < Items.size(); i++)
 			{
 				itemDefense = itemDefense + Items.get(i).getDefenseChange();
-				System.out.println("Defense change is " +Items.get(i).getDefenseChange());
+
 			}
 			
 			for(int i = 0; i < Items.size(); i++)
 			{
 				itemDefenseChange = itemDefenseChange + Items.get(i).getDefensePercentChange();
-				System.out.println("Defense percent change is " +Items.get(i).getDefensePercentChange());
+			
 			}
 			totalItemChange = BaseDefense + itemDefense +(itemDefenseChange * (BaseDefense + itemDefense));
-			System.out.println("Total changed Defense is " + totalItemChange);
+			
 			
 			return (int)totalItemChange;
 		}

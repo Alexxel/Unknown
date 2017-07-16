@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,6 +18,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -25,6 +27,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -132,7 +135,8 @@ public class GameRunner implements KeyListener , MouseListener
 		mouseReleased = new Point(0,0);
 	
 		tempItem = new Item();
-	
+		
+		
 		
        
         
@@ -411,8 +415,7 @@ public class GameRunner implements KeyListener , MouseListener
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),6);
 					gameWindow.getInventory().setItem(tempItem, xR, yR);
 					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 6);
-					
-				}
+								}
 				
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
@@ -442,6 +445,10 @@ public class GameRunner implements KeyListener , MouseListener
 			 {
 				 showGroup = false;
 				 gameWindow.setPaintMap(true);
+				 gameWindow.setRepaintInventory(false);
+				 gameWindow.setRepaintGroup(false);
+				 gameWindow.setRepaintUnit(false);
+				 gameWindow.setMouseDragItem(false);
 				 gameWindow.setActive(true);
 			 }
 			
@@ -758,20 +765,150 @@ public void mouseExited(MouseEvent e) {
 @Override
 public void mousePressed(MouseEvent e) {
 	mouseClicked = e.getPoint();
-	System.out.println("Mouse Clicked at " + mouseClicked);
 	
+	if((e.getX() > 700 && e.getX() < 1125) && (e.getY() > 130 && e.getY() < 830))
+	{
+		int xC = 0;
+		int yC = 0;
+		
+		xC = (int) (e.getX() - 700)/70;
+		yC = (int) (e.getY() - 130)/70;
+		
+		if(gameWindow.getInventory().getItem(xC, yC).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getInventory().getItem(xC, yC));
+			gameWindow.setMouseDragItem(true);
+			gameWindow.setRepaintGroup(true);
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintInventory(true);
+			gameWindow.setPaintMap(true);
+			
+		}
+		
+	}
+	else if((e.getX() > 115 && e.getX() < 185) && (e.getY() > 200 && e.getY() < 280))
+	{
+		
+		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 1).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 1));
+			gameWindow.setMouseDragItem(true);
+			gameWindow.setRepaintGroup(true);
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintInventory(true);
+			gameWindow.setPaintMap(true);
+			
+		}
+	}
+	else if((e.getX() > 115 && e.getX() < 185) && (e.getY() > 300 && e.getY() < 380))
+	{
+		
+		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 2).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 2));
+			gameWindow.setMouseDragItem(true);
+			gameWindow.setRepaintGroup(true);
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintInventory(true);
+			gameWindow.setPaintMap(true);
+			
+		}
+	}
+	else if((e.getX() > 115 && e.getX() < 185) && (e.getY() > 400  && e.getY() < 480))
+	{
+		
+		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 3).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 3));
+			gameWindow.setMouseDragItem(true);
+			gameWindow.setRepaintGroup(true);
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintInventory(true);
+			gameWindow.setPaintMap(true);
+			
+		}
+	}
+	else if((e.getX() > 210 && e.getX() < 280) && (e.getY() > 350 && e.getY() < 425))
+	{
+		
+		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 4).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 4));
+			gameWindow.setMouseDragItem(true);
+			gameWindow.setRepaintGroup(true);
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintInventory(true);
+			gameWindow.setPaintMap(true);
+			
+		}
+	}
+	else if((e.getX() > 15 && e.getX() < 90) && (e.getY() > 350 && e.getY() < 425))
+	{
+		
+		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 5).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 5));
+			gameWindow.setMouseDragItem(true);
+			gameWindow.setRepaintGroup(true);
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintInventory(true);
+			gameWindow.setPaintMap(true);
+			
+		}
+	}
+	else if((e.getX() > 210 && e.getX() < 280) && (e.getY() > 250 && e.getY() < 325))
+	{
+		
+		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 7).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 7));
+			gameWindow.setMouseDragItem(true);
+			gameWindow.setRepaintGroup(true);
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintInventory(true);
+			gameWindow.setPaintMap(true);
+			
+		}
+	}
+	else if((e.getX() > 15 && e.getX() < 90) && (e.getY() > 250 && e.getY() < 325))
+	{
+		
+		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 6).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 6));
+			gameWindow.setMouseDragItem(true);
+			gameWindow.setRepaintGroup(true);
+			gameWindow.setRepaintUnit(true);
+			gameWindow.setRepaintInventory(true);
+			gameWindow.setPaintMap(true);
+			
+		}
+	}
 }
+
 @Override
 public void mouseReleased(MouseEvent e) {
 	mouseReleased = e.getPoint();
-	System.out.println("Mouse Released at " + mouseReleased);
 	
 	if(!(mouseReleased.getX() == mouseClicked.getX()) || !(mouseReleased.getY() == mouseClicked.getY()))
 	{
 		mouseDragEvent = true;
 	}
 	
+	if(gameWindow.getMouseDragItem() == true)
+	{
+		gameWindow.setMouseDragItem(false);
+	}
 }
+
 
 
 }
@@ -827,6 +964,7 @@ class MainGameWindow extends JFrame
 		setMinimumSize(new Dimension(1280, 1024));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		
 		getContentPane().add(gameWindow);
 		pack();
 		setVisible(true);
@@ -1076,6 +1214,22 @@ class MainGameWindow extends JFrame
 	{
 		gameWindow.setInventory(i);
 	}
+	public void setMouseDragItem(boolean b)
+	{
+		gameWindow.setMouseDragItem(b);
+	}
+	public boolean getMouseDragItem()
+	{
+		return gameWindow.getMouseDragItem();
+	}
+	public void setDraggedItem(Item i)
+	{
+		gameWindow.setDraggedItem(i);
+	}
+	public Item getDraggedItem()
+	{
+		return gameWindow.getDraggedItem();
+	}
 	
 	public void collisionDetection()
 	{
@@ -1096,6 +1250,7 @@ class MainGameWindow extends JFrame
 	{
 		
 	}
+	
 	
 	
 	
@@ -1125,6 +1280,7 @@ class MyPanel extends JPanel
 	int flashCount;
 	int itemLocation;
 	
+	
 	boolean repaintInventory;
 	
 	boolean repaintUnit;
@@ -1135,7 +1291,7 @@ class MyPanel extends JPanel
 	boolean repaintMap;
 	boolean paintMap;
 	boolean flashReset;
-	
+	boolean mouseDragItem;
 	
 	
 	Image MainPictures;
@@ -1154,6 +1310,7 @@ class MyPanel extends JPanel
 	
 	Group Group;
 	Inventory inventory;
+	Item draggedItem;
 	
 	String newName;
 	String oldName;
@@ -1188,6 +1345,7 @@ class MyPanel extends JPanel
 		flashCount = 0;
 		itemLocation = 0;
 		
+		
 		repaintInventory = false;
 		
 		repaintUnit = false;
@@ -1198,6 +1356,10 @@ class MyPanel extends JPanel
 		repaintMap = true;
 		paintMap = true;
 		flashReset = false;
+		mouseDragItem = false;
+		
+		draggedItem = new Item();
+				
 		
 		MainPictures = new Image();
 		MainPictures.add("Images/MainMap.jpg");
@@ -1271,6 +1433,23 @@ class MyPanel extends JPanel
 		inventory.setItem(new Item(5,5,5, 2,2,2,10,1,"Images/DragonShield.png","Dragon Shield"),1,2);
 		
 		
+		
+	}
+	public void setMouseDragItem(boolean b)
+	{
+		mouseDragItem = b;
+	}
+	public boolean getMouseDragItem()
+	{
+		return mouseDragItem;
+	}
+	public void setDraggedItem(Item i)
+	{
+		draggedItem = i;
+	}
+	public Item getDraggedItem()
+	{
+		return draggedItem;
 	}
 	public Inventory getInventory()
 	{
@@ -1502,12 +1681,11 @@ class MyPanel extends JPanel
 	public void paintComponent(Graphics g){
 		//super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
+		//System.out.println(MouseInfo.getPointerInfo().getLocation());
 		
 		
 		 if(paintMap)
 		 {
-			
-			 paintMap = false;
 			
 			 g2.drawImage(MainPictures.getImage(5), null,0,0);
 			 g2.drawImage(playerImage, null, playerXLocation-15,playerYLocation-15);
@@ -1654,9 +1832,7 @@ class MyPanel extends JPanel
 	     
 	     if(repaintInventory)
 	     {
-	    	 
 	    	
-	    	 repaintInventory = false;
 	    	 int xPos = 700;
 	    	 int yPos = 100;
 	    		 for(int i = 0; i < 10; i++)
@@ -1692,14 +1868,13 @@ class MyPanel extends JPanel
 		    		}
 	    		}
 	    	}
-	    		 
 	    	 
 	    	 
 	    	 
 	     }
 	     if(repaintUnit)
 	     {
-	    	 repaintUnit = false;
+	    	 
 	    	 g2.setColor(new Color(150,50,50));
 	    	 g2.fill(new Rectangle2D.Double(0, 100,300,700));
 	    	 g2.setColor(new Color(0,0,255));
@@ -1826,7 +2001,7 @@ class MyPanel extends JPanel
 	     }
 	     if(repaintGroup)
 	     {
-	    	 repaintGroup = false;
+	    	 
 	    	 g2.setColor(new Color(0,0,255));
 	    	 g2.fill(new Rectangle2D.Double(300, 100,400,700));
 	    	 int xPos = 300;
@@ -1902,6 +2077,8 @@ class MyPanel extends JPanel
 	    	 g2.setColor(new Color(00,255,0));
 	    	 if(groupUnitSelected > 10)
 	    	 {
+	    		 
+	    		 
 	    		 g2.fill(new Rectangle2D.Double(xPos+200, 100+(70*(groupUnitSelected-11)),200,69));
 	    	 }
 	    	 else
@@ -1914,9 +2091,15 @@ class MyPanel extends JPanel
 	    	 
 	    	 
 	     }
+	     if(mouseDragItem)
+	     {
+	    
+	    	 g2.drawImage(draggedItem.getItemPicture(),null,(int)(MouseInfo.getPointerInfo().getLocation().getX() - this.getLocationOnScreen().getX() - 32),(int)(MouseInfo.getPointerInfo().getLocation().getY() - this.getLocationOnScreen().getY() - 32)); 	 
+	     }
 	        
 	        
 	}
+	
 	
 	
 }

@@ -144,7 +144,6 @@ public class Group
 		{
 			groupMoral = groupMoral+  Group.get(i).getMoral();
 		}
-		System.out.println(groupMoral);
 		return groupMoral;
 		
 	}

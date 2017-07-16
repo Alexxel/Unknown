@@ -273,7 +273,6 @@ public class MapInfo
 			xMapLocation--;
 		}
 		
-		System.out.println(xMapLocation +" x & y " + yMapLocation);
 	}
 	public void update()
 	{
