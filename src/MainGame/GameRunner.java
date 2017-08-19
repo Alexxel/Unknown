@@ -612,6 +612,8 @@ public void mouseClicked(MouseEvent m) {
 	if((m.getPoint().getX() > 64 && m.getPoint().getX() < 192)  && (m.getPoint().getY() > 330 && m.getPoint().getY() < 458 ) && gameWindow.getTownTrigger())
 	{	
 		System.out.println("Mouse click on open town page");
+		gameWindow.setTownTrigger(false);
+		gameWindow.setPaintTownInterface(true);
 	}
 	
 	else if(showGroup)
@@ -1246,6 +1248,14 @@ class MainGameWindow extends JFrame
 	{
 		return gameWindow.getTownTrigger();
 	}
+	public void setPaintTownInterface(boolean b)
+	{
+		gameWindow.setPaintTownInterface(b);
+	}
+	public boolean getPaintTownInterface()
+	{
+		return gameWindow.getPaintTownInterface();
+	}
 	
 	public void collisionDetection()
 	{
@@ -1317,6 +1327,7 @@ class MyPanel extends JPanel
 	boolean flashReset;
 	boolean mouseDragItem;
 	boolean townTrigger;
+	boolean paintTownInterface;
 	
 	Time time;
 	
@@ -1385,6 +1396,7 @@ class MyPanel extends JPanel
 		flashReset = false;
 		mouseDragItem = false;
 		townTrigger = false;
+		paintTownInterface = false;
 		
 		draggedItem = new Item();
 				
@@ -1472,6 +1484,14 @@ class MyPanel extends JPanel
 	public boolean getTownTrigger()
 	{
 		return townTrigger;
+	}
+	public void setPaintTownInterface(boolean b)
+	{
+		paintTownInterface = b;
+	}
+	public boolean getPaintTownInterface()
+	{
+		return paintTownInterface;
 	}
 	public void setMouseDragItem(boolean b)
 	{
@@ -1840,6 +1860,10 @@ class MyPanel extends JPanel
 		 {
 			 tempImage = MainPictures.getImageClip(5,64,300,128,128);
 			 g2.drawImage(tempImage, null, 64,300);
+		 }
+		 if(paintTownInterface)
+		 {
+			 System.out.println("Paint Town Interface");
 		 }
 		 if(nameChange)
 		 {
