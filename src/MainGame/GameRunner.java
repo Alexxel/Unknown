@@ -83,7 +83,6 @@ public class GameRunner implements KeyListener , MouseListener
 	
 	GridBagConstraints layout;
 	
-	Time time;
 	
 	
 	
@@ -107,7 +106,7 @@ public class GameRunner implements KeyListener , MouseListener
 			Sounds = new Sounds();
 			Sounds.addSound(new File("C:/Users/Alex's/Downloads/SoundTest1.wav"));
 		
-		time = new Time();
+		
 		
 		
 		soundDone = false;
@@ -601,7 +600,7 @@ public class GameRunner implements KeyListener , MouseListener
 public void mouseClicked(MouseEvent m) {
 	System.out.println("Got mouse click at " + m.getPoint() );
 	
-	if((m.getPoint().getX() > 1209 && m.getPoint().getX() < 1279)  && (m.getPoint().getY() > 30 && m.getPoint().getY() < 60 ))
+	if((m.getPoint().getX() > 1028 && m.getPoint().getX() < 1279)  && (m.getPoint().getY() > 30 && m.getPoint().getY() < 80 ))
 	{
 		System.out.println("Got a mouse click on open Group Page");
 		showGroup = true;
@@ -609,6 +608,10 @@ public void mouseClicked(MouseEvent m) {
 		gameWindow.setRepaintGroup(true);
 		gameWindow.setRepaintUnit(true);
 		gameWindow.setActive(false);
+	}
+	if((m.getPoint().getX() > 64 && m.getPoint().getX() < 192)  && (m.getPoint().getY() > 330 && m.getPoint().getY() < 458 ) && gameWindow.getTownTrigger())
+	{	
+		System.out.println("Mouse click on open town page");
 	}
 	
 	else if(showGroup)
@@ -765,7 +768,8 @@ public void mouseExited(MouseEvent e) {
 @Override
 public void mousePressed(MouseEvent e) {
 	mouseClicked = e.getPoint();
-	
+if(showGroup == true)
+{
 	if((e.getX() > 700 && e.getX() < 1125) && (e.getY() > 130 && e.getY() < 830))
 	{
 		int xC = 0;
@@ -893,6 +897,7 @@ public void mousePressed(MouseEvent e) {
 		}
 	}
 }
+}
 
 @Override
 public void mouseReleased(MouseEvent e) {
@@ -920,7 +925,8 @@ class MainGameWindow extends JFrame
 
 	private static final long serialVersionUID = 1L;
 	
-	Rectangle player;
+	Rectangle playerRect;
+	Rectangle townRect;
 	Rectangle target;
 	
 	
@@ -951,6 +957,8 @@ class MainGameWindow extends JFrame
 		
 		
 		gameWindow = new MyPanel();
+		
+		townRect = new Rectangle(210,399,122,138);
 		
 		
 		addKeyListener(key);
@@ -1230,18 +1238,34 @@ class MainGameWindow extends JFrame
 	{
 		return gameWindow.getDraggedItem();
 	}
+	public void setTownTrigger(boolean b)
+	{
+		gameWindow.setTownTrigger(b);
+	}
+	public boolean getTownTrigger()
+	{
+		return gameWindow.getTownTrigger();
+	}
 	
 	public void collisionDetection()
 	{
-	player = new Rectangle(gameWindow.getPlayerXLocation() - 15, gameWindow.getPlayerYLocation() - 15,30,30);
+	playerRect = new Rectangle(gameWindow.getPlayerXLocation() - 15, gameWindow.getPlayerYLocation() - 15,30,30);
 	for(int i = 0; i < gameWindow.getMap().getSize();i++)
 	{
 		target = new Rectangle(gameWindow.getMap().getMapInfo(i).getXMapLocation()-15,gameWindow.getMap().getMapInfo(i).getYMapLocation()-15,30,30);
 		
-		if(player.intersects(target))
+		if(playerRect.intersects(target))
 		{
 			System.out.println("Player intersects " + i  );
 		}
+	}
+	if(playerRect.intersects(townRect))
+	{
+		gameWindow.setTownTrigger(true);
+	}
+	else if(gameWindow.getTownTrigger() == true)
+	{
+		gameWindow.setTownTrigger(false);	
 	}
 		
 	}
@@ -1292,6 +1316,9 @@ class MyPanel extends JPanel
 	boolean paintMap;
 	boolean flashReset;
 	boolean mouseDragItem;
+	boolean townTrigger;
+	
+	Time time;
 	
 	
 	Image MainPictures;
@@ -1326,8 +1353,8 @@ class MyPanel extends JPanel
 		
 	
 		
-		playerXLocation = 938;
-		playerYLocation = 400;
+		playerXLocation = 356;
+		playerYLocation = 567;
 		oldPlayerXLocation = playerXLocation;
 		oldPlayerYLocation = playerYLocation;
 		xStart = 50;
@@ -1357,6 +1384,7 @@ class MyPanel extends JPanel
 		paintMap = true;
 		flashReset = false;
 		mouseDragItem = false;
+		townTrigger = false;
 		
 		draggedItem = new Item();
 				
@@ -1377,6 +1405,8 @@ class MyPanel extends JPanel
 		tempGroup.setImage("Images/enemyMapIcon.jpg");
 			
 		tempInventory = new Inventory();
+		
+		time = new Time();
 		
 		map = new Map();
 			
@@ -1434,6 +1464,14 @@ class MyPanel extends JPanel
 		
 		
 		
+	}
+	public void setTownTrigger(boolean b)
+	{
+		townTrigger = b;
+	}
+	public boolean getTownTrigger()
+	{
+		return townTrigger;
 	}
 	public void setMouseDragItem(boolean b)
 	{
@@ -1686,10 +1724,18 @@ class MyPanel extends JPanel
 		
 		 if(paintMap)
 		 {
-			
+			 paintMap = false;
 			 g2.drawImage(MainPictures.getImage(5), null,0,0);
 			 g2.drawImage(playerImage, null, playerXLocation-15,playerYLocation-15);
-			 g2.fillRect(1209, 0, 71, 30); 
+			 g2.fillRect(1027, 0, 250, 50); 
+			 g2.setColor(new Color(100,250,50));
+			 g2.setFont(unitFont);
+			 g2.drawString("Group tab", 1110, 20);
+			 g2.fillRect(1027, 50, 250, 130); 
+			 g2.setColor(new Color(250,25,25));
+			 g2.drawString(time.getShortTime(), 1080, 70);
+			 g2.fillRect(1027, 180, 250, 750); 
+			 
 			 
 		 }
 		 if(repaintMap)
@@ -1761,13 +1807,7 @@ class MyPanel extends JPanel
 			 oldPlayerXLocation = playerXLocation;
 			 oldPlayerYLocation = playerYLocation;
 			 }
-			 
 			 //Draw in map elements inside player View
-			 
-				 
-			 
-			 
-			
 			 for(int i = 0; i < map.getSize();i++)
 			 {
 				 if(map.getMapInfo(i).getXMapLocation() > xStart && map.getMapInfo(i).getXMapLocation() < xEnd )
@@ -1788,22 +1828,19 @@ class MyPanel extends JPanel
 				 {
 					 tempImage = MainPictures.getImageClip(5,map.getMapInfo(i).getXMapLocationOld()-15,map.getMapInfo(i).getYMapLocationOld()-15,30,30);
 					 g2.drawImage(tempImage,null,map.getMapInfo(i).getXMapLocationOld()-15,map.getMapInfo(i).getYMapLocationOld()-15); 
-				 }	
-				 }
-			
-			 
-			
-			 
+				 } 
+			}
 		 }
-			 
-			 
-			 
-			 
-			
-	
-			 
-		 
-		 
+		 if(townTrigger)
+		 {
+			 g2.setColor(new Color(150,50,50));
+			 g2.fill(new Rectangle2D.Double(64, 300 ,128,128));
+		 }
+		 else
+		 {
+			 tempImage = MainPictures.getImageClip(5,64,300,128,128);
+			 g2.drawImage(tempImage, null, 64,300);
+		 }
 		 if(nameChange)
 		 {
 			 

@@ -199,6 +199,12 @@ public class Time extends TimerTask{
 	{
 		return month;
 	}
+	//returns date in ##/##/#### format
+	public String getShortTime()
+	{
+		return month + "/" + day + "/" + year;
+		
+	}
 	//Returns current Month as a string
 	public String getMonthS()
 	{

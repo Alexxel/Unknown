@@ -36,7 +36,7 @@ public class Image
 	
 	public BufferedImage getImageClip(int p,int x,int y, int width, int height)
 	{
-		System.out.println(x + " " + y + " " + width + " " + height);
+		//System.out.println(x + " " + y + " " + width + " " + height);
 		return Images.get(p).getSubimage(x, y, width, height);
 	}
 }

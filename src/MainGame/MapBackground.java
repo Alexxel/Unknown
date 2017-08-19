@@ -99,12 +99,6 @@ public class MapBackground
 		waterYSize = r.nextInt(20)+60;
 		color = new Color[waterXSize][waterYSize];
 		
-		
-		
-		
-		
-		
-		
 	}
 	
 	public Color getColor(int x,int y)
