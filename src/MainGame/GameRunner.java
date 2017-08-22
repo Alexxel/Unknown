@@ -425,8 +425,6 @@ public class GameRunner implements KeyListener , MouseListener
 	public void keyPressed(KeyEvent e)
 	{
 		 int key = e.getKeyCode();
-		 System.out.println(key);
-		 
 		 
 		 if(key == 27)
 		 {
@@ -450,6 +448,13 @@ public class GameRunner implements KeyListener , MouseListener
 				 gameWindow.setMouseDragItem(false);
 				 gameWindow.setActive(true);
 			 }
+		 else if(gameWindow.getPaintTownInterface())
+		 	{
+			 	
+				gameWindow.setPaintTownInterface(false);
+				gameWindow.setPaintMap(true);
+				gameWindow.setActive(true);
+		 	}
 			
 		 }
 		 
@@ -480,7 +485,9 @@ public class GameRunner implements KeyListener , MouseListener
 				 
 			 }
 		 }
-		 else if(key == 38 &&  newInput == false)
+	else if(gameWindow.getActive())
+	{
+		 if(key == 38 &&  newInput == false)
 		 {
 			 if(currentMoves >= movementSpeed)
 			 {
@@ -544,6 +551,7 @@ public class GameRunner implements KeyListener , MouseListener
 			 newInput = true;
 			 
 		 }
+	}
 		 else if(newNameActive == true)
 		 {
 			 if(key == 8)
@@ -599,7 +607,8 @@ public class GameRunner implements KeyListener , MouseListener
 @Override
 public void mouseClicked(MouseEvent m) {
 	System.out.println("Got mouse click at " + m.getPoint() );
-	
+if(gameWindow.getActive())
+{
 	if((m.getPoint().getX() > 1028 && m.getPoint().getX() < 1279)  && (m.getPoint().getY() > 30 && m.getPoint().getY() < 80 ))
 	{
 		System.out.println("Got a mouse click on open Group Page");
@@ -614,8 +623,19 @@ public void mouseClicked(MouseEvent m) {
 		System.out.println("Mouse click on open town page");
 		gameWindow.setTownTrigger(false);
 		gameWindow.setPaintTownInterface(true);
+		gameWindow.setActive(false);
 	}
-	
+}	
+	else if(gameWindow.getPaintTownInterface())
+	{
+		if((m.getPoint().getX() > 100 && m.getPoint().getX() < 292)  && (m.getPoint().getY() > 180 && m.getPoint().getY() < 220 ))
+		{	
+			System.out.println("Got a click on exit town interface");
+			gameWindow.setPaintTownInterface(false);
+			gameWindow.setPaintMap(true);
+			gameWindow.setActive(true);
+		}
+	}
 	else if(showGroup)
 	{
 	
@@ -1207,6 +1227,10 @@ class MainGameWindow extends JFrame
 	{
 		gameWindow.setActive(a);
 	}
+	public boolean getActive()
+	{
+		return gameWindow.getActive();
+	}
 	public String getNewName()
 	{
 		return gameWindow.getNewName();
@@ -1271,11 +1295,20 @@ class MainGameWindow extends JFrame
 	}
 	if(playerRect.intersects(townRect))
 	{
-		gameWindow.setTownTrigger(true);
+		if(gameWindow.getPaintTownInterface())
+		{
+			gameWindow.setTownTrigger(false);
+			gameWindow.setStopTownTrigger(true);
+		}
+		else 
+		{
+			gameWindow.setTownTrigger(true);
+		}
 	}
 	else if(gameWindow.getTownTrigger() == true)
 	{
-		gameWindow.setTownTrigger(false);	
+		gameWindow.setTownTrigger(false);
+		gameWindow.setStopTownTrigger(true);
 	}
 		
 	}
@@ -1327,6 +1360,7 @@ class MyPanel extends JPanel
 	boolean flashReset;
 	boolean mouseDragItem;
 	boolean townTrigger;
+	boolean stopTownTrigger;
 	boolean paintTownInterface;
 	
 	Time time;
@@ -1357,7 +1391,6 @@ class MyPanel extends JPanel
 	{
 		
 		setPreferredSize(new Dimension(1280, 1024));
-		
 		setSize(1280, 1024);
 		setMinimumSize(new Dimension(1280, 1024));
 		
@@ -1397,6 +1430,7 @@ class MyPanel extends JPanel
 		mouseDragItem = false;
 		townTrigger = false;
 		paintTownInterface = false;
+		stopTownTrigger = false;
 		
 		draggedItem = new Item();
 				
@@ -1477,6 +1511,14 @@ class MyPanel extends JPanel
 		
 		
 	}
+	public void setStopTownTrigger(boolean b)
+	{
+		stopTownTrigger = b;
+	}
+	public boolean getStopTownTrigger()
+	{
+		return stopTownTrigger;
+	}
 	public void setTownTrigger(boolean b)
 	{
 		townTrigger = b;
@@ -1529,6 +1571,10 @@ class MyPanel extends JPanel
 	public void setActive(boolean a)
 	{
 		map.setActive(a);
+	}
+	public boolean getActive()
+	{
+		return map.getActive();
 	}
 	public int getViewRange()
 	{
@@ -1856,14 +1902,25 @@ class MyPanel extends JPanel
 			 g2.setColor(new Color(150,50,50));
 			 g2.fill(new Rectangle2D.Double(64, 300 ,128,128));
 		 }
-		 else
-		 {
+		 if(stopTownTrigger)
+		 {	
+			 stopTownTrigger = false;
 			 tempImage = MainPictures.getImageClip(5,64,300,128,128);
 			 g2.drawImage(tempImage, null, 64,300);
 		 }
 		 if(paintTownInterface)
 		 {
-			 System.out.println("Paint Town Interface");
+			 townTrigger = false;
+			 g2.setColor(new Color(150,50,50));
+			 g2.fill(new Rectangle2D.Double(100, 150 ,192,40));
+			 g2.setColor(new Color(150,150,50));
+			 g2.fill(new Rectangle2D.Double(100, 190 ,192,100));
+			 g2.setColor(new Color(150,50,150));
+			 g2.fill(new Rectangle2D.Double(100, 290 ,192,100));
+			 g2.setColor(new Color(50,50,50));
+			 g2.fill(new Rectangle2D.Double(100, 390 ,192,100));
+			 
+			 
 		 }
 		 if(nameChange)
 		 {
