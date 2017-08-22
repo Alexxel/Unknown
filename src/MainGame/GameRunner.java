@@ -167,22 +167,22 @@ public class GameRunner implements KeyListener , MouseListener
 	public void mouseDragEventHandler(Point click,Point release)
 	{
 		System.out.println("Starting mouse Drag Event with " + click + " " + release);
-		if((click.getX() > 700 && click.getX() < 1125) && (click.getY() > 130 && click.getY() < 830))
+		if((click.getX() > 777 && click.getX() < 1202) && (click.getY() > 130 && click.getY() < 830))
 		{
 			int xC = 0;
 			int yC = 0;
 			
-			xC = (int) (click.getX() - 700)/70;
+			xC = (int) (click.getX() - 777)/70;
 			yC = (int) (click.getY() - 130)/70;
 			
 			if(gameWindow.getInventory().getItem(xC, yC).getItemHere() == true)
 			{
-			if((release.getX() > 700 && release.getX() < 1125) && (release.getY() > 130 && release.getY() < 830))
+			if((release.getX() > 777 && release.getX() < 1202) && (release.getY() > 130 && release.getY() < 830))
 			{
 				int xR = 0;
 				int yR = 0;
 				
-				xR = (int) (release.getX() - 700)/70;
+				xR = (int) (release.getX() - 777)/70;
 				yR = (int) (release.getY() - 130)/70;
 				
 				
@@ -190,7 +190,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintInventory(true);
 				
 			}
-			else if((release.getX() > 115 && release.getX() < 185) && (release.getY() > 200 && release.getY() < 280))
+			else if((release.getX() > 192 && release.getX() < 262) && (release.getY() > 200 && release.getY() < 280))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 1).getItemHere() == true)
@@ -208,7 +208,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((release.getX() > 115 && release.getX() < 185) && (release.getY() > 300 && release.getY() < 380))
+			else if((release.getX() > 192 && release.getX() < 262) && (release.getY() > 300 && release.getY() < 380))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 2).getItemHere() == true)
@@ -226,7 +226,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((release.getX() > 115 && release.getX() < 185) && (release.getY() > 400  && release.getY() < 480))
+			else if((release.getX() > 192 && release.getX() < 262) && (release.getY() > 400  && release.getY() < 480))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 3).getItemHere() == true)
@@ -244,7 +244,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((release.getX() > 210 && release.getX() < 280) && (release.getY() > 350 && release.getY() < 425))
+			else if((release.getX() > 287 && release.getX() < 357) && (release.getY() > 350 && release.getY() < 425))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 4).getItemHere() == true)
@@ -262,7 +262,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((release.getX() > 15 && release.getX() < 90) && (release.getY() > 350 && release.getY() < 425))
+			else if((release.getX() > 102 && release.getX() < 167) && (release.getY() > 350 && release.getY() < 425))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 5).getItemHere() == true)
@@ -280,7 +280,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((release.getX() > 210 && release.getX() < 280) && (release.getY() > 250 && release.getY() < 325))
+			else if((release.getX() > 287 && release.getX() < 357) && (release.getY() > 250 && release.getY() < 325))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 7).getItemHere() == true)
@@ -298,7 +298,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((release.getX() > 15 && release.getX() < 90) && (release.getY() > 250 && release.getY() < 325))
+			else if((release.getX() > 102 && release.getX() < 167) && (release.getY() > 250 && release.getY() < 325))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 6).getItemHere() == true)
@@ -319,16 +319,16 @@ public class GameRunner implements KeyListener , MouseListener
 			
 		  }
 		}
-		else if(((release.getX() > 700 && release.getX() < 1125) && (release.getY() > 130 && release.getY() < 830)) && ((click.getX() > 10 && click.getX() < 300) && (click.getY() > 200 && click.getY() < 600)))
+		else if(((release.getX() > 777 && release.getX() < 1202) && (release.getY() > 130 && release.getY() < 830)) && ((click.getX() > 87 && click.getX() < 377) && (click.getY() > 200 && click.getY() < 600)))
 		{
 			
 			int xR = 0;
 			int yR = 0;
 			
-			xR = (int) (release.getX() - 700)/70;
+			xR = (int) (release.getX() - 777)/70;
 			yR = (int) (release.getY() - 130)/70;
 			
-			if((click.getX() > 115 && click.getX() < 185) && (click.getY() > 200 && click.getY() < 280))
+			if((click.getX() > 202 && click.getX() < 262) && (click.getY() > 200 && click.getY() < 280))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 1).getItemHere() == true)
@@ -341,7 +341,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((click.getX() > 115 && click.getX() < 185) && (click.getY() > 300 && click.getY() < 380))
+			else if((click.getX() > 202 && click.getX() < 262) && (click.getY() > 300 && click.getY() < 380))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 2).getItemHere() == true)
@@ -354,7 +354,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((click.getX() > 115 && click.getX() < 185) && (click.getY() > 400  && click.getY() < 480))
+			else if((click.getX() > 202 && click.getX() < 262) && (click.getY() > 400  && click.getY() < 480))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 3).getItemHere() == true)
@@ -367,7 +367,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((click.getX() > 210 && click.getX() < 280) && (click.getY() > 350 && click.getY() < 425))
+			else if((click.getX() > 287 && click.getX() < 357) && (click.getY() > 350 && click.getY() < 425))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 4).getItemHere() == true)
@@ -379,7 +379,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((click.getX() > 15 && click.getX() < 90) && (click.getY() > 350 && click.getY() < 425))
+			else if((click.getX() > 92 && click.getX() < 167) && (click.getY() > 350 && click.getY() < 425))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 5).getItemHere() == true)
@@ -392,7 +392,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((click.getX() > 210 && click.getX() < 280) && (click.getY() > 250 && click.getY() < 325))
+			else if((click.getX() > 287 && click.getX() < 357) && (click.getY() > 250 && click.getY() < 325))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 7).getItemHere() == true)
@@ -406,7 +406,7 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintUnit(true);
 				gameWindow.setRepaintInventory(true);
 			}
-			else if((click.getX() > 15 && click.getX() < 90) && (click.getY() > 250 && click.getY() < 325))
+			else if((click.getX() > 92 && click.getX() < 167) && (click.getY() > 250 && click.getY() < 325))
 			{
 				
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 6).getItemHere() == true)
@@ -639,7 +639,7 @@ if(gameWindow.getActive())
 	else if(showGroup)
 	{
 	
-	if((m.getPoint().getX() > 250 && m.getPoint().getX() < 275)  && (m.getPoint().getY() > 160 && m.getPoint().getY() < 185 ))
+	if((m.getPoint().getX() > 327 && m.getPoint().getX() < 352)  && (m.getPoint().getY() > 160 && m.getPoint().getY() < 185 ))
 	{
 		System.out.println("Got click on name change");
 		gameWindow.setNameChange(true);
@@ -649,12 +649,12 @@ if(gameWindow.getActive())
 		newNameActive = true;
 	}
 	
-	else if((m.getPoint().getX() > 300 && m.getPoint().getX() < 700)  && (m.getPoint().getY() > 135 && m.getPoint().getY() < 835 ))
+	else if((m.getPoint().getX() > 377 && m.getPoint().getX() < 777)  && (m.getPoint().getY() > 135 && m.getPoint().getY() < 835 ))
 	{
 		System.out.println("Got mouse click on groupTab");
 		int x=0;
 		int y=0;
-		if(m.getPoint().getX() < 500)
+		if(m.getPoint().getX() < 577)
 		{
 			x = 0;
 		}
@@ -679,7 +679,7 @@ if(gameWindow.getActive())
 		gameWindow.setRepaintLevelAdd(false);
 		
 	}
-	else if((m.getPoint().getX() > 135 && m.getPoint().getX() < 165)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 835 ))
+	else if((m.getPoint().getX() > 212 && m.getPoint().getX() < 242)  && (m.getPoint().getY() > 800 && m.getPoint().getY() < 835 ))
 	{
 		System.out.println("Got mouse click on level-up point spend");
 		if(gameWindow.getGroup().getUnitSavedLevels(gameWindow.getGroupUnitSelected()) > 0)
@@ -698,7 +698,7 @@ if(gameWindow.getActive())
 	else if(gameWindow.getRepaintLevelAdd() == true)
 	{
 		System.out.println("Inside repaintLevelAdd Mouse click");
-		if((m.getPoint().getX() > 10 && m.getPoint().getX() < 90)  && (m.getPoint().getY() > 795 && m.getPoint().getY() < 825 ))
+		if((m.getPoint().getX() > 87 && m.getPoint().getX() < 167)  && (m.getPoint().getY() > 795 && m.getPoint().getY() < 825 ))
 		{
 			System.out.println("Stopping the level-up");
 			gameWindow.setRepaintUnit(true);
@@ -711,7 +711,7 @@ if(gameWindow.getActive())
 			gameWindow.setAddHealth(0);
 			
 		}
-		else if(((m.getPoint().getX() > 215 && m.getPoint().getX() < 295)  && (m.getPoint().getY() > 795 && m.getPoint().getY() < 825 )) &&(gameWindow.getAttributesLeft() == 0))
+		else if(((m.getPoint().getX() > 292 && m.getPoint().getX() < 372)  && (m.getPoint().getY() > 795 && m.getPoint().getY() < 825 )) &&(gameWindow.getAttributesLeft() == 0))
 		{
 		System.out.println("Finishing the level-up");	
 		gameWindow.setRepaintUnit(true);
@@ -733,7 +733,7 @@ if(gameWindow.getActive())
 		}
 		else if(gameWindow.getAttributesLeft() > 0)
 		{
-			if((m.getPoint().getX() > 85 && m.getPoint().getX() < 105)  && (m.getPoint().getY() > 695 && m.getPoint().getY() < 730 ))
+			if((m.getPoint().getX() > 162 && m.getPoint().getX() < 182)  && (m.getPoint().getY() > 695 && m.getPoint().getY() < 730 ))
 			{
 				System.out.println("Click on attack add");
 				gameWindow.setAddAttack(gameWindow.getAddAttack() + 1);
@@ -741,28 +741,28 @@ if(gameWindow.getActive())
 				gameWindow.setRepaintUnit(true);
 				
 			}
-			else if((m.getPoint().getX() > 85 && m.getPoint().getX() < 105)  && (m.getPoint().getY() > 645 && m.getPoint().getY() < 665 ))
+			else if((m.getPoint().getX() > 162 && m.getPoint().getX() < 182)  && (m.getPoint().getY() > 645 && m.getPoint().getY() < 665 ))
 			{
 				gameWindow.setAddHealth(gameWindow.getAddHealth() + 1);
 				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
 				gameWindow.setRepaintUnit(true);
 				
 			}
-			else if((m.getPoint().getX() > 95 && m.getPoint().getX() < 115)  && (m.getPoint().getY() > 745 && m.getPoint().getY() < 765 ))
+			else if((m.getPoint().getX() > 172 && m.getPoint().getX() < 192)  && (m.getPoint().getY() > 745 && m.getPoint().getY() < 765 ))
 			{
 				gameWindow.setAddDefense(gameWindow.getAddDefense() + 1);
 				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
 				gameWindow.setRepaintUnit(true);
 				
 			}
-			else if((m.getPoint().getX() > 230 && m.getPoint().getX() < 250)  && (m.getPoint().getY() > 645 && m.getPoint().getY() < 665 ))
+			else if((m.getPoint().getX() > 307 && m.getPoint().getX() < 327)  && (m.getPoint().getY() > 645 && m.getPoint().getY() < 665 ))
 			{
 				gameWindow.setAddMoral(gameWindow.getAddMoral() + 1);
 				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
 				gameWindow.setRepaintUnit(true);
 				
 			}
-			else if((m.getPoint().getX() > 230 && m.getPoint().getX() < 250)  && (m.getPoint().getY() > 695 && m.getPoint().getY() < 725 ))
+			else if((m.getPoint().getX() > 307 && m.getPoint().getX() < 327)  && (m.getPoint().getY() > 695 && m.getPoint().getY() < 725 ))
 			{
 				gameWindow.setAddSpeed(gameWindow.getAddSpeed() + 1);
 				gameWindow.setAttributesLeft(gameWindow.getAttributesLeft() - 1);
@@ -792,12 +792,12 @@ public void mousePressed(MouseEvent e) {
 	mouseClicked = e.getPoint();
 if(showGroup == true)
 {
-	if((e.getX() > 700 && e.getX() < 1125) && (e.getY() > 130 && e.getY() < 830))
+	if((e.getX() > 777 && e.getX() < 1202) && (e.getY() > 130 && e.getY() < 830))
 	{
 		int xC = 0;
 		int yC = 0;
 		
-		xC = (int) (e.getX() - 700)/70;
+		xC = (int) (e.getX() - 777)/70;
 		yC = (int) (e.getY() - 130)/70;
 		
 		if(gameWindow.getInventory().getItem(xC, yC).getItemHere() == true)
@@ -813,7 +813,7 @@ if(showGroup == true)
 		}
 		
 	}
-	else if((e.getX() > 115 && e.getX() < 185) && (e.getY() > 200 && e.getY() < 280))
+	else if((e.getX() > 192 && e.getX() < 262) && (e.getY() > 200 && e.getY() < 280))
 	{
 		
 		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 1).getItemHere() == true)
@@ -828,7 +828,7 @@ if(showGroup == true)
 			
 		}
 	}
-	else if((e.getX() > 115 && e.getX() < 185) && (e.getY() > 300 && e.getY() < 380))
+	else if((e.getX() > 192 && e.getX() < 262) && (e.getY() > 300 && e.getY() < 380))
 	{
 		
 		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 2).getItemHere() == true)
@@ -843,7 +843,7 @@ if(showGroup == true)
 			
 		}
 	}
-	else if((e.getX() > 115 && e.getX() < 185) && (e.getY() > 400  && e.getY() < 480))
+	else if((e.getX() > 192 && e.getX() < 262) && (e.getY() > 400  && e.getY() < 480))
 	{
 		
 		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 3).getItemHere() == true)
@@ -858,7 +858,7 @@ if(showGroup == true)
 			
 		}
 	}
-	else if((e.getX() > 210 && e.getX() < 280) && (e.getY() > 350 && e.getY() < 425))
+	else if((e.getX() > 287 && e.getX() < 357) && (e.getY() > 350 && e.getY() < 425))
 	{
 		
 		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 4).getItemHere() == true)
@@ -873,7 +873,7 @@ if(showGroup == true)
 			
 		}
 	}
-	else if((e.getX() > 15 && e.getX() < 90) && (e.getY() > 350 && e.getY() < 425))
+	else if((e.getX() > 92 && e.getX() < 167) && (e.getY() > 350 && e.getY() < 425))
 	{
 		
 		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 5).getItemHere() == true)
@@ -888,7 +888,7 @@ if(showGroup == true)
 			
 		}
 	}
-	else if((e.getX() > 210 && e.getX() < 280) && (e.getY() > 250 && e.getY() < 325))
+	else if((e.getX() > 287 && e.getX() < 357) && (e.getY() > 250 && e.getY() < 325))
 	{
 		
 		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 7).getItemHere() == true)
@@ -903,7 +903,7 @@ if(showGroup == true)
 			
 		}
 	}
-	else if((e.getX() > 15 && e.getX() < 90) && (e.getY() > 250 && e.getY() < 325))
+	else if((e.getX() > 92 && e.getX() < 167) && (e.getY() > 250 && e.getY() < 325))
 	{
 		
 		if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 6).getItemHere() == true)
@@ -1922,36 +1922,10 @@ class MyPanel extends JPanel
 			 
 			 
 		 }
-		 if(nameChange)
-		 {
-			 
-			
-			 g2.setColor(new Color(150,50,50));
-			 g2.fill(new Rectangle2D.Double(0, 110 ,280,51));
-			 g2.setColor(new Color(0,255,0));
-			 g2.setFont(groupUnitFont);
-			 
-			 flashCount++;
-			 
-			 if(flashCount > 20)
-			 {
-				 if(flashCount > 40)
-				 {
-					 flashCount = 0;
-				 }
-				 g2.drawString(newName + "|", 0, 150);
-			 }
-			 else
-			 {
-				 g2.drawString(newName, 0, 150);
-			 }
-		 }
-		
-	     
 	     if(repaintInventory)
 	     {
 	    	
-	    	 int xPos = 700;
+	    	 int xPos = 777;
 	    	 int yPos = 100;
 	    		 for(int i = 0; i < 10; i++)
 	    		 {
@@ -1981,7 +1955,7 @@ class MyPanel extends JPanel
 		    		{
 		    			
 		    			yPos = 100 + ((y)*70);
-			    		xPos = 700 + ((x)*70);
+			    		xPos = 777 + ((x)*70);
 		    			g2.drawImage(inventory.getItem(x,y).getItemPicture(),null,xPos + 3,yPos+ 3); 
 		    		}
 	    		}
@@ -1994,135 +1968,135 @@ class MyPanel extends JPanel
 	     {
 	    	 
 	    	 g2.setColor(new Color(150,50,50));
-	    	 g2.fill(new Rectangle2D.Double(0, 100,300,700));
+	    	 g2.fill(new Rectangle2D.Double(77, 100,300,700));
 	    	 g2.setColor(new Color(0,0,255));
 	    	 g2.setFont(groupUnitFont);
-	    	 g2.drawString(Group.getUnitName(groupUnitSelected), 50, 150);
+	    	 g2.drawString(Group.getUnitName(groupUnitSelected), 127, 150);
 	    	 g2.setFont(levelFont);
-	    	 g2.drawString("Level " + Integer.toString(Group.getUnitLevel(groupUnitSelected)), 25, 178);
-	         g2.fill(new Rectangle2D.Double(250, 125 ,25,25));
+	    	 g2.drawString("Level " + Integer.toString(Group.getUnitLevel(groupUnitSelected)), 102, 178);
+	         g2.fill(new Rectangle2D.Double(327, 125 ,25,25));
 	    	 g2.setColor(new Color(0,255,255));
-	    	 g2.fill(new Rectangle2D.Double(115, 175 ,70,70));
+	    	 g2.fill(new Rectangle2D.Double(192, 175 ,70,70));
 	    	 if(Group.getUnitItem(groupUnitSelected,1).getItemHere() == true)
 	    	 {
-	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 1).getItemPicture(),null,118,178);
+	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 1).getItemPicture(),null,195,178);
 	    	 }
-	    	 g2.fill(new Rectangle2D.Double(15, 225,70,70));
+	    	 g2.fill(new Rectangle2D.Double(92, 225,70,70));
 	    	 if(Group.getUnitItem(groupUnitSelected,6).getItemHere() == true)
 	    	 {
-	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 6).getItemPicture(),null,18,228);
+	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 6).getItemPicture(),null,95,228);
 	    	 }
-	    	 g2.fill(new Rectangle2D.Double(210, 225,70,70));
+	    	 g2.fill(new Rectangle2D.Double(287, 225,70,70));
 	    	 if(Group.getUnitItem(groupUnitSelected,7).getItemHere() == true)
 	    	 {
-	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 7).getItemPicture(),null,213,228);
+	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 7).getItemPicture(),null,290,228);
 	    	 }
-	    	 g2.fill(new Rectangle2D.Double(115, 275,70,70));
+	    	 g2.fill(new Rectangle2D.Double(192, 275,70,70));
 	    	 if(Group.getUnitItem(groupUnitSelected,2).getItemHere() == true)
 	    	 {
-	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 2).getItemPicture(),null,118,278);
+	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 2).getItemPicture(),null,195,278);
 	    	 }
-	    	 g2.fill(new Rectangle2D.Double(15, 325,70,70));
+	    	 g2.fill(new Rectangle2D.Double(92, 325,70,70));
 	    	 if(Group.getUnitItem(groupUnitSelected,5).getItemHere() == true)
 	    	 {
-	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 5).getItemPicture(),null,18,328);
+	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 5).getItemPicture(),null,95,328);
 	    	 }
-	    	 g2.fill(new Rectangle2D.Double(210, 325,70,70));
+	    	 g2.fill(new Rectangle2D.Double(287, 325,70,70));
 	    	 if(Group.getUnitItem(groupUnitSelected,4).getItemHere() == true)
 	    	 {
-	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 4).getItemPicture(),null,213,328);
+	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 4).getItemPicture(),null,290,328);
 	    	 }
-	    	 g2.fill(new Rectangle2D.Double(115, 375,70,70));
+	    	 g2.fill(new Rectangle2D.Double(192, 375,70,70));
 	    	 if(Group.getUnitItem(groupUnitSelected,3).getItemHere() == true)
 	    	 {
-	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 3).getItemPicture(),null,118,378);
+	    		 g2.drawImage(Group.getUnitItem(groupUnitSelected, 3).getItemPicture(),null,195,378);
 	    	 }
-	    	 g2.fill(new Rectangle2D.Double(115, 475,70,70));
+	    	 g2.fill(new Rectangle2D.Double(192, 475,70,70));
 	    	 g2.setColor(new Color(0,0,255));
 	    	 g2.setFont(unitFont);
-	    	 g2.drawString("Health", 20, 625);
-	    	 g2.drawString(Double.toString(Group.getUnitHealth(groupUnitSelected)), 20, 650);
-	    	 g2.drawString("/" + Double.toString(Group.getUnitMaxHealth(groupUnitSelected)), 60, 650);
-	    	 g2.drawString("Moral", 170, 625);
-	    	 g2.drawString(Double.toString(Group.getUnitMoral(groupUnitSelected))+" :", 170, 650);
+	    	 g2.drawString("Health", 97, 625);
+	    	 g2.drawString(Double.toString(Group.getUnitHealth(groupUnitSelected)), 97, 650);
+	    	 g2.drawString("/" + Double.toString(Group.getUnitMaxHealth(groupUnitSelected)), 137, 650);
+	    	 g2.drawString("Moral", 247, 625);
+	    	 g2.drawString(Double.toString(Group.getUnitMoral(groupUnitSelected))+" :", 247, 650);
 	    	 if(Group.getUnitMoral(groupUnitSelected) < (Group.getTotalGroupMoral()/(Group.getSize() - 1)))
 	    	 	{
-	    		 g2.drawString("Lower",220,650);
+	    		 g2.drawString("Lower",297,650);
 	    	 	}
 	    	 else if(Group.getUnitMoral(groupUnitSelected) == (Group.getTotalGroupMoral()/(Group.getSize() - 1)))
 	    	 	{
-	    		 g2.drawString("Average",220,650);
+	    		 g2.drawString("Average",297,650);
 	    	 	}
 	    	 else
 	    	 {
 	    		
-	    		 g2.drawString("Higher",220,650);
+	    		 g2.drawString("Higher",297,650);
 	    	 }
-	    	 g2.drawString("Attack", 20, 675);
-	    	 g2.drawString(Double.toString(Group.getUnitAttack(groupUnitSelected)) + " /", 20, 700);
-	    	 g2.drawString(Double.toString(Group.getUnitTotalAttack(groupUnitSelected)), 70, 700);
-	    	 g2.drawString("Speed", 170, 675);
-	    	 g2.drawString(Double.toString(Group.getUnitSpeed(groupUnitSelected)) + " /", 170, 700);
-	    	 g2.drawString(Double.toString(Group.getUnitTotalSpeed(groupUnitSelected)), 220, 700);
-	    	 g2.drawString("Defense", 20, 725);
-	    	 g2.drawString(Double.toString(Group.getUnitDefense(groupUnitSelected)) + " /", 20, 750);
-	    	 g2.drawString(Double.toString(Group.getUnitTotalDefense(groupUnitSelected)), 70, 750);
-	    	 g2.drawString("Experience", 170, 725);
-	    	 g2.drawString(Double.toString(Group.getUnitExperience(groupUnitSelected)) + " /", 170, 750);
-	    	 g2.drawString(Double.toString(Group.getUnitNeededExperience(groupUnitSelected)), 220, 750);
+	    	 g2.drawString("Attack", 97, 675);
+	    	 g2.drawString(Double.toString(Group.getUnitAttack(groupUnitSelected)) + " /", 97, 700);
+	    	 g2.drawString(Double.toString(Group.getUnitTotalAttack(groupUnitSelected)), 147, 700);
+	    	 g2.drawString("Speed", 247, 675);
+	    	 g2.drawString(Double.toString(Group.getUnitSpeed(groupUnitSelected)) + " /", 247, 700);
+	    	 g2.drawString(Double.toString(Group.getUnitTotalSpeed(groupUnitSelected)), 297, 700);
+	    	 g2.drawString("Defense", 97, 725);
+	    	 g2.drawString(Double.toString(Group.getUnitDefense(groupUnitSelected)) + " /", 97, 750);
+	    	 g2.drawString(Double.toString(Group.getUnitTotalDefense(groupUnitSelected)), 147, 750);
+	    	 g2.drawString("Experience", 247, 725);
+	    	 g2.drawString(Double.toString(Group.getUnitExperience(groupUnitSelected)) + " /", 247, 750);
+	    	 g2.drawString(Double.toString(Group.getUnitNeededExperience(groupUnitSelected)), 297, 750);
 	    
 	    	 if(repaintLevelAdd)
 	    	 {
 	    		 if(attributesLeft > 0)
 	    		 {
 	    			 g2.setColor(new Color(0,0,255));
-	    			 g2.fill(new Rectangle2D.Double(135, 765,30,30));
-	    			 g2.fill(new Rectangle2D.Double(10, 765,80,30));
+	    			 g2.fill(new Rectangle2D.Double(212, 765,30,30));
+	    			 g2.fill(new Rectangle2D.Double(87, 765,80,30));
 	    			 g2.setColor(new Color(255,0,0));
-		    		 g2.drawString("+", 140, 787);
-		    		 g2.drawString(Integer.toString(attributesLeft), 152, 787);
-		    		 g2.drawString("Cancel", 20, 787);
+		    		 g2.drawString("+", 217, 787);
+		    		 g2.drawString(Integer.toString(attributesLeft), 229, 787);
+		    		 g2.drawString("Cancel", 97, 787);
 	    			 
 	    		 }
 	    		 else
 	    		 {
 	    			 g2.setColor(new Color(0,0,255));
-	    			 g2.fill(new Rectangle2D.Double(135, 765,30,30));
-	    			 g2.fill(new Rectangle2D.Double(215, 765,80,30));
-	    			 g2.fill(new Rectangle2D.Double(10, 765,80,30));
+	    			 g2.fill(new Rectangle2D.Double(212, 765,30,30));
+	    			 g2.fill(new Rectangle2D.Double(292, 765,80,30));
+	    			 g2.fill(new Rectangle2D.Double(87, 765,80,30));
 	    			 g2.setColor(new Color(255,0,0));
-		    		 g2.drawString("0", 145, 787);
-		    		 g2.drawString("Accept", 225, 787);
-		    		 g2.drawString("Cancel", 20, 787);
+		    		 g2.drawString("0", 222, 787);
+		    		 g2.drawString("Accept", 302, 787);
+		    		 g2.drawString("Cancel", 97, 787);
 	    			 
 	    		 }
 	    		 g2.setColor(new Color(0,0,255));
-	    		 g2.fill(new Rectangle2D.Double(85, 660,20,20));
-	    		 g2.fill(new Rectangle2D.Double(230, 660,20,20));
-	    		 g2.fill(new Rectangle2D.Double(230, 610,20,20));
-	    		 g2.fill(new Rectangle2D.Double(85, 610,20,20));
-	    		 g2.fill(new Rectangle2D.Double(95, 710,20,20));
+	    		 g2.fill(new Rectangle2D.Double(162, 660,20,20));
+	    		 g2.fill(new Rectangle2D.Double(307, 660,20,20));
+	    		 g2.fill(new Rectangle2D.Double(307, 610,20,20));
+	    		 g2.fill(new Rectangle2D.Double(162, 610,20,20));
+	    		 g2.fill(new Rectangle2D.Double(172, 710,20,20));
 	    		 g2.setColor(new Color(255,0,0));
-	    		 g2.drawString(Integer.toString(addAttack),91,677);
-	    		 g2.drawString(Integer.toString(addSpeed),236,677);
-	    		 g2.drawString(Integer.toString(addMoral),236,627);
-	    		 g2.drawString(Integer.toString(addHealth),91,627);
-	    		 g2.drawString(Integer.toString(addDefense),101,727);
+	    		 g2.drawString(Integer.toString(addAttack),168,677);
+	    		 g2.drawString(Integer.toString(addSpeed),313,677);
+	    		 g2.drawString(Integer.toString(addMoral),313,627);
+	    		 g2.drawString(Integer.toString(addHealth),168,627);
+	    		 g2.drawString(Integer.toString(addDefense),178,727);
 	    	 }
 	    	 else
 	    	 {
 	    		 
-	    		 g2.fill(new Rectangle2D.Double(135, 765,30,30));
+	    		 g2.fill(new Rectangle2D.Double(212, 765,30,30));
 	    		 g2.setColor(new Color(255,0,0));
-	    		 g2.drawString(Integer.toString(Group.getUnitSavedLevels(groupUnitSelected)), 145, 787);
+	    		 g2.drawString(Integer.toString(Group.getUnitSavedLevels(groupUnitSelected)), 222, 787);
 	    	 }
 	     }
 	     if(repaintGroup)
 	     {
 	    	 
 	    	 g2.setColor(new Color(0,0,255));
-	    	 g2.fill(new Rectangle2D.Double(300, 100,400,700));
-	    	 int xPos = 300;
+	    	 g2.fill(new Rectangle2D.Double(377, 100,400,700));
+	    	 int xPos = 377;
 	    	 int yPos = 100;
 	    
 	    	 for(int i = 1; i < Group.getSize();i++)
@@ -2204,11 +2178,33 @@ class MyPanel extends JPanel
 	    		 g2.fill(new Rectangle2D.Double(xPos, 100+(70*(groupUnitSelected-1)),200,69));
 	    	 }
 	    	 g2.setColor(new Color(0,255,0));
-	    	 g2.draw(new Rectangle2D.Double(299, 99,401,701));
-	    	 g2.draw(new Rectangle2D.Double(499, 99,1,701));
+	    	 g2.draw(new Rectangle2D.Double(376, 99,401,701));
+	    	 g2.draw(new Rectangle2D.Double(578, 99,1,701));
 	    	 
 	    	 
 	     }
+	     if(nameChange)
+		 {
+			 g2.setColor(new Color(150,50,50));
+			 g2.fill(new Rectangle2D.Double(80, 110 ,280,51));
+			 g2.setColor(new Color(0,255,0));
+			 g2.setFont(groupUnitFont);
+			 
+			 flashCount++;
+			 
+			 if(flashCount > 20)
+			 {
+				 if(flashCount > 40)
+				 {
+					 flashCount = 0;
+				 }
+				 g2.drawString(newName + "|", 80, 150);
+			 }
+			 else
+			 {
+				 g2.drawString(newName, 80, 150);
+			 }
+		 }
 	     if(mouseDragItem)
 	     {
 	    
