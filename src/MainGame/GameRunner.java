@@ -813,6 +813,16 @@ if(showGroup == true)
 		}
 		
 	}
+	else if((e.getX() < 77 || e.getX() > 1202) || (e.getY() < 130 || e.getY() > 830))
+	{
+		 showGroup = false;
+		 gameWindow.setPaintMap(true);
+		 gameWindow.setRepaintInventory(false);
+		 gameWindow.setRepaintGroup(false);
+		 gameWindow.setRepaintUnit(false);
+		 gameWindow.setMouseDragItem(false);
+		 gameWindow.setActive(true);
+	}
 	else if((e.getX() > 192 && e.getX() < 262) && (e.getY() > 200 && e.getY() < 280))
 	{
 		
