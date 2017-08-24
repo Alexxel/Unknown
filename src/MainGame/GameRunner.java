@@ -167,6 +167,8 @@ public class GameRunner implements KeyListener , MouseListener
 	public void mouseDragEventHandler(Point click,Point release)
 	{
 		System.out.println("Starting mouse Drag Event with " + click + " " + release);
+	if(showGroup)
+	{
 		if((click.getX() > 777 && click.getX() < 1202) && (click.getY() > 130 && click.getY() < 830))
 		{
 			int xC = 0;
@@ -421,6 +423,34 @@ public class GameRunner implements KeyListener , MouseListener
 			}
 		}
 	}
+	else if(gameWindow.getPaintTownInterfaceShop())
+	{
+		if((click.getX() > 722 && click.getX() < 1142 ) && (click.getY() > 220 && click.getY() < 920))
+		{
+			int xC = 0;
+			int yC = 0;
+			 
+			xC = (int) (click.getX() - 722)/70;
+			yC = (int) (click.getY() - 220)/70;
+			
+			if(gameWindow.getInventory().getItem(xC, yC).getItemHere() == true)
+			{
+			if((release.getX() > 722 && release.getX() < 1142) && (release.getY() > 220 && release.getY() < 920))
+			{
+				int xR = 0;
+				int yR = 0;
+				
+				xR = (int) (release.getX() - 722)/70;
+				yR = (int) (release.getY() - 220)/70;
+				
+				gameWindow.getInventory().itemSwap(xC,yC,xR,yR);
+				
+			}	
+		  }
+		}
+	}
+	
+	}
 	
 	public void keyPressed(KeyEvent e)
 	{
@@ -634,6 +664,11 @@ if(gameWindow.getActive())
 			gameWindow.setPaintTownInterface(false);
 			gameWindow.setPaintMap(true);
 			gameWindow.setActive(true);
+			gameWindow.setPaintTownInterfaceShop(false);
+		}
+		else if ((m.getPoint().getX() > 100 && m.getPoint().getX() < 292)  && (m.getPoint().getY() > 220 && m.getPoint().getY() < 320 ))
+		{
+			gameWindow.setPaintTownInterfaceShop(true);
 		}
 	}
 	else if(showGroup)
@@ -926,6 +961,24 @@ if(showGroup == true)
 			gameWindow.setRepaintInventory(true);
 			gameWindow.setPaintMap(true);
 			
+		}
+	}
+}
+else if(gameWindow.getPaintTownInterfaceShop())
+{
+	if((e.getX() > 722 && e.getX() < 1142) && (e.getY() > 220 && e.getY() < 830))
+	{
+		int xC = 0;
+		int yC = 0;
+		
+		xC = (int) (e.getX() - 722)/70;
+		yC = (int) (e.getY() - 220)/70;
+		
+		if(gameWindow.getInventory().getItem(xC, yC).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getInventory().getItem(xC, yC));
+			gameWindow.setMouseDragItem(true);
 		}
 	}
 }
@@ -1290,6 +1343,14 @@ class MainGameWindow extends JFrame
 	{
 		return gameWindow.getPaintTownInterface();
 	}
+	public void setPaintTownInterfaceShop(boolean b)
+	{
+		gameWindow.setPaintTownInterfaceShop(b);
+	}
+	public boolean getPaintTownInterfaceShop()
+	{
+		return gameWindow.getPaintTownInterfaceShop();
+	}
 	
 	public void collisionDetection()
 	{
@@ -1372,6 +1433,7 @@ class MyPanel extends JPanel
 	boolean townTrigger;
 	boolean stopTownTrigger;
 	boolean paintTownInterface;
+	boolean paintTownInterfaceShop;
 	
 	Time time;
 	
@@ -1389,6 +1451,8 @@ class MyPanel extends JPanel
 	Font groupUnitFont;
 	Font unitFont;
 	Font levelFont;
+	
+	Inventory shopInventory;
 	
 	Group Group;
 	Inventory inventory;
@@ -1518,6 +1582,17 @@ class MyPanel extends JPanel
 		inventory.setItem(new Item(5,5,5, 2,2,2,10,1,"Images/BasicSword.png","Basic Sword"), 5,0);
 		inventory.setItem(new Item(5,5,5, 2,2,2,10,1,"Images/DragonShield.png","Dragon Shield"),1,2);
 		
+		shopInventory = new Inventory();
+		for(int y = 0; y < 10; y++)
+		{
+			for(int x = 0; x<6;x++)
+			{
+				shopInventory.addItem(new Item(),x, y);
+			}
+		}
+		shopInventory.setItem(new Item(5,5,5, 2,2,2,10,1,"Images/BasicSword.png","Basic Sword"), 3,7);
+		shopInventory.setItem(new Item(5,5,5, 2,2,2,10,1,"Images/DragonShield.png","Dragon Shield"),4,8);
+		
 		
 		
 	}
@@ -1544,6 +1619,14 @@ class MyPanel extends JPanel
 	public boolean getPaintTownInterface()
 	{
 		return paintTownInterface;
+	}
+	public void setPaintTownInterfaceShop(boolean b)
+	{
+		paintTownInterfaceShop = b;
+	}
+	public boolean getPaintTownInterfaceShop()
+	{
+		return paintTownInterfaceShop;
 	}
 	public void setMouseDragItem(boolean b)
 	{
@@ -1929,6 +2012,81 @@ class MyPanel extends JPanel
 			 g2.fill(new Rectangle2D.Double(100, 290 ,192,100));
 			 g2.setColor(new Color(50,50,50));
 			 g2.fill(new Rectangle2D.Double(100, 390 ,192,100));
+			 
+			 if(paintTownInterfaceShop)
+			 {
+				 int xPos = 292;
+		    	 int yPos = 190;
+		    		 for(int i = 0; i < 10; i++)
+		    		 {
+		    			 g2.setColor(new Color(165,42,42));
+		    			 g2.fill(new Rectangle2D.Double(xPos, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 70, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 140, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 210, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 280, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 350, yPos,70,70));
+		    			 g2.setColor(new Color(100,100,100));
+		    			 g2.draw(new Rectangle2D.Double(xPos, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 70, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 140, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 210, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 280, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 350, yPos,70,70));
+		    			 yPos = yPos+ 70;
+		    
+		    		 }
+		    	for(int y = 0; y < 10; y++)
+		    	{
+		    		for(int x = 0; x < 6; x++)
+		    		{
+		    			
+		    			if(shopInventory.getItem(x,y).getItemHere() == true)
+			    		{
+			    			
+			    			yPos = 190 + ((y)*70);
+				    		xPos = 292 + ((x)*70);
+			    			g2.drawImage(shopInventory.getItem(x,y).getItemPicture(),null,xPos + 3,yPos+ 3); 
+			    		}
+		    		}
+		    	}
+		    	
+		    		xPos = 722;
+		    		yPos = 190;
+		    		 for(int i = 0; i < 10; i++)
+		    		 {
+		    			 g2.setColor(new Color(165,42,42));
+		    			 g2.fill(new Rectangle2D.Double(xPos, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 70, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 140, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 210, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 280, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 350, yPos,70,70));
+		    			 g2.setColor(new Color(100,100,100));
+		    			 g2.draw(new Rectangle2D.Double(xPos, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 70, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 140, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 210, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 280, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 350, yPos,70,70));
+		    			 yPos = yPos+ 70;
+		    
+		    		 }
+		    	for(int y = 0; y < 10; y++)
+		    	{
+		    		for(int x = 0; x < 6; x++)
+		    		{
+		    			
+		    			if(inventory.getItem(x,y).getItemHere() == true)
+			    		{
+			    			
+			    			yPos = 190 + ((y)*70);
+				    		xPos = 722 + ((x)*70);
+			    			g2.drawImage(inventory.getItem(x,y).getItemPicture(),null,xPos + 3,yPos+ 3); 
+			    		}
+		    		}
+		    	}
+			 }
 			 
 			 
 		 }
