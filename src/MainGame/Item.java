@@ -12,6 +12,7 @@ public class Item
 	int attackChange;
 	int speedChange;
 	int defenseChange;
+	int goldValue;
 	double attackPercentChange;
 	double speedPercentChange;
 	double defensePercentChange;
@@ -29,6 +30,7 @@ public class Item
 		attackChange = 0;
 		speedChange = 0;
 		defenseChange = 0;
+		goldValue = 0;
 		attackPercentChange = 0;
 		speedPercentChange = 0;
 		defensePercentChange = 0;
@@ -50,7 +52,7 @@ public class Item
 	 * quiver = 6
 	 * backup = 7
 	 */
-	Item(int sChange,int aChange,int dChange, double SPC,double APC,double DPC,double dur,int loc,String pictureLoc,String Name)
+	Item(int sChange,int aChange,int dChange, double SPC,double APC,double DPC,double dur,int loc,int g,String pictureLoc,String Name)
 	{
 		try {
 			pictureLocation = ImageIO.read(getClass().getResource(pictureLoc));
@@ -62,6 +64,7 @@ public class Item
 		attackChange = aChange;
 		speedChange = sChange;
 		defenseChange = dChange;
+		goldValue = g;
 		attackPercentChange = APC;
 		speedPercentChange = SPC;
 		defensePercentChange = DPC;
@@ -106,6 +109,14 @@ public class Item
 	public double getSpeedPercentChange()
 	{
 		return speedPercentChange;
+	}
+	public int getGoldValue()
+	{
+		return goldValue;
+	}
+	public void setGoldValue(int g)
+	{
+		goldValue = g;
 	}
 	public boolean isBroke()
 	{
