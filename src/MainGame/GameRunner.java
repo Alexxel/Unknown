@@ -2074,6 +2074,13 @@ class MyPanel extends JPanel
 			 {
 				 int xPos = 292;
 		    	 int yPos = 190;
+		    	 
+		    	 g2.setColor(new Color(165,42,42));
+    			 g2.fill(new Rectangle2D.Double(342, 140,150,50));
+    			 g2.setColor(new Color(255,255,255));
+    			 g2.setFont(groupUnitFont);
+    			 g2.drawString(Integer.toString(shop.getGold()), 352, 175);
+    			 
 		    		 for(int i = 0; i < 10; i++)
 		    		 {
 		    			 g2.setColor(new Color(165,42,42));
@@ -2110,6 +2117,13 @@ class MyPanel extends JPanel
 		    	
 		    		xPos = 722;
 		    		yPos = 190;
+		    		
+		    		 g2.setColor(new Color(165,42,42));
+	    			 g2.fill(new Rectangle2D.Double(772, 140,150,50));
+	    			 g2.setColor(new Color(255,255,255));
+	    			 g2.setFont(groupUnitFont);
+	    			 g2.drawString(Integer.toString(Group.getGold()), 782, 175);
+	    			 
 		    		 for(int i = 0; i < 10; i++)
 		    		 {
 		    			 g2.setColor(new Color(165,42,42));
