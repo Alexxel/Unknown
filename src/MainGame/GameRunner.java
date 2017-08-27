@@ -52,6 +52,9 @@ public class GameRunner implements KeyListener , MouseListener
 	int gameDifficulty;
 	int movementSpeed;
 	int currentMoves;
+	int xC;
+	int yC;
+	
 	
 	Point mouseClicked;
 	Point mouseReleased;
@@ -127,6 +130,8 @@ public class GameRunner implements KeyListener , MouseListener
 		GroupName = gN;
 		movementSpeed = 3;
 		currentMoves = 0;
+		xC = 0;
+		yC = 0;
 		newName = "";
 		oldName = "";
 		
@@ -167,10 +172,12 @@ public class GameRunner implements KeyListener , MouseListener
 	public void mouseDragEventHandler(Point click,Point release)
 	{
 		System.out.println("Starting mouse Drag Event with " + click + " " + release);
+	if(showGroup)
+	{
 		if((click.getX() > 777 && click.getX() < 1202) && (click.getY() > 130 && click.getY() < 830))
 		{
-			int xC = 0;
-			int yC = 0;
+			
+			
 			
 			xC = (int) (click.getX() - 777)/70;
 			yC = (int) (click.getY() - 130)/70;
@@ -197,7 +204,7 @@ public class GameRunner implements KeyListener , MouseListener
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),1);
 					gameWindow.getGroup().addItem(gameWindow.getGroupUnitSelected(), gameWindow.getInventory().getItem(xC, yC));
-					gameWindow.getInventory().setItem(tempItem, xC, yC);
+					gameWindow.getInventory().addItem(tempItem, xC, yC);
 					
 				}
 				else
@@ -215,7 +222,7 @@ public class GameRunner implements KeyListener , MouseListener
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),2);
 					gameWindow.getGroup().addItem(gameWindow.getGroupUnitSelected(), gameWindow.getInventory().getItem(xC, yC));
-					gameWindow.getInventory().setItem(tempItem, xC, yC);
+					gameWindow.getInventory().addItem(tempItem, xC, yC);
 					
 				}
 				else
@@ -233,7 +240,7 @@ public class GameRunner implements KeyListener , MouseListener
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),3);
 					gameWindow.getGroup().addItem(gameWindow.getGroupUnitSelected(), gameWindow.getInventory().getItem(xC, yC));
-					gameWindow.getInventory().setItem(tempItem, xC, yC);
+					gameWindow.getInventory().addItem(tempItem, xC, yC);
 					
 				}
 				else
@@ -251,7 +258,7 @@ public class GameRunner implements KeyListener , MouseListener
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),4);
 					gameWindow.getGroup().addItem(gameWindow.getGroupUnitSelected(), gameWindow.getInventory().getItem(xC, yC));
-					gameWindow.getInventory().setItem(tempItem, xC, yC);
+					gameWindow.getInventory().addItem(tempItem, xC, yC);
 					
 				}
 				else
@@ -269,7 +276,7 @@ public class GameRunner implements KeyListener , MouseListener
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),5);
 					gameWindow.getGroup().addItem(gameWindow.getGroupUnitSelected(), gameWindow.getInventory().getItem(xC, yC));
-					gameWindow.getInventory().setItem(tempItem, xC, yC);
+					gameWindow.getInventory().addItem(tempItem, xC, yC);
 					
 				}
 				else
@@ -287,7 +294,7 @@ public class GameRunner implements KeyListener , MouseListener
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),7);
 					gameWindow.getGroup().addItem(gameWindow.getGroupUnitSelected(), gameWindow.getInventory().getItem(xC, yC));
-					gameWindow.getInventory().setItem(tempItem, xC, yC);
+					gameWindow.getInventory().addItem(tempItem, xC, yC);
 					
 				}
 				else
@@ -305,7 +312,7 @@ public class GameRunner implements KeyListener , MouseListener
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),6);
 					gameWindow.getGroup().addItem(gameWindow.getGroupUnitSelected(), gameWindow.getInventory().getItem(xC, yC));
-					gameWindow.getInventory().setItem(tempItem, xC, yC);
+					gameWindow.getInventory().addItem(tempItem, xC, yC);
 					
 				}
 				else
@@ -334,7 +341,7 @@ public class GameRunner implements KeyListener , MouseListener
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 1).getItemHere() == true)
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),1);
-					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getInventory().addItem(tempItem, xR, yR);
 					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 1);
 					
 				}
@@ -347,7 +354,7 @@ public class GameRunner implements KeyListener , MouseListener
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 2).getItemHere() == true)
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),2);
-					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getInventory().addItem(tempItem, xR, yR);
 					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 2);
 					
 				}
@@ -360,7 +367,7 @@ public class GameRunner implements KeyListener , MouseListener
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 3).getItemHere() == true)
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),3);
-					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getInventory().addItem(tempItem, xR, yR);
 					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 3);
 					
 				}
@@ -373,7 +380,7 @@ public class GameRunner implements KeyListener , MouseListener
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 4).getItemHere() == true)
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),4);
-					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getInventory().addItem(tempItem, xR, yR);
 					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 4);
 				}
 				gameWindow.setRepaintUnit(true);
@@ -385,7 +392,7 @@ public class GameRunner implements KeyListener , MouseListener
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 5).getItemHere() == true)
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),5);
-					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getInventory().addItem(tempItem, xR, yR);
 					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 5);
 				}
 				
@@ -398,7 +405,7 @@ public class GameRunner implements KeyListener , MouseListener
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 7).getItemHere() == true)
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),7);
-					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getInventory().addItem(tempItem, xR, yR);
 					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 7);
 					
 				}
@@ -412,7 +419,7 @@ public class GameRunner implements KeyListener , MouseListener
 				if(gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(), 6).getItemHere() == true)
 				{
 					tempItem = gameWindow.getGroup().getUnitItem(gameWindow.getGroupUnitSelected(),6);
-					gameWindow.getInventory().setItem(tempItem, xR, yR);
+					gameWindow.getInventory().addItem(tempItem, xR, yR);
 					gameWindow.getGroup().removeItem(gameWindow.getGroupUnitSelected(), 6);
 								}
 				
@@ -420,6 +427,85 @@ public class GameRunner implements KeyListener , MouseListener
 				gameWindow.setRepaintInventory(true);
 			}
 		}
+	}
+	else if(gameWindow.getPaintTownInterfaceShop())
+	{
+		if((click.getX() > 722 && click.getX() < 1142 ) && (click.getY() > 220 && click.getY() < 920))
+		{
+			
+			
+			 
+			xC = (int) (click.getX() - 722)/70;
+			yC = (int) (click.getY() - 220)/70;
+			
+			if(gameWindow.getInventory().getItem(xC, yC).getItemHere() == true)
+			{
+			if((release.getX() > 722 && release.getX() < 1142) && (release.getY() > 220 && release.getY() < 920))
+			{
+				int xR = 0;
+				int yR = 0;
+				
+				xR = (int) (release.getX() - 722)/70;
+				yR = (int) (release.getY() - 220)/70;
+				
+				gameWindow.getInventory().itemSwap(xC,yC,xR,yR);
+				
+			}
+			else if((release.getX() > 292 && release.getX() < 712) && (release.getY() > 220 && release.getY() < 920))
+			{
+				System.out.println(gameWindow.getGroup().getGold());
+				if(gameWindow.getShop().sellItem(gameWindow.getInventory().getItem(xC, yC),gameWindow.getInventory().getItem(xC, yC).getGoldValue()))
+				{
+					System.out.println("Sold item!");
+					gameWindow.getGroup().setGold(gameWindow.getGroup().getGold() + gameWindow.getInventory().getItem(xC, yC).getGoldValue());
+					System.out.println(gameWindow.getGroup().getGold());
+					gameWindow.getGroup().getInventory().addItem(new Item(), xC, yC);
+					gameWindow.setPaintTownInterfaceShop(true);
+				}
+				else
+				{
+					System.out.println("Item not sold");
+				}
+				
+			}
+		  }
+		}
+		else if((click.getX() > 292 && click.getX() < 712) && (click.getY() > 220 && click.getY() < 920))
+		{
+			
+			
+			 
+			xC = (int) (click.getX() - 292)/70;
+			yC = (int) (click.getY() - 220)/70;
+			
+			if((release.getX() > 722 && release.getX() < 1142) && (release.getY() > 220 && release.getY() < 920))
+			{
+
+				System.out.println(gameWindow.getGroup().getGold());
+				if(gameWindow.getGroup().getGold() >= gameWindow.getShop().getInventory().getItem(xC, yC).getGoldValue())
+				{
+					gameWindow.getGroup().setGold(gameWindow.getGroup().getGold() - gameWindow.getShop().getInventory().getItem(xC, yC).getGoldValue());
+					
+					if(gameWindow.getGroup().getInventory().addNextItem(gameWindow.getShop().buyItem(xC, yC)))
+					{
+						System.out.println("Item bought!");
+					}
+					else
+					{
+						System.out.println("Item not bought due to lack of space");
+					}
+					
+				}
+				else
+				{
+					System.out.println("Item not bought due to lack of funds");
+				}
+				
+				
+			}
+		}
+	}
+	
 	}
 	
 	public void keyPressed(KeyEvent e)
@@ -634,6 +720,11 @@ if(gameWindow.getActive())
 			gameWindow.setPaintTownInterface(false);
 			gameWindow.setPaintMap(true);
 			gameWindow.setActive(true);
+			gameWindow.setPaintTownInterfaceShop(false);
+		}
+		else if ((m.getPoint().getX() > 100 && m.getPoint().getX() < 292)  && (m.getPoint().getY() > 220 && m.getPoint().getY() < 320 ))
+		{
+			gameWindow.setPaintTownInterfaceShop(true);
 		}
 	}
 	else if(showGroup)
@@ -794,8 +885,8 @@ if(showGroup == true)
 {
 	if((e.getX() > 777 && e.getX() < 1202) && (e.getY() > 130 && e.getY() < 830))
 	{
-		int xC = 0;
-		int yC = 0;
+		
+		
 		
 		xC = (int) (e.getX() - 777)/70;
 		yC = (int) (e.getY() - 130)/70;
@@ -926,6 +1017,39 @@ if(showGroup == true)
 			gameWindow.setRepaintInventory(true);
 			gameWindow.setPaintMap(true);
 			
+		}
+	}
+}
+else if(gameWindow.getPaintTownInterfaceShop())
+{
+	if((e.getX() > 722 && e.getX() < 1142) && (e.getY() > 220 && e.getY() < 920))
+	{
+		
+		
+		
+		xC = (int) (e.getX() - 722)/70;
+		yC = (int) (e.getY() - 220)/70;
+		
+		if(gameWindow.getInventory().getItem(xC, yC).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getInventory().getItem(xC, yC));
+			gameWindow.setMouseDragItem(true);
+		}
+	}
+	if((e.getX() > 292 && e.getX() < 712) && (e.getY() > 220 && e.getY() < 920))
+	{
+		
+		
+		
+		xC = (int) (e.getX() - 292)/70;
+		yC = (int) (e.getY() - 220)/70;
+		
+		if(gameWindow.getShop().getInventory().getItem(xC, yC).getItemHere() == true)
+		{
+			
+			gameWindow.setDraggedItem(gameWindow.getShop().getInventory().getItem(xC, yC));
+			gameWindow.setMouseDragItem(true);
 		}
 	}
 }
@@ -1254,10 +1378,6 @@ class MainGameWindow extends JFrame
 	{
 		return gameWindow.getInventory();
 	}
-	public void setInventory(Inventory i)
-	{
-		gameWindow.setInventory(i);
-	}
 	public void setMouseDragItem(boolean b)
 	{
 		gameWindow.setMouseDragItem(b);
@@ -1290,7 +1410,18 @@ class MainGameWindow extends JFrame
 	{
 		return gameWindow.getPaintTownInterface();
 	}
-	
+	public void setPaintTownInterfaceShop(boolean b)
+	{
+		gameWindow.setPaintTownInterfaceShop(b);
+	}
+	public boolean getPaintTownInterfaceShop()
+	{
+		return gameWindow.getPaintTownInterfaceShop();
+	}
+	public Shop getShop()
+	{
+		return gameWindow.getShop();
+	}
 	public void collisionDetection()
 	{
 	playerRect = new Rectangle(gameWindow.getPlayerXLocation() - 15, gameWindow.getPlayerYLocation() - 15,30,30);
@@ -1372,6 +1503,7 @@ class MyPanel extends JPanel
 	boolean townTrigger;
 	boolean stopTownTrigger;
 	boolean paintTownInterface;
+	boolean paintTownInterfaceShop;
 	
 	Time time;
 	
@@ -1390,8 +1522,9 @@ class MyPanel extends JPanel
 	Font unitFont;
 	Font levelFont;
 	
+	Shop shop;
+	
 	Group Group;
-	Inventory inventory;
 	Item draggedItem;
 	
 	String newName;
@@ -1501,25 +1634,28 @@ class MyPanel extends JPanel
 		Group.add(new Unit(10,10, 10, 10, 10, 10,10,3, "Test15"));
 		
 		
-		Group.addItem(1, new Item(5,20,-2, .02,.2,2,10,4,"Images/BasicSword.png","Temp"));
-		Group.addItem(1, new Item(5,20,-2, .02,.2,2,10,5,"Images/DragonShield.png","Temp"));
+		Group.addItem(1, new Item(5,20,-2, .02,.2,2,10,4,10,"Images/BasicSword.png","Temp"));
+		Group.addItem(1, new Item(5,20,-2, .02,.2,2,10,5,100,"Images/DragonShield.png","Temp"));
 		
 		Group.setUnitSavedLevels(5, 2);
 		Group.setUnitSavedLevels(4, 1);
 		
-		inventory = new Inventory();
-		for(int y = 0; y < 10; y++)
-		{
-			for(int x = 0; x<6;x++)
-			{
-				inventory.addItem(new Item(),x, y);
-			}
-		}
-		inventory.setItem(new Item(5,5,5, 2,2,2,10,1,"Images/BasicSword.png","Basic Sword"), 5,0);
-		inventory.setItem(new Item(5,5,5, 2,2,2,10,1,"Images/DragonShield.png","Dragon Shield"),1,2);
+		Group.getInventory().addItem(new Item(5,5,5, 2,2,2,10,1,10,"Images/BasicSword.png","Basic Sword"), 5,0);
+		Group.getInventory().addItem(new Item(5,5,5, 2,2,2,10,1,100,"Images/DragonShield.png","Dragon Shield"),1,2);
+		
+		Group.setGold(100);
+		
+		shop = new Shop();
+		
+		shop.getInventory().addItem(new Item(5,5,5, 2,2,2,10,1,10,"Images/BasicSword.png","Basic Sword"), 3,7);
+		shop.getInventory().addItem(new Item(5,5,5, 2,2,2,10,1,100,"Images/DragonShield.png","Dragon Shield"),4,8);
 		
 		
 		
+	}
+	public Shop getShop()
+	{
+		return shop;
 	}
 	public void setStopTownTrigger(boolean b)
 	{
@@ -1545,6 +1681,14 @@ class MyPanel extends JPanel
 	{
 		return paintTownInterface;
 	}
+	public void setPaintTownInterfaceShop(boolean b)
+	{
+		paintTownInterfaceShop = b;
+	}
+	public boolean getPaintTownInterfaceShop()
+	{
+		return paintTownInterfaceShop;
+	}
 	public void setMouseDragItem(boolean b)
 	{
 		mouseDragItem = b;
@@ -1563,11 +1707,7 @@ class MyPanel extends JPanel
 	}
 	public Inventory getInventory()
 	{
-		return inventory;
-	}
-	public void setInventory(Inventory i)
-	{
-		inventory = i;
+		return Group.getInventory();
 	}
 	public String getNewName()
 	{
@@ -1930,6 +2070,95 @@ class MyPanel extends JPanel
 			 g2.setColor(new Color(50,50,50));
 			 g2.fill(new Rectangle2D.Double(100, 390 ,192,100));
 			 
+			 if(paintTownInterfaceShop)
+			 {
+				 int xPos = 292;
+		    	 int yPos = 190;
+		    	 
+		    	 g2.setColor(new Color(165,42,42));
+    			 g2.fill(new Rectangle2D.Double(342, 140,150,50));
+    			 g2.setColor(new Color(255,255,255));
+    			 g2.setFont(groupUnitFont);
+    			 g2.drawString(Integer.toString(shop.getGold()), 352, 175);
+    			 
+		    		 for(int i = 0; i < 10; i++)
+		    		 {
+		    			 g2.setColor(new Color(165,42,42));
+		    			 g2.fill(new Rectangle2D.Double(xPos, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 70, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 140, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 210, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 280, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 350, yPos,70,70));
+		    			 g2.setColor(new Color(100,100,100));
+		    			 g2.draw(new Rectangle2D.Double(xPos, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 70, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 140, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 210, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 280, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 350, yPos,70,70));
+		    			 yPos = yPos+ 70;
+		    
+		    		 }
+		    	for(int y = 0; y < 10; y++)
+		    	{
+		    		for(int x = 0; x < 6; x++)
+		    		{
+		    			
+		    			if(shop.getInventory().getItem(x,y).getItemHere() == true)
+			    		{
+			    			
+			    			yPos = 190 + ((y)*70);
+				    		xPos = 292 + ((x)*70);
+			    			g2.drawImage(shop.getInventory().getItem(x,y).getItemPicture(),null,xPos + 3,yPos+ 3); 
+			    		}
+		    		}
+		    	}
+		    	
+		    		xPos = 722;
+		    		yPos = 190;
+		    		
+		    		 g2.setColor(new Color(165,42,42));
+	    			 g2.fill(new Rectangle2D.Double(772, 140,150,50));
+	    			 g2.setColor(new Color(255,255,255));
+	    			 g2.setFont(groupUnitFont);
+	    			 g2.drawString(Integer.toString(Group.getGold()), 782, 175);
+	    			 
+		    		 for(int i = 0; i < 10; i++)
+		    		 {
+		    			 g2.setColor(new Color(165,42,42));
+		    			 g2.fill(new Rectangle2D.Double(xPos, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 70, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 140, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 210, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 280, yPos,70,70));
+		    			 g2.fill(new Rectangle2D.Double(xPos + 350, yPos,70,70));
+		    			 g2.setColor(new Color(100,100,100));
+		    			 g2.draw(new Rectangle2D.Double(xPos, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 70, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 140, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 210, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 280, yPos,70,70));
+		    			 g2.draw(new Rectangle2D.Double(xPos + 350, yPos,70,70));
+		    			 yPos = yPos+ 70;
+		    
+		    		 }
+		    	for(int y = 0; y < 10; y++)
+		    	{
+		    		for(int x = 0; x < 6; x++)
+		    		{
+		    			
+		    			if(Group.getInventory().getItem(x,y).getItemHere() == true)
+			    		{
+			    			
+			    			yPos = 190 + ((y)*70);
+				    		xPos = 722 + ((x)*70);
+			    			g2.drawImage(Group.getInventory().getItem(x,y).getItemPicture(),null,xPos + 3,yPos+ 3); 
+			    		}
+		    		}
+		    	}
+			 }
+			 
 			 
 		 }
 	     if(repaintInventory)
@@ -1961,12 +2190,12 @@ class MyPanel extends JPanel
 	    		for(int x = 0; x < 6; x++)
 	    		{
 	    			
-	    			if(inventory.getItem(x,y).getItemHere() == true)
+	    			if(Group.getInventory().getItem(x,y).getItemHere() == true)
 		    		{
 		    			
 		    			yPos = 100 + ((y)*70);
 			    		xPos = 777 + ((x)*70);
-		    			g2.drawImage(inventory.getItem(x,y).getItemPicture(),null,xPos + 3,yPos+ 3); 
+		    			g2.drawImage(Group.getInventory().getItem(x,y).getItemPicture(),null,xPos + 3,yPos+ 3); 
 		    		}
 	    		}
 	    	}

@@ -24,13 +24,26 @@ public class Inventory
 	{
 		inventory[x][y] = item;
 	}
+	public boolean addNextItem(Item item)
+	{
+		for(int y = 0; y < 10; y++)
+		{
+			for(int x = 0; x<6;x++)
+			{
+				if(inventory[x][y].getLocation() == 0)
+				{
+					inventory[x][y] = item;
+					x = 6;
+					y = 10;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	public void removeItem(int x,int y)
 	{
 		inventory[x][y] = new Item();
-	}
-	public void setItem(Item item, int x, int y)
-	{
-		inventory[x][y] = item;
 	}
 	public void itemSwap(int x1, int y1, int x2, int y2)
 	{

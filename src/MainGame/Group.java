@@ -11,15 +11,35 @@ public class Group
 	
 	List<Unit> Group;
 	BufferedImage Image;
+	Inventory inventory;
+	int gold;
 	
 	Group()
 	{
 		Group = new ArrayList<Unit>();
+		gold = 0;
+		inventory = new Inventory();
+		for(int y = 0; y < 10; y++)
+		{
+			for(int x = 0; x<6;x++)
+			{
+				inventory.addItem(new Item(),x, y);
+			}
+		}
 	}
 	
 	Group(int number)
 	{
 		Group = new ArrayList<Unit>(number);
+		gold = 0;
+		inventory = new Inventory();
+		for(int y = 0; y < 10; y++)
+		{
+			for(int x = 0; x<6;x++)
+			{
+				inventory.addItem(new Item(),x, y);
+			}
+		}
 	}
 	
 	//Group methods
@@ -30,6 +50,16 @@ public class Group
 	public void remove(int postion)
 	{
 		Group.remove(postion);
+	}
+	
+	//Gold Methods
+	public int getGold()
+	{
+		return gold;
+	}
+	public void setGold(int g)
+	{
+		gold = g;
 	}
 	
 	//Attack Methods
@@ -57,6 +87,11 @@ public class Group
 	public double getUnitTotalDefense(int postion)
 	{
 		return Group.get(postion).getItemDefenseChange();
+	}
+	//Inventory Methods
+	public Inventory getInventory()
+	{
+		return inventory;
 	}
 	//Level Methods
 	public int getUnitLevel(int postion)
@@ -205,10 +240,6 @@ public class Group
 		
 		Group = tempGroup;
 	}
-	/*public int getItemPicture(int unitLocation,int itemLocation)
-	{
-		return Group.get(unitLocation).getItemPictureLocation(itemLocation);
-	}*/
 	public Item getUnitItem(int unitLocation, int ItemLocation)
 	{
 		return Group.get(unitLocation).getItem(ItemLocation);
