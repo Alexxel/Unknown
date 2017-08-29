@@ -1073,14 +1073,24 @@ else if(gameWindow.getPaintTownInterfaceHire())
 			gameWindow.setHireUnitSelected(yC);
 		}
 	}
-	else if((e.getX() > 662 && e.getX() < 762) && (e.getY() > 870 && e.getY() < 910))
+	else if(gameWindow.getHireUnitSelected() >= 0)
+	{
+	if((e.getX() > 662 && e.getX() < 762) && (e.getY() > 870 && e.getY() < 910))
 	{
 		if(gameWindow.getGroup().getGold() >= gameWindow.getHireable().getUnit(gameWindow.getHireUnitSelected()).getCostToBuy())
 		{
 			gameWindow.getGroup().setGold(gameWindow.getGroup().getGold() - gameWindow.getHireable().getUnit(gameWindow.getHireUnitSelected()).getCostToBuy() );
 			gameWindow.getGroup().add(gameWindow.getHireable().hireUnit(gameWindow.getHireUnitSelected()));
-			gameWindow.setHireUnitSelected(-1);
+			if(gameWindow.getHireableAmount() == 0)
+			{
+				gameWindow.setHireUnitSelected(-1);
+			}
+			else
+			{
+				gameWindow.setHireUnitSelected(0);
+			}
 		}
+	}
 	}
 }
 }
@@ -2280,6 +2290,9 @@ class MyPanel extends JPanel
 		    	 
 		    	 g2.setColor(new Color(150,50,50));
 		    	 g2.fill(new Rectangle2D.Double(492, 190,300,700));
+		    	 g2.fill(new Rectangle2D.Double(792, 190,100,40));		
+		    	 g2.setColor(new Color(200,250,25));
+		    	 g2.drawString(Group.getGold() + "", 800, 210);
 		    	 if(hireUnitSelected >= 0)
 		    	 {
 		    	 g2.setColor(new Color(0,0,255));

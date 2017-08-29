@@ -123,8 +123,11 @@ public class MainMenu   {
 
     	//Create buttons and add size/Location
         newGame.setBounds(54, 200, 324, 75);
+        newGame.setBorderPainted(false);
         loadGame.setBounds(54, 400, 324, 75);
+        loadGame.setBorderPainted(false);
         exitGame.setBounds(54, 600, 324, 75);
+        exitGame.setBorderPainted(false);
         
         submit.setBounds(270 , 400, 100,50);
         back.setBounds(20 , 400 ,100,50 );
