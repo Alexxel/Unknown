@@ -16,6 +16,7 @@ public class Unit
 	int Level;
 	int SavedLevels;
 	int Experience;
+	int costToBuy;
 	String Name;
 	
 	
@@ -32,6 +33,7 @@ public class Unit
 		Level = 0;
 		SavedLevels = 0;
 		Experience = 0;
+		costToBuy = 0;
 		Items = new ArrayList<Item>(7);
 		Name = "";
 		for(int i = 0;i < 8;i++)
@@ -54,10 +56,40 @@ public class Unit
 		Experience = 0;
 		Items = new ArrayList<Item>();
 		Name = name;
+		costToBuy = 0;
 		for(int i = 0;i < 8;i++)
 		{
 		Items.add(new Item());
 		}
+	}
+	Unit(int cost,int health,int maxHealth,int moral,int speed,int attack,int Defense,int level,int pictureLoc,String name)
+	{
+		Health = health;
+		MaxHealth = maxHealth;
+		Moral = moral;
+		Speed = speed;
+		PictureLocation = pictureLoc;
+		BaseAttack = attack;
+		BaseDefense = Defense;
+		Level = level;
+		SavedLevels = 0;
+		Experience = 0;
+		Items = new ArrayList<Item>();
+		Name = name;
+		costToBuy = cost;
+		for(int i = 0;i < 8;i++)
+		{
+		Items.add(new Item());
+		}
+	}
+	//Unit CostToBuy Methods
+	public int getCostToBuy()
+	{
+		return costToBuy;
+	}
+	public void setCostToBuy(int g)
+	{
+		costToBuy = g;
 	}
 	//Unit name Methods
 	public String getUnitName()

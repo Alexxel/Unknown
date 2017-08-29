@@ -1073,6 +1073,15 @@ else if(gameWindow.getPaintTownInterfaceHire())
 			gameWindow.setHireUnitSelected(yC);
 		}
 	}
+	else if((e.getX() > 662 && e.getX() < 762) && (e.getY() > 870 && e.getY() < 910))
+	{
+		if(gameWindow.getGroup().getGold() >= gameWindow.getHireable().getUnit(gameWindow.getHireUnitSelected()).getCostToBuy())
+		{
+			gameWindow.getGroup().setGold(gameWindow.getGroup().getGold() - gameWindow.getHireable().getUnit(gameWindow.getHireUnitSelected()).getCostToBuy() );
+			gameWindow.getGroup().add(gameWindow.getHireable().hireUnit(gameWindow.getHireUnitSelected()));
+			gameWindow.setHireUnitSelected(-1);
+		}
+	}
 }
 }
 
@@ -1459,6 +1468,14 @@ class MainGameWindow extends JFrame
 	{
 		gameWindow.setHireUnitSelected(u);
 	}
+	public int getHireUnitSelected()
+	{
+		return gameWindow.getHireUnitSelected();
+	}
+	public Hireable getHireable()
+	{
+		return gameWindow.getHireable();
+	}
 	public void collisionDetection()
 	{
 	playerRect = new Rectangle(gameWindow.getPlayerXLocation() - 15, gameWindow.getPlayerYLocation() - 15,30,30);
@@ -1696,9 +1713,9 @@ class MyPanel extends JPanel
 		shop.getInventory().addItem(new Item(5,5,5, 2,2,2,10,1,100,"Images/DragonShield.png","Dragon Shield"),4,8);
 		
 		hireable = new Hireable();
-		hireable.addUnit(new Unit(10,10, 10, 10, 10,10,20,1, "TestHire1"));
-		hireable.addUnit(new Unit(10,10, 10, 10, 10, 10,10,1, "TestHire2"));
-		hireable.addUnit(new Unit(10,10, 10, 10, 10,10, 10, 2,"TestHire3"));
+		hireable.addUnit(new Unit(10,10,10, 10, 10, 10,10,20,1, "TestHire1"));
+		hireable.addUnit(new Unit(20,10,10, 10, 10, 10, 10,10,1, "TestHire2"));
+		hireable.addUnit(new Unit(100,10,10, 10, 10, 10,10, 10, 2,"TestHire3"));
 		
 		hireable.getUnit(2).addItem(new Item(5,20,-2, .02,.2,2,10,4,10,"Images/BasicSword.png","Temp"));
 		hireable.getUnit(2).addItem( new Item(5,20,-2, .02,.2,2,10,5,100,"Images/DragonShield.png","Temp"));
@@ -1713,6 +1730,14 @@ class MyPanel extends JPanel
 	public void setHireUnitSelected(int u)
 	{
 		hireUnitSelected = u;
+	}
+	public int getHireUnitSelected()
+	{
+		return hireUnitSelected;
+	}
+	public Hireable getHireable()
+	{
+		return hireable;
 	}
 	public Shop getShop()
 	{
@@ -2235,7 +2260,7 @@ class MyPanel extends JPanel
 		    	 
 				 g2.setColor(new Color(0,0,255));
 		    	 g2.fill(new Rectangle2D.Double(xPos, yPos,200,700));
-		    
+		    	 
 		    	 for(int i = 0; hireable.getAll().size() > i ;i++)
 		    	 {
 		    		 hireableAmount++;
@@ -2246,6 +2271,7 @@ class MyPanel extends JPanel
 			    	 g2.drawString(hireable.getUnit(i).getUnitName(), xPos + 20, yPos + 20);
 			    	 yPos += 70; 
 		    	 }
+		    	 
 		    	 if(hireUnitSelected >= 0)
 		    	 {
 		    	 g2.fill(new Rectangle2D.Double(xPos, 190+(70*(hireUnitSelected)),200,69));
@@ -2254,6 +2280,8 @@ class MyPanel extends JPanel
 		    	 
 		    	 g2.setColor(new Color(150,50,50));
 		    	 g2.fill(new Rectangle2D.Double(492, 190,300,700));
+		    	 if(hireUnitSelected >= 0)
+		    	 {
 		    	 g2.setColor(new Color(0,0,255));
 		    	 g2.setFont(groupUnitFont);
 		    	 g2.drawString(hireable.getUnit(hireUnitSelected).getUnitName(), 542, 240);
@@ -2313,7 +2341,10 @@ class MyPanel extends JPanel
 		    	 g2.drawString(Double.toString(hireable.getUnit(hireUnitSelected).getBaseDefense()) + " /", 512, 840);
 		    	 g2.drawString(Double.toString(hireable.getUnit(hireUnitSelected).getItemDefenseChange()), 562, 840);
 		    	 
-		    	 g2.fill(new Rectangle2D.Double(662, 840,100,40));		    
+		    	 g2.fill(new Rectangle2D.Double(662, 840,100,40));		
+		    	 g2.setColor(new Color(200,250,25));
+		    	 g2.drawString(hireable.getUnit(hireUnitSelected).getCostToBuy() + "", 692, 865);
+		    	 }
 			 }
 		 }
 	     if(repaintInventory)
