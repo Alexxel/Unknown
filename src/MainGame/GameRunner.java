@@ -721,10 +721,19 @@ if(gameWindow.getActive())
 			gameWindow.setPaintMap(true);
 			gameWindow.setActive(true);
 			gameWindow.setPaintTownInterfaceShop(false);
+			gameWindow.setPaintTownInterfaceHire(false);
 		}
 		else if ((m.getPoint().getX() > 100 && m.getPoint().getX() < 292)  && (m.getPoint().getY() > 220 && m.getPoint().getY() < 320 ))
 		{
 			gameWindow.setPaintTownInterfaceShop(true);
+			gameWindow.setPaintTownInterfaceHire(false);
+			gameWindow.setPaintMap(true);
+		}
+		else if ((m.getPoint().getX() > 100 && m.getPoint().getX() < 292)  && (m.getPoint().getY() > 321 && m.getPoint().getY() < 420 ))
+		{
+			gameWindow.setPaintTownInterfaceHire(true);
+			gameWindow.setPaintTownInterfaceShop(false);
+			gameWindow.setPaintMap(true);
 		}
 	}
 	else if(showGroup)
@@ -1051,6 +1060,37 @@ else if(gameWindow.getPaintTownInterfaceShop())
 			gameWindow.setDraggedItem(gameWindow.getShop().getInventory().getItem(xC, yC));
 			gameWindow.setMouseDragItem(true);
 		}
+	}
+}
+else if(gameWindow.getPaintTownInterfaceHire())
+{
+	if((e.getX() > 292 && e.getX() < 592) && (e.getY() > 220 && e.getY() < 920))
+	{
+		yC = (int) (e.getY() - 220)/70;
+		System.out.println(gameWindow.getHireableAmount());
+		if (yC <= gameWindow.getHireableAmount())
+		{
+			gameWindow.setHireUnitSelected(yC);
+		}
+	}
+	else if(gameWindow.getHireUnitSelected() >= 0)
+	{
+	if((e.getX() > 662 && e.getX() < 762) && (e.getY() > 870 && e.getY() < 910))
+	{
+		if(gameWindow.getGroup().getGold() >= gameWindow.getHireable().getUnit(gameWindow.getHireUnitSelected()).getCostToBuy())
+		{
+			gameWindow.getGroup().setGold(gameWindow.getGroup().getGold() - gameWindow.getHireable().getUnit(gameWindow.getHireUnitSelected()).getCostToBuy() );
+			gameWindow.getGroup().add(gameWindow.getHireable().hireUnit(gameWindow.getHireUnitSelected()));
+			if(gameWindow.getHireableAmount() == 0)
+			{
+				gameWindow.setHireUnitSelected(-1);
+			}
+			else
+			{
+				gameWindow.setHireUnitSelected(0);
+			}
+		}
+	}
 	}
 }
 }
@@ -1418,9 +1458,33 @@ class MainGameWindow extends JFrame
 	{
 		return gameWindow.getPaintTownInterfaceShop();
 	}
+	public boolean getPaintTownInterfaceHire()
+	{
+		return gameWindow.getPaintTownInterfaceHire();
+	}
+	public void setPaintTownInterfaceHire(boolean b)
+	{
+		gameWindow.setPaintTownInterfaceHire(b);
+	}
 	public Shop getShop()
 	{
 		return gameWindow.getShop();
+	}
+	public int getHireableAmount()
+	{
+		return gameWindow.getHireableAmount();
+	}
+	public void setHireUnitSelected(int u)
+	{
+		gameWindow.setHireUnitSelected(u);
+	}
+	public int getHireUnitSelected()
+	{
+		return gameWindow.getHireUnitSelected();
+	}
+	public Hireable getHireable()
+	{
+		return gameWindow.getHireable();
 	}
 	public void collisionDetection()
 	{
@@ -1478,6 +1542,7 @@ class MyPanel extends JPanel
 	int xEnd;
 	int yEnd;
 	int groupUnitSelected;
+	int hireUnitSelected;
 	int attributesLeft;
 	int addDefense;
 	int addAttack;
@@ -1487,6 +1552,7 @@ class MyPanel extends JPanel
 	int viewRange;
 	int flashCount;
 	int itemLocation;
+	int hireableAmount;
 	
 	
 	boolean repaintInventory;
@@ -1504,6 +1570,7 @@ class MyPanel extends JPanel
 	boolean stopTownTrigger;
 	boolean paintTownInterface;
 	boolean paintTownInterfaceShop;
+	boolean paintTownInterfaceHire;
 	
 	Time time;
 	
@@ -1523,6 +1590,7 @@ class MyPanel extends JPanel
 	Font levelFont;
 	
 	Shop shop;
+	Hireable hireable;
 	
 	Group Group;
 	Item draggedItem;
@@ -1549,6 +1617,7 @@ class MyPanel extends JPanel
 		xEnd = 100;
 		yEnd = 100;
 		groupUnitSelected = 1;
+		hireUnitSelected = 0;
 		attributesLeft = 0;
 		addDefense = 0;
 		addAttack = 0;
@@ -1558,6 +1627,7 @@ class MyPanel extends JPanel
 		viewRange = 50;
 		flashCount = 0;
 		itemLocation = 0;
+		hireableAmount = -1;
 		
 		
 		repaintInventory = false;
@@ -1574,6 +1644,8 @@ class MyPanel extends JPanel
 		townTrigger = false;
 		paintTownInterface = false;
 		stopTownTrigger = false;
+		paintTownInterfaceShop = false;
+		paintTownInterfaceHire = false;
 		
 		draggedItem = new Item();
 				
@@ -1650,8 +1722,32 @@ class MyPanel extends JPanel
 		shop.getInventory().addItem(new Item(5,5,5, 2,2,2,10,1,10,"Images/BasicSword.png","Basic Sword"), 3,7);
 		shop.getInventory().addItem(new Item(5,5,5, 2,2,2,10,1,100,"Images/DragonShield.png","Dragon Shield"),4,8);
 		
+		hireable = new Hireable();
+		hireable.addUnit(new Unit(10,10,10, 10, 10, 10,10,20,1, "TestHire1"));
+		hireable.addUnit(new Unit(20,10,10, 10, 10, 10, 10,10,1, "TestHire2"));
+		hireable.addUnit(new Unit(100,10,10, 10, 10, 10,10, 10, 2,"TestHire3"));
+		
+		hireable.getUnit(2).addItem(new Item(5,20,-2, .02,.2,2,10,4,10,"Images/BasicSword.png","Temp"));
+		hireable.getUnit(2).addItem( new Item(5,20,-2, .02,.2,2,10,5,100,"Images/DragonShield.png","Temp"));
 		
 		
+		
+	}
+	public int getHireableAmount()
+	{
+		return hireableAmount;
+	}
+	public void setHireUnitSelected(int u)
+	{
+		hireUnitSelected = u;
+	}
+	public int getHireUnitSelected()
+	{
+		return hireUnitSelected;
+	}
+	public Hireable getHireable()
+	{
+		return hireable;
 	}
 	public Shop getShop()
 	{
@@ -1688,6 +1784,14 @@ class MyPanel extends JPanel
 	public boolean getPaintTownInterfaceShop()
 	{
 		return paintTownInterfaceShop;
+	}
+	public boolean getPaintTownInterfaceHire()
+	{
+		return paintTownInterfaceHire;
+	}
+	public void setPaintTownInterfaceHire(boolean b)
+	{
+		paintTownInterfaceHire = b;
 	}
 	public void setMouseDragItem(boolean b)
 	{
@@ -2158,8 +2262,103 @@ class MyPanel extends JPanel
 		    		}
 		    	}
 			 }
-			 
-			 
+			 if(paintTownInterfaceHire)
+			 {
+				 int xPos = 292;
+		    	 int yPos = 190;
+		    	 hireableAmount = -1;
+		    	 
+				 g2.setColor(new Color(0,0,255));
+		    	 g2.fill(new Rectangle2D.Double(xPos, yPos,200,700));
+		    	 
+		    	 for(int i = 0; hireable.getAll().size() > i ;i++)
+		    	 {
+		    		 hireableAmount++;
+		    		 g2.setColor(new Color(255,0,0));
+			    	 g2.fill(new Rectangle2D.Double(xPos, yPos,200,69));
+			    	 g2.setColor(new Color(0,255,0));
+			    	 g2.setFont(unitFont);
+			    	 g2.drawString(hireable.getUnit(i).getUnitName(), xPos + 20, yPos + 20);
+			    	 yPos += 70; 
+		    	 }
+		    	 
+		    	 if(hireUnitSelected >= 0)
+		    	 {
+		    	 g2.fill(new Rectangle2D.Double(xPos, 190+(70*(hireUnitSelected)),200,69));
+		    	 }
+		    	 yPos = 190;
+		    	 
+		    	 g2.setColor(new Color(150,50,50));
+		    	 g2.fill(new Rectangle2D.Double(492, 190,300,700));
+		    	 g2.fill(new Rectangle2D.Double(792, 190,100,40));		
+		    	 g2.setColor(new Color(200,250,25));
+		    	 g2.drawString(Group.getGold() + "", 800, 210);
+		    	 if(hireUnitSelected >= 0)
+		    	 {
+		    	 g2.setColor(new Color(0,0,255));
+		    	 g2.setFont(groupUnitFont);
+		    	 g2.drawString(hireable.getUnit(hireUnitSelected).getUnitName(), 542, 240);
+		    	 g2.setFont(levelFont);
+		    	 g2.drawString("Level " + Integer.toString(hireable.getUnit(hireUnitSelected).getLevel()), 517, 268);
+		    	 g2.setColor(new Color(0,255,255));
+		    	 g2.fill(new Rectangle2D.Double(607, 265 ,70,70));
+		    	 if(hireable.getUnit(hireUnitSelected).getItem(1).getItemHere() == true)
+		    	 {
+		    		 g2.drawImage(hireable.getUnit(hireUnitSelected).getItem(1).getItemPicture(),null,610,268);
+		    	 }
+		    	 g2.fill(new Rectangle2D.Double(507, 315,70,70));
+		    	 if(hireable.getUnit(hireUnitSelected).getItem(6).getItemHere() == true)
+		    	 {
+		    		 g2.drawImage(hireable.getUnit(hireUnitSelected).getItem(6).getItemPicture(),null,510,318);
+		    	 }
+		    	 g2.fill(new Rectangle2D.Double(702, 315,70,70));
+		    	 if(hireable.getUnit(hireUnitSelected).getItem(7).getItemHere() == true)
+		    	 {
+		    		 g2.drawImage(hireable.getUnit(hireUnitSelected).getItem(7).getItemPicture(),null,705,318);
+		    	 }
+		    	 g2.fill(new Rectangle2D.Double(607, 365,70,70));
+		    	 if(hireable.getUnit(hireUnitSelected).getItem(2).getItemHere() == true)
+		    	 {
+		    		 g2.drawImage(hireable.getUnit(hireUnitSelected).getItem(2).getItemPicture(),null,610,368);
+		    	 }
+		    	 g2.fill(new Rectangle2D.Double(507, 415,70,70));
+		    	 if(hireable.getUnit(hireUnitSelected).getItem(5).getItemHere() == true)
+		    	 {
+		    		 g2.drawImage(hireable.getUnit(hireUnitSelected).getItem(5).getItemPicture(),null,510,418);
+		    	 }
+		    	 g2.fill(new Rectangle2D.Double(702, 415,70,70));
+		    	 if(hireable.getUnit(hireUnitSelected).getItem(4).getItemHere() == true)
+		    	 {
+		    		 g2.drawImage(hireable.getUnit(hireUnitSelected).getItem(4).getItemPicture(),null,705,418);
+		    	 }
+		    	 g2.fill(new Rectangle2D.Double(607, 465,70,70));
+		    	 if(hireable.getUnit(hireUnitSelected).getItem(3).getItemHere() == true)
+		    	 {
+		    		 g2.drawImage(hireable.getUnit(hireUnitSelected).getItem(3).getItemPicture(),null,610,468);
+		    	 }
+		    	 g2.fill(new Rectangle2D.Double(607, 565,70,70));
+		    	 g2.setColor(new Color(0,0,255));
+		    	 g2.setFont(unitFont);
+		    	 g2.drawString("Health", 512, 715);
+		    	 g2.drawString(Double.toString(hireable.getUnit(hireUnitSelected).getHealth()), 512, 740);
+		    	 g2.drawString("/" + Double.toString(hireable.getUnit(hireUnitSelected).getMaxHealth()), 552, 740);
+		    	 g2.drawString("Moral", 662, 715);
+		    	 g2.drawString(Double.toString(hireable.getUnit(hireUnitSelected).getMoral()), 662, 740);
+		    	 g2.drawString("Attack", 512, 765);
+		    	 g2.drawString(Double.toString(hireable.getUnit(hireUnitSelected).getBaseAttack()) + " /", 512, 790);
+		    	 g2.drawString(Double.toString(hireable.getUnit(hireUnitSelected).getItemAttackChange()), 562, 790);
+		    	 g2.drawString("Speed", 662, 765);
+		    	 g2.drawString(Double.toString(hireable.getUnit(hireUnitSelected).getSpeed()) + " /", 662, 790);
+		    	 g2.drawString(Double.toString(hireable.getUnit(hireUnitSelected).getItemSpeedChange()), 712, 790);
+		    	 g2.drawString("Defense", 512, 815);
+		    	 g2.drawString(Double.toString(hireable.getUnit(hireUnitSelected).getBaseDefense()) + " /", 512, 840);
+		    	 g2.drawString(Double.toString(hireable.getUnit(hireUnitSelected).getItemDefenseChange()), 562, 840);
+		    	 
+		    	 g2.fill(new Rectangle2D.Double(662, 840,100,40));		
+		    	 g2.setColor(new Color(200,250,25));
+		    	 g2.drawString(hireable.getUnit(hireUnitSelected).getCostToBuy() + "", 692, 865);
+		    	 }
+			 }
 		 }
 	     if(repaintInventory)
 	     {
