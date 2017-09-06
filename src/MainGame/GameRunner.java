@@ -151,14 +151,17 @@ public class GameRunner implements KeyListener , MouseListener
 		timer = new Timer(10, new ActionListener(){
 			public void actionPerformed(ActionEvent evt)
 			{
-				if(mouseDragEvent)
-				{
-					mouseDragEvent = false;
-					mouseDragEventHandler(mouseClicked,mouseReleased);
-				}
-				gameWindow.collisionDetection();
-				newInput = false;
-				gameWindow.doUpdate();
+					if(mouseDragEvent)
+					{
+						mouseDragEvent = false;
+						mouseDragEventHandler(mouseClicked,mouseReleased);
+					}
+					else if(gameWindow.getActive())
+					{
+					gameWindow.collisionDetection();
+					}
+					newInput = false;
+					gameWindow.doUpdate();
 				
 			}
 		});
@@ -1113,6 +1116,25 @@ else if(gameWindow.getPaintTownInterfaceQuest())
 			gameWindow.setQuestSelected(yC);
 		}
 	}
+	else if((e.getX() > 650 && e.getX() < 750) && (e.getY() > 530 && e.getY() < 630))
+	{
+		if(!gameWindow.getHasQuest())
+		{
+			gameWindow.setCurrentQuest(gameWindow.getQuests().getQuest(gameWindow.getQuestSelected()));
+			gameWindow.getQuests().removeQuest(gameWindow.getQuestSelected());
+			gameWindow.setHasQuest(true);
+			gameWindow.setPaintMap(true);
+		}
+		else
+		{
+			if(gameWindow.getCurrentQuest().getComplete())
+			{
+				gameWindow.setPaintMap(true);
+				gameWindow.setHasQuest(false);
+				gameWindow.setCurrentQuest(new Quest());
+			}
+		}
+	}
 }
 }
 
@@ -1467,6 +1489,14 @@ class MainGameWindow extends JFrame
 	{
 		gameWindow.setPaintTownInterface(b);
 	}
+	public void setHasQuest(boolean b)
+	{
+		gameWindow.setHasQuest(b);
+	}
+	public boolean getHasQuest()
+	{
+		return gameWindow.getHasQuest();
+	}
 	public boolean getPaintTownInterface()
 	{
 		return gameWindow.getPaintTownInterface();
@@ -1499,6 +1529,14 @@ class MainGameWindow extends JFrame
 	{
 		return gameWindow.getShop();
 	}
+	public Quest getCurrentQuest()
+	{
+		return gameWindow.getCurrentQuest();
+	}
+	public void setCurrentQuest(Quest q)
+	{
+		gameWindow.setCurrentQuest(q);
+	}
 	public QuestSystem getQuests()
 	{
 		return gameWindow.getQuests();
@@ -1526,6 +1564,22 @@ class MainGameWindow extends JFrame
 	public Hireable getHireable()
 	{
 		return gameWindow.getHireable();
+	}
+	public void setPaintCombat(boolean b)
+	{
+		gameWindow.setPaintCombat(b);
+	}
+	public void setRepaintCombat(boolean b)
+	{
+		gameWindow.setRepaintCombat(b);
+	}
+	public boolean getPaintCombat()
+	{
+		return gameWindow.getPaintCombat();
+	}
+	public boolean getRepaintCombat()
+	{
+		return gameWindow.getRepaintCombat();
 	}
 	public void collisionDetection()
 	{
@@ -1556,9 +1610,25 @@ class MainGameWindow extends JFrame
 		gameWindow.setTownTrigger(false);
 		gameWindow.setStopTownTrigger(true);
 	}
-		
+	else if(gameWindow.getHasQuest())
+	{	
+	if(playerRect.intersects(new Rectangle((int)gameWindow.getCurrentQuest().getQuestMarker(0).getPoint().getX(),(int)gameWindow.getCurrentQuest().getQuestMarker(0).getPoint().getY(),30,30)))
+	{
+		if(gameWindow.getCurrentQuest().getQuestMarker(0).getTouchAccept())
+		{
+			gameWindow.getCurrentQuest().removeQuestMarker(0);
+			gameWindow.setPaintMap(true);
+		}
+		else if(gameWindow.getCurrentQuest().getQuestMarker(0).getTouchCombat())
+		{
+			gameWindow.setPaintCombat(true);
+			gameWindow.setRepaintCombat(true);
+			gameWindow.setActive(false);
+		}
 	}
-	
+	}
+
+}
 	public void paint(Graphics g)
 	{
 		
@@ -1614,6 +1684,9 @@ class MyPanel extends JPanel
 	boolean paintTownInterfaceShop;
 	boolean paintTownInterfaceHire;
 	boolean paintTownInterfaceQuest;
+	boolean hasQuest;
+	boolean paintCombat;
+	boolean repaintCombat;
 	
 	Time time;
 	
@@ -1635,6 +1708,7 @@ class MyPanel extends JPanel
 	Shop shop;
 	Hireable hireable;
 	QuestSystem quests;
+	Quest currentQuest;
 	
 	Group Group;
 	Item draggedItem;
@@ -1692,6 +1766,7 @@ class MyPanel extends JPanel
 		paintTownInterfaceShop = false;
 		paintTownInterfaceHire = false;
 		paintTownInterfaceQuest = false;
+		hasQuest = false;
 		
 		draggedItem = new Item();
 				
@@ -1773,8 +1848,53 @@ class MyPanel extends JPanel
 		quests.addQuest(new Quest("Test Name 2","Quest Description 2"));
 		quests.addQuest(new Quest("Test Name 3","Quest Description 3"));
 		
+		quests.getQuest(0).addQuestMarker(new QuestMarker());
+		quests.getQuest(0).getQuestMarker(0).setPoint(new Point(350,350));
+		quests.getQuest(0).getQuestMarker(0).setTouchAccept(true);
+		quests.getQuest(0).addQuestMarker(new QuestMarker());
+		quests.getQuest(0).getQuestMarker(1).setPoint(new Point(250,450));
+		
+		quests.getQuest(1).addQuestMarker(new QuestMarker());
+		quests.getQuest(1).getQuestMarker(0).setPoint(new Point(350,500));
+		quests.getQuest(1).getQuestMarker(0).setTouchCombat(true);
+		quests.getQuest(1).addQuestMarker(new QuestMarker());
+		quests.getQuest(1).getQuestMarker(1).setPoint(new Point(250,450));
+		
+		currentQuest = new Quest();
 		
 		
+	}
+	public void setPaintCombat(boolean b)
+	{
+		paintCombat = b;
+	}
+	public void setRepaintCombat(boolean b)
+	{
+		repaintCombat = b;
+	}
+	public boolean getPaintCombat()
+	{
+		return paintCombat;
+	}
+	public boolean getRepaintCombat()
+	{
+		return repaintCombat;
+	}
+	public void setHasQuest(boolean b)
+	{
+		hasQuest = b;
+	}
+	public boolean getHasQuest()
+	{
+		return hasQuest;
+	}
+	public Quest getCurrentQuest()
+	{
+		return currentQuest;
+	}
+	public void setCurrentQuest(Quest q)
+	{
+		currentQuest = q;
 	}
 	public int getQuestSelected()
 	{
@@ -2103,7 +2223,17 @@ class MyPanel extends JPanel
 		//super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		//System.out.println(MouseInfo.getPointerInfo().getLocation());
-		
+		 if(paintCombat)
+		 {
+			 paintCombat = false;
+			 g2.setColor(new Color(100,250,50));
+			 g2.fillRect(0, 0, 1280, 994);
+			 
+		 }
+		 if(repaintCombat)
+		 {
+			System.out.println("RePrintCombat"); 
+		 }
 		
 		 if(paintMap)
 		 {
@@ -2212,6 +2342,10 @@ class MyPanel extends JPanel
 					 tempImage = MainPictures.getImageClip(5,map.getMapInfo(i).getXMapLocationOld()-15,map.getMapInfo(i).getYMapLocationOld()-15,30,30);
 					 g2.drawImage(tempImage,null,map.getMapInfo(i).getXMapLocationOld()-15,map.getMapInfo(i).getYMapLocationOld()-15); 
 				 } 
+			}
+			if(hasQuest)
+			{
+			g2.drawImage(playerImage, null,(int)(currentQuest.getQuestMarker(0).getPoint().getX()),(int)(currentQuest.getQuestMarker(0).getPoint().getY()));
 			}
 		 }
 		 if(townTrigger)
@@ -2428,6 +2562,8 @@ class MyPanel extends JPanel
 		    	 int yPos = 190;
 		    	 
 				 g2.setColor(new Color(0,0,255));
+				 if(!hasQuest)
+				 {
 		    	 g2.fill(new Rectangle2D.Double(xPos, yPos,200,700));
 		    	 
 		    	 for(int i = 0; quests.getAll().size() > i ;i++)
@@ -2443,7 +2579,21 @@ class MyPanel extends JPanel
 		    	 {
 		    	 g2.fill(new Rectangle2D.Double(xPos, 190+(70*(questSelected)),200,69));
 		    	 }
-		    	 
+		    	 g2.setColor(new Color(150,50,50));
+		    	 g2.fill(new Rectangle2D.Double(492, 190,300,700));
+		    	 g2.setColor(new Color(50,150,150));
+		    	 g2.fill(new Rectangle2D.Double(650, 500,100,100));
+				 }
+				 else 
+				 {
+					 g2.setColor(new Color(150,50,50));
+			    	 g2.fill(new Rectangle2D.Double(492, 190,300,700));
+			    	 if(currentQuest.getComplete())
+			    	 {
+			    	 g2.setColor(new Color(50,150,150));
+			    	 g2.fill(new Rectangle2D.Double(650, 500,100,100));
+			    	 }
+				 }
 			 }
 		 }
 	     if(repaintInventory)
