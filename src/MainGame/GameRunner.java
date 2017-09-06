@@ -722,17 +722,27 @@ if(gameWindow.getActive())
 			gameWindow.setActive(true);
 			gameWindow.setPaintTownInterfaceShop(false);
 			gameWindow.setPaintTownInterfaceHire(false);
+			gameWindow.setPaintTownInterfaceQuest(false);
 		}
 		else if ((m.getPoint().getX() > 100 && m.getPoint().getX() < 292)  && (m.getPoint().getY() > 220 && m.getPoint().getY() < 320 ))
 		{
 			gameWindow.setPaintTownInterfaceShop(true);
 			gameWindow.setPaintTownInterfaceHire(false);
+			gameWindow.setPaintTownInterfaceQuest(false);
 			gameWindow.setPaintMap(true);
 		}
 		else if ((m.getPoint().getX() > 100 && m.getPoint().getX() < 292)  && (m.getPoint().getY() > 321 && m.getPoint().getY() < 420 ))
 		{
 			gameWindow.setPaintTownInterfaceHire(true);
 			gameWindow.setPaintTownInterfaceShop(false);
+			gameWindow.setPaintTownInterfaceQuest(false);
+			gameWindow.setPaintMap(true);
+		}
+		else if ((m.getPoint().getX() > 100 && m.getPoint().getX() < 292)  && (m.getPoint().getY() > 421 && m.getPoint().getY() < 520 ))
+		{
+			gameWindow.setPaintTownInterfaceHire(false);
+			gameWindow.setPaintTownInterfaceShop(false);
+			gameWindow.setPaintTownInterfaceQuest(true);
 			gameWindow.setPaintMap(true);
 		}
 	}
@@ -1091,6 +1101,17 @@ else if(gameWindow.getPaintTownInterfaceHire())
 			}
 		}
 	}
+	}
+}
+else if(gameWindow.getPaintTownInterfaceQuest())
+{
+	if((e.getX() > 292 && e.getX() < 592) && (e.getY() > 220 && e.getY() < 920))
+	{
+		yC = (int) (e.getY() - 220)/70;
+		if (yC <= gameWindow.getQuests().getAll().size())
+		{
+			gameWindow.setQuestSelected(yC);
+		}
 	}
 }
 }
@@ -1466,9 +1487,21 @@ class MainGameWindow extends JFrame
 	{
 		gameWindow.setPaintTownInterfaceHire(b);
 	}
+	public boolean getPaintTownInterfaceQuest()
+	{
+		return gameWindow.getPaintTownInterfaceQuest();
+	}
+	public void setPaintTownInterfaceQuest(boolean b)
+	{
+		gameWindow.setPaintTownInterfaceQuest(b);
+	}
 	public Shop getShop()
 	{
 		return gameWindow.getShop();
+	}
+	public QuestSystem getQuests()
+	{
+		return gameWindow.getQuests();
 	}
 	public int getHireableAmount()
 	{
@@ -1481,6 +1514,14 @@ class MainGameWindow extends JFrame
 	public int getHireUnitSelected()
 	{
 		return gameWindow.getHireUnitSelected();
+	}
+	public void setQuestSelected(int u)
+	{
+		gameWindow.setQuestSelected(u);
+	}
+	public int getQuestSelected()
+	{
+		return gameWindow.getQuestSelected();
 	}
 	public Hireable getHireable()
 	{
@@ -1543,6 +1584,7 @@ class MyPanel extends JPanel
 	int yEnd;
 	int groupUnitSelected;
 	int hireUnitSelected;
+	int questSelected;
 	int attributesLeft;
 	int addDefense;
 	int addAttack;
@@ -1571,6 +1613,7 @@ class MyPanel extends JPanel
 	boolean paintTownInterface;
 	boolean paintTownInterfaceShop;
 	boolean paintTownInterfaceHire;
+	boolean paintTownInterfaceQuest;
 	
 	Time time;
 	
@@ -1591,6 +1634,7 @@ class MyPanel extends JPanel
 	
 	Shop shop;
 	Hireable hireable;
+	QuestSystem quests;
 	
 	Group Group;
 	Item draggedItem;
@@ -1618,6 +1662,7 @@ class MyPanel extends JPanel
 		yEnd = 100;
 		groupUnitSelected = 1;
 		hireUnitSelected = 0;
+		questSelected = 0;
 		attributesLeft = 0;
 		addDefense = 0;
 		addAttack = 0;
@@ -1646,6 +1691,7 @@ class MyPanel extends JPanel
 		stopTownTrigger = false;
 		paintTownInterfaceShop = false;
 		paintTownInterfaceHire = false;
+		paintTownInterfaceQuest = false;
 		
 		draggedItem = new Item();
 				
@@ -1693,24 +1739,14 @@ class MyPanel extends JPanel
 		Group.add(new Unit(10,10, 10, 10, 10, 10,10,1, "Test2"));
 		Group.add(new Unit(10,10, 10, 10, 10,10, 10, 2,"Test3"));
 		Group.add(new Unit(10,10, 10, 10, 10, 10,10,3, "Test4"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,5, "Test5"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,1, "Test6"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,7, "Test7"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,8, "Test8"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,9, "Test9"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,5, "Test10"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,6, "Test11"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,7, "Test12"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,5, "Test13"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,2, "Test14"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,3, "Test15"));
+		
 		
 		
 		Group.addItem(1, new Item(5,20,-2, .02,.2,2,10,4,10,"Images/BasicSword.png","Temp"));
 		Group.addItem(1, new Item(5,20,-2, .02,.2,2,10,5,100,"Images/DragonShield.png","Temp"));
 		
-		Group.setUnitSavedLevels(5, 2);
-		Group.setUnitSavedLevels(4, 1);
+		Group.setUnitSavedLevels(4, 2);
+		Group.setUnitSavedLevels(2, 1);
 		
 		Group.getInventory().addItem(new Item(5,5,5, 2,2,2,10,1,10,"Images/BasicSword.png","Basic Sword"), 5,0);
 		Group.getInventory().addItem(new Item(5,5,5, 2,2,2,10,1,100,"Images/DragonShield.png","Dragon Shield"),1,2);
@@ -1723,6 +1759,7 @@ class MyPanel extends JPanel
 		shop.getInventory().addItem(new Item(5,5,5, 2,2,2,10,1,100,"Images/DragonShield.png","Dragon Shield"),4,8);
 		
 		hireable = new Hireable();
+		
 		hireable.addUnit(new Unit(10,10,10, 10, 10, 10,10,20,1, "TestHire1"));
 		hireable.addUnit(new Unit(20,10,10, 10, 10, 10, 10,10,1, "TestHire2"));
 		hireable.addUnit(new Unit(100,10,10, 10, 10, 10,10, 10, 2,"TestHire3"));
@@ -1730,8 +1767,26 @@ class MyPanel extends JPanel
 		hireable.getUnit(2).addItem(new Item(5,20,-2, .02,.2,2,10,4,10,"Images/BasicSword.png","Temp"));
 		hireable.getUnit(2).addItem( new Item(5,20,-2, .02,.2,2,10,5,100,"Images/DragonShield.png","Temp"));
 		
+		quests = new QuestSystem();
+		
+		quests.addQuest(new Quest("Test Name 1","Quest Description 1"));
+		quests.addQuest(new Quest("Test Name 2","Quest Description 2"));
+		quests.addQuest(new Quest("Test Name 3","Quest Description 3"));
 		
 		
+		
+	}
+	public int getQuestSelected()
+	{
+		return questSelected;
+	}
+	public void setQuestSelected(int q)
+	{
+		questSelected = q;
+	}
+	public QuestSystem getQuests()
+	{
+		return quests;
 	}
 	public int getHireableAmount()
 	{
@@ -1784,6 +1839,14 @@ class MyPanel extends JPanel
 	public boolean getPaintTownInterfaceShop()
 	{
 		return paintTownInterfaceShop;
+	}
+	public void setPaintTownInterfaceQuest(boolean b)
+	{
+		paintTownInterfaceQuest = b;
+	}
+	public boolean getPaintTownInterfaceQuest()
+	{
+		return paintTownInterfaceQuest;
 	}
 	public boolean getPaintTownInterfaceHire()
 	{
@@ -2262,7 +2325,7 @@ class MyPanel extends JPanel
 		    		}
 		    	}
 			 }
-			 if(paintTownInterfaceHire)
+			 else if(paintTownInterfaceHire)
 			 {
 				 int xPos = 292;
 		    	 int yPos = 190;
@@ -2358,6 +2421,29 @@ class MyPanel extends JPanel
 		    	 g2.setColor(new Color(200,250,25));
 		    	 g2.drawString(hireable.getUnit(hireUnitSelected).getCostToBuy() + "", 692, 865);
 		    	 }
+			 }
+			 else if(paintTownInterfaceQuest)
+			 {
+				 int xPos = 292;
+		    	 int yPos = 190;
+		    	 
+				 g2.setColor(new Color(0,0,255));
+		    	 g2.fill(new Rectangle2D.Double(xPos, yPos,200,700));
+		    	 
+		    	 for(int i = 0; quests.getAll().size() > i ;i++)
+		    	 {
+		    		 g2.setColor(new Color(255,0,0));
+			    	 g2.fill(new Rectangle2D.Double(xPos, yPos,200,69));
+			    	 g2.setColor(new Color(0,255,0));
+			    	 g2.setFont(unitFont);
+			    	 g2.drawString(quests.getQuest(i).getName(), xPos + 20, yPos + 20);
+			    	 yPos += 70; 
+		    	 }
+		    	 if(questSelected >= 0)
+		    	 {
+		    	 g2.fill(new Rectangle2D.Double(xPos, 190+(70*(questSelected)),200,69));
+		    	 }
+		    	 
 			 }
 		 }
 	     if(repaintInventory)
