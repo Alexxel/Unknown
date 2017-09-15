@@ -1624,6 +1624,8 @@ class MainGameWindow extends JFrame
 			gameWindow.setPaintCombat(true);
 			gameWindow.setRepaintCombat(true);
 			gameWindow.setActive(false);
+			gameWindow.setRepaintMap(false);
+			gameWindow.setTempGroup(gameWindow.getCurrentQuest().getQuestMarker(0).getGroup());
 		}
 	}
 	}
@@ -1665,6 +1667,8 @@ class MyPanel extends JPanel
 	int flashCount;
 	int itemLocation;
 	int hireableAmount;
+	int combatUpdate;
+	int currentCombatUpdate;
 	
 	
 	boolean repaintInventory;
@@ -1709,6 +1713,7 @@ class MyPanel extends JPanel
 	Hireable hireable;
 	QuestSystem quests;
 	Quest currentQuest;
+	CombatSystem combat;
 	
 	Group Group;
 	Item draggedItem;
@@ -1747,6 +1752,8 @@ class MyPanel extends JPanel
 		flashCount = 0;
 		itemLocation = 0;
 		hireableAmount = -1;
+		combatUpdate = 5;
+		currentCombatUpdate = 0;
 		
 		
 		repaintInventory = false;
@@ -1782,9 +1789,6 @@ class MyPanel extends JPanel
 		playerImage = MainPictures.getImage(4);
 		newName = "";
 		oldName = "";
-		
-		tempGroup = new Group();
-		tempGroup.setImage("Images/enemyMapIcon.jpg");
 			
 		tempInventory = new Inventory();
 		
@@ -1809,13 +1813,19 @@ class MyPanel extends JPanel
         
         Group = new Group(3);
 		
-		Group.add(new Unit());
-		Group.add(new Unit(10,10, 10, 10, 10,10,20,1, "Test1"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,1, "Test2"));
-		Group.add(new Unit(10,10, 10, 10, 10,10, 10, 2,"Test3"));
-		Group.add(new Unit(10,10, 10, 10, 10, 10,10,3, "Test4"));
+		Group.add(new Unit(10,10, 10, 10, 10,10,20,1, "Test0",true));
+		Group.add(new Unit(10,10, 10, 10, 10,10,20,1, "Test1",true));
+		Group.add(new Unit(10,10, 10, 10, 10, 10,10,1, "Test2",true));
+		Group.add(new Unit(10,10, 10, 10, 10,10, 10, 2,"Test3",true));
+		Group.add(new Unit(10,10, 10, 10, 10, 10,10,3, "Test4",true));
+		Group.getUnit(0).setPlayerUnit(true);
 		
-		
+		tempGroup = new Group();
+		tempGroup.add(new Unit(2,2, 2, 2, 2,2,20,1, "Test1",false));
+		tempGroup.add(new Unit(10,2, 2, 2, 2, 2,2,1, "Test2",false));
+		tempGroup.add(new Unit(10,2, 2, 2, 2,2, 2, 2,"Test3",false));
+		tempGroup.add(new Unit(10,2, 2, 2, 2, 2,2,3, "Test4",false));
+		tempGroup.setImage("Images/enemyMapIcon.jpg");
 		
 		Group.addItem(1, new Item(5,20,-2, .02,.2,2,10,4,10,"Images/BasicSword.png","Temp"));
 		Group.addItem(1, new Item(5,20,-2, .02,.2,2,10,5,100,"Images/DragonShield.png","Temp"));
@@ -1835,9 +1845,9 @@ class MyPanel extends JPanel
 		
 		hireable = new Hireable();
 		
-		hireable.addUnit(new Unit(10,10,10, 10, 10, 10,10,20,1, "TestHire1"));
-		hireable.addUnit(new Unit(20,10,10, 10, 10, 10, 10,10,1, "TestHire2"));
-		hireable.addUnit(new Unit(100,10,10, 10, 10, 10,10, 10, 2,"TestHire3"));
+		hireable.addUnit(new Unit(10,10,10, 10, 10, 10,10,20,1, "TestHire1",true));
+		hireable.addUnit(new Unit(20,10,10, 10, 10, 10, 10,10,1, "TestHire2",true));
+		hireable.addUnit(new Unit(100,10,10, 10, 10, 10,10, 10, 2,"TestHire3",true));
 		
 		hireable.getUnit(2).addItem(new Item(5,20,-2, .02,.2,2,10,4,10,"Images/BasicSword.png","Temp"));
 		hireable.getUnit(2).addItem( new Item(5,20,-2, .02,.2,2,10,5,100,"Images/DragonShield.png","Temp"));
@@ -1857,12 +1867,23 @@ class MyPanel extends JPanel
 		quests.getQuest(1).addQuestMarker(new QuestMarker());
 		quests.getQuest(1).getQuestMarker(0).setPoint(new Point(350,500));
 		quests.getQuest(1).getQuestMarker(0).setTouchCombat(true);
+		quests.getQuest(1).getQuestMarker(0).setGroup(tempGroup);
 		quests.getQuest(1).addQuestMarker(new QuestMarker());
 		quests.getQuest(1).getQuestMarker(1).setPoint(new Point(250,450));
 		
 		currentQuest = new Quest();
 		
+		combat = new CombatSystem();
 		
+		
+	}
+	public void setTempGroup(Group g)
+	{
+		tempGroup = g;
+	}
+	public Group getTempGroup()
+	{
+		return tempGroup;
 	}
 	public void setPaintCombat(boolean b)
 	{
@@ -2227,12 +2248,100 @@ class MyPanel extends JPanel
 		 {
 			 paintCombat = false;
 			 g2.setColor(new Color(100,250,50));
-			 g2.fillRect(0, 0, 1280, 994);
-			 
+			 g2.fillRect(0, 0, 1280, 800);
+			 g2.setColor(new Color(10,25,50));
+			 g2.fillRect(0, 800, 1280, 214);
+			 combat.startCombat(Group, tempGroup);
 		 }
 		 if(repaintCombat)
 		 {
-			System.out.println("RePrintCombat"); 
+			g2.setColor(new Color(100,250,50));
+			g2.fillRect(0, 0, 1280, 800);
+			g2.setColor(new Color(10,25,50));
+			int xPos = 40;
+			int yPos = 0;
+			
+			if(combatUpdate == currentCombatUpdate)
+			{
+			currentCombatUpdate = 0;
+			combat.updateCombat();
+			for(int x = 0; x < 75; x++)
+			{ 
+				for(int y = 0; y < 50; y++)
+				{
+					if(combat.getCombatTile(x, y).getBlocked())
+					{
+						g2.fillRect(xPos,yPos, 15, 15); 
+					}
+					else if(combat.getCombatTile(x, y).getHasUnit())
+					{
+						g2.drawRect(xPos,yPos, 15, 15); 
+					}
+					if(combat.getCombatTile(x, y).getHasDeadUnit())
+					{	g2.setColor(new Color(250,50,50));
+						g2.drawRect(xPos,yPos + 7, 15, 8); 	
+						g2.setColor(new Color(10,25,50));
+					}
+					yPos += 16;
+				}
+				xPos += 16;
+				yPos = 0;
+			}
+			}
+			else
+			{
+			currentCombatUpdate++;
+			for(int x = 0; x < 75; x++)
+			{ 
+				for(int y = 0; y < 50; y++)
+				{
+					if(combat.getCombatTile(x, y).getBlocked())
+					{
+						g2.fillRect(xPos,yPos, 15, 15); 
+					}
+					else if(combat.getCombatTile(x, y).getHasUnit())
+					{
+						if(combat.getCombatTile(x, y).getUnit().getUnitOldPoint() != combat.getCombatTile(x, y).getUnit().getUnitNewPoint())
+						{
+							if(combat.getCombatTile(x, y).getUnit().getUnitOldPoint().getX() != combat.getCombatTile(x, y).getUnit().getUnitNewPoint().getX() )
+							{
+								if(combat.getCombatTile(x, y).getUnit().getUnitOldPoint().getX() == combat.getCombatTile(x, y).getUnit().getUnitNewPoint().getX()-1)
+								{
+									g2.drawRect(xPos - (16 - (currentCombatUpdate*3) ),yPos, 15, 15);
+								}
+								else
+								{
+									g2.drawRect(xPos + (16 - (currentCombatUpdate*3) ),yPos, 15, 15);
+								}
+							}
+							else
+							{
+								if(combat.getCombatTile(x, y).getUnit().getUnitOldPoint().getY() == combat.getCombatTile(x, y).getUnit().getUnitNewPoint().getY()-1)
+								{
+									g2.drawRect(xPos,yPos  - (16 - (currentCombatUpdate*3) ), 15, 15);	
+								}
+								else
+								{
+									g2.drawRect(xPos,yPos  + (16 - (currentCombatUpdate*3) ), 15, 15);
+								}
+							}
+						}
+						else
+						{
+							g2.drawRect(xPos,yPos, 15, 15); 
+						}
+					}
+					if(combat.getCombatTile(x, y).getHasDeadUnit())
+					{	g2.setColor(new Color(250,50,50));
+						g2.drawRect(xPos,yPos + 7, 15, 8); 
+						g2.setColor(new Color(10,25,50));
+					}
+					yPos += 16;
+				}
+				xPos += 16;
+				yPos = 0;
+			}
+			}
 		 }
 		
 		 if(paintMap)

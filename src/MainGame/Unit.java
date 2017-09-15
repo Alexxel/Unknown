@@ -2,6 +2,7 @@ package MainGame;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Point;
 
 public class Unit
 {
@@ -18,6 +19,9 @@ public class Unit
 	int Experience;
 	int costToBuy;
 	String Name;
+	Point OldPoint;
+	Point NewPoint;
+	boolean playerUnit;
 	
 	
 	
@@ -40,9 +44,11 @@ public class Unit
 		{
 		Items.add(new Item());
 		}
-		
+		playerUnit = false;
+		OldPoint = new Point();
+		NewPoint = new Point();
 	}
-	Unit(int health,int maxHealth,int moral,int speed,int attack,int Defense,int level,int pictureLoc,String name)
+	Unit(int health,int maxHealth,int moral,int speed,int attack,int Defense,int level,int pictureLoc,String name,boolean pU)
 	{
 		Health = health;
 		MaxHealth = maxHealth;
@@ -61,8 +67,11 @@ public class Unit
 		{
 		Items.add(new Item());
 		}
+		playerUnit = pU;
+		OldPoint = new Point();
+		NewPoint = new Point();
 	}
-	Unit(int cost,int health,int maxHealth,int moral,int speed,int attack,int Defense,int level,int pictureLoc,String name)
+	Unit(int cost,int health,int maxHealth,int moral,int speed,int attack,int Defense,int level,int pictureLoc,String name,boolean pU)
 	{
 		Health = health;
 		MaxHealth = maxHealth;
@@ -81,6 +90,32 @@ public class Unit
 		{
 		Items.add(new Item());
 		}
+		playerUnit = pU;
+		OldPoint = new Point();
+		NewPoint = new Point();
+	}
+	//Unit Point Methods
+	public void setUnitPoint(Point p)
+	{
+		OldPoint = NewPoint;
+		NewPoint = p;
+	}
+	public Point getUnitOldPoint()
+	{
+		return OldPoint;
+	}
+	public Point getUnitNewPoint()
+	{
+		return NewPoint;
+	}
+	//Unit PlayerUnit Methods
+	public boolean getPlayerUnit()
+	{
+		return playerUnit;
+	}
+	public void setPlayerUnit(boolean b)
+	{
+		playerUnit = b;
 	}
 	//Unit CostToBuy Methods
 	public int getCostToBuy()

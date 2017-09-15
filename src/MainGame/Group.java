@@ -51,7 +51,14 @@ public class Group
 	{
 		Group.remove(postion);
 	}
-	
+	public Unit getUnit(int i)
+	{
+		return Group.get(i);
+	}
+	public void setUnit(int i, Unit u)
+	{
+		Group.set(i, u);
+	}
 	//Gold Methods
 	public int getGold()
 	{

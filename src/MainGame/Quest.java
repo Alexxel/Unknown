@@ -69,6 +69,7 @@ public class Quest
 class QuestMarker
 {
 	Point point;
+	Group group;
 	
 	boolean touchAccept;
 	boolean touchCombat;
@@ -76,6 +77,7 @@ class QuestMarker
 	QuestMarker()
 	{
 		point = new Point();
+		group = new Group();
 		
 		touchAccept = false;
 		touchCombat = false;
@@ -106,5 +108,14 @@ class QuestMarker
 	public boolean getTouchCombat()
 	{
 		return touchCombat;
+	}
+	
+	public void setGroup(Group g)
+	{
+		group = g;
+	}
+	public Group getGroup()
+	{
+		return group;
 	}
 }
